@@ -6,6 +6,8 @@ var shownoteseditor;
 
   self.init = function (options, cb)
   {
+    console.log("Main init", options);
+
     async.series(
       [
         function (cb)
@@ -26,12 +28,12 @@ var shownoteseditor;
         },
         function (cb)
         {
-          self.connector = self.connectors[options.connector];
+          self.connector = self.connectors[options.connector.name];
 
           if(!self.connector)
             return cb("Invalid connector name");
 
-          self.connector.init({}, cb);
+          self.connector.init(options.connector.options, cb);
         },
         function (cb)
         {

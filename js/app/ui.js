@@ -4,12 +4,14 @@
 
   self.init = function (options, cb)
   {
-    self.player = shownoteseditor.players[options.player];
+    console.log("UI init", options);
+
+    self.player = shownoteseditor.players[options.player.name];
 
     if(!self.player)
       return cb("Invalid playername");
 
-    self.player.init({}, cb);
+    self.player.init(options.player.options, cb);
   };
 
   shownoteseditor.ui = self;

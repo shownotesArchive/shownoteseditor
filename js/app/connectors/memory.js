@@ -4,6 +4,7 @@
 
   self.init = function (options, cb)
   {
+    console.log("memory init", options);
     cb();
   };
 

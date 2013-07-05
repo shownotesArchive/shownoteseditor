@@ -13,8 +13,20 @@
     <script>
         var options =
         {
-            connector: "memory",
-            player: "pwp"
+            connector:
+            {
+                name: "memory",
+                options:
+                {
+                }
+            },
+            player:
+            {
+                name: "pwp",
+                options:
+                {
+                }
+            }
         };
 
         shownoteseditor.init(options,
