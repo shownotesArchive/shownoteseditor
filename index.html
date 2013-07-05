@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Shownotes-Editor Demo</title>
+    <script src="js/lib/async.js"></script>
+    <script src="js/lib/i18next-1.6.3.min.js"></script>
+
+    <script src="js/app/main.js"></script>
+    <script src="js/app/ui.js"></script>
+    <script src="js/app/players/pwp.js"></script>
+    <script src="js/app/connectors/memory.js"></script>
+</head>
+<body>
+    <script>
+        var options =
+        {
+            connector: "memory",
+            player: "pwp"
+        };
+
+        shownoteseditor.init(options,
+            function (err)
+            {
+                console.log("done, err=%s", err)
+            }
+        );
+    </script>
+</body>
+</html>
