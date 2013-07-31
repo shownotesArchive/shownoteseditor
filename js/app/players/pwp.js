@@ -2,11 +2,12 @@
 {
   var self = {};
 
-  self.init = function (options, cb)
+  function ctor(options, cb)
   {
     console.log("pwp init", options);
     cb();
   };
 
-  shownoteseditor.players.pwp = self;
+  shownoteseditor.players.pwp = ctor;
+  shownoteseditor.players.pwp.prototype = self;
 })();

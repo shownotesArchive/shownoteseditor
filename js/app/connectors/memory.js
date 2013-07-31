@@ -1,46 +1,48 @@
 (function ()
 {
   var self = {};
-  var notes = [];
-  var events =
-  {
-    "noteAdded": [],   // (index, note)
-    "noteRemoved": [], // (index, note)
-    "noteEdited": []   // (index, note, changed)
-  };
 
-  self.init = function (options, cb)
+  shownoteseditor.connectors.memory = function (options, cb)
   {
     console.log("memory init", options);
+
+    this.notes = [];
+    this.events =
+    {
+      "noteAdded": [],   // (index, note)
+      "noteRemoved": [], // (index, note)
+      "noteEdited": []   // (index, note, changed)
+    };
+
     cb();
   };
 
   self.addNote = function (note, cb)
   {
-    notes.push(note);
+    this.notes.push(note);
 
     cb();
-    triggerEvent('noteAdded', [notes.length - 1, note]);
+    this.triggerEvent('noteAdded', [this.notes.length - 1, note]);
   };
 
   self.removeNote = function (index, cb)
   {
-    if(index < 0 || index >= notes.length)
+    if(index < 0 || index >= this.notes.length)
       return cb("Invalid index");
 
-    var note = notes[index];
-    notes.splice(index, 1);
+    var note = this.notes[index];
+    this.notes.splice(index, 1);
 
     cb();
-    triggerEvent('noteRemoved', [index, note]);
+    this.triggerEvent('noteRemoved', [index, note]);
   };
 
   self.editNote = function (index, newNote, cb)
   {
-    if(index < 0 || index >= notes.length)
+    if(index < 0 || index >= this.notes.length)
       return cb("Invalid index");
 
-    var oldNote = notes[index];
+    var oldNote = this.notes[index];
     var keys = getKeys(oldNote, newNote);
 
     var changed = keys.filter(
@@ -50,41 +52,41 @@
       }
     );
 
-    notes[index] = newNote;
+    this.notes[index] = newNote;
 
     cb();
-    triggerEvent('noteEdited', [index, newNote, changed]);
+    this.triggerEvent('noteEdited', [index, newNote, changed]);
   };
 
   self.getNotes = function (cb)
   {
-    cb(null, notes);
+    cb(null, this.notes);
   };
 
   self.getNote = function (index, cb)
   {
-    if(index < 0 || index >= notes.length)
+    if(index < 0 || index >= this.notes.length)
       return cb("Invalid index");
 
-    cb(null, notes[index]);
+    cb(null, this.notes[index]);
   };
 
   self.addEventReceiver = function (event, cb)
   {
-    if(Object.keys(events).indexOf(event) == -1)
+    if(Object.keys(this.events).indexOf(event) == -1)
       throw "Unknown Event";
 
-    events[event].push(cb);
+    this.events[event].push(cb);
   };
 
-  function triggerEvent(event, args)
+  self.triggerEvent = function (event, args)
   {
-    if(Object.keys(events).indexOf(event) == -1)
+    if(Object.keys(this.events).indexOf(event) == -1)
       throw "Unknown Event";
 
-    for (var i = 0; i < events[event].length; i++)
+    for (var i = 0; i < this.events[event].length; i++)
     {
-      var cb = events[event][i];
+      var cb = this.events[event][i];
       cb.apply(null, args);
     }
   }
@@ -110,5 +112,5 @@
     return keys;
   }
 
-  shownoteseditor.connectors.memory = self;
+  shownoteseditor.connectors.memory.prototype = self;
 })();

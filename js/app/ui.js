@@ -2,17 +2,18 @@
 {
   var self = {};
 
-  self.init = function (options, cb)
+  function ctor(options, cb)
   {
     console.log("UI init", options);
 
-    self.player = shownoteseditor.players[options.player.name];
+    var player = shownoteseditor.players[options.player.name];
 
-    if(!self.player)
+    if(!player)
       return cb("Invalid playername");
 
-    self.player.init(options.player.options, cb);
+    this.player = new player(options.player.options, cb);
   };
 
-  shownoteseditor.ui = self;
+  shownoteseditor.ui = ctor;
+  shownoteseditor.ui.prototype = self;
 })();

@@ -1,5 +1,3 @@
-var shownoteseditor = null;
-
 (function ()
 {
   var connector;
@@ -9,20 +7,11 @@ var shownoteseditor = null;
     {
       setup: function()
       {
-        shownoteseditor = { connectors: {} };
-
-        jQuery.ajax({
-          url: "../js/app/connectors/" + connectorName + ".js",
-          dataType: "script",
-          async: false
-        });
-
-        connector = shownoteseditor.connectors[connectorName];
-        connector.init({}, function (){});
+        var con = shownoteseditor.connectors[connectorName];
+        connector = new con({}, function (){});
       },
       teardown: function()
       {
-        shownoteseditor = null;
         connector = null;
       }
     }
@@ -135,7 +124,7 @@ var shownoteseditor = null;
         [
           function (cb)
           {
-            async.each(addNotes, connector.addNote, cb);
+            async.each(addNotes, connector.addNote.bind(connector), cb);
           },
           function (cb)
           {

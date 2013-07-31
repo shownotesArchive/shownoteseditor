@@ -1,10 +1,13 @@
-var shownoteseditor;
+var shownoteseditor = {
+  connectors: {},
+  players: {}
+};
 
 (function ()
 {
   var self = {};
 
-  self.init = function (options, cb)
+  function ctor(options, cb)
   {
     console.log("Main init", options);
 
@@ -28,25 +31,21 @@ var shownoteseditor;
         },
         function (cb)
         {
-          self.connector = self.connectors[options.connector.name];
-
-          if(!self.connector)
+          if(Object.keys(shownoteseditor.connectors).indexOf(options.connector.name) == -1)
             return cb("Invalid connector name");
 
-          self.connector.init(options.connector.options, cb);
+          var connector = shownoteseditor.connectors[options.connector.name];
+          this.connector = new connector(options.connector.options, cb);
         },
         function (cb)
         {
-          self.ui.init(options, cb);
+          this.ui = new shownoteseditor.ui(options, cb);
         }
       ],
       cb
     );
-
   };
 
-  self.connectors = {};
-  self.players = {};
-
-  shownoteseditor = self;
+  shownoteseditor.editor = ctor;
+  shownoteseditor.editor.prototype = self;
 })();
