@@ -34,10 +34,18 @@
     function ()
     {
       var addNote = { a: "b" };
+      var called = false;
 
       connector.addEventReceiver("noteAdded",
         function (index, note)
         {
+          if(called)
+          {
+            console.error("addNote callback called twice")
+            ok(false);
+          }
+
+          called = true;
           equal(index, 0, "event - index ok");
           deepEqual(note, addNote, "event - note ok");
           start();
@@ -91,10 +99,18 @@
     function ()
     {
       var addNote = { a: "b" };
+      var called = false;
 
       connector.addEventReceiver("noteRemoved",
         function (index, note)
         {
+          if(called)
+          {
+            console.error("removeNote callback called twice")
+            ok(false);
+          }
+
+          called = true;
           equal(index, 0, "event - index ok");
           deepEqual(note, addNote, "event - note ok");
           start();
@@ -190,10 +206,18 @@
     {
       var addNote = { a: "val1", b: "val2" };
       var editedNote = { a: "val1", b: "newVal2" };
+      var called = false;
 
       connector.addEventReceiver("noteEdited",
         function (index, note, changed)
         {
+          if(called)
+          {
+            console.error("editNote callback called twice")
+            ok(false);
+          }
+
+          called = true;
           equal(index, 0, "event - index ok");
           deepEqual(note, editedNote, "event - note ok");
           deepEqual(changed, ["b"], "event - changed ok");
