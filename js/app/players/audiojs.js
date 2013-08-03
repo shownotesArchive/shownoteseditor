@@ -2,17 +2,24 @@
 {
   var self = {};
 
-  shownoteseditor.players.pwp = function (options, cb)
+  shownoteseditor.players.audiojs = function (options, cb)
   {
     console.log("audiojs init", options);
+
+    if(typeof audiojs == "undefined")
+      Console.error("Please add audio.js to your HTML-Header.");
+
+    var that = this;
 
     audiojs.events.ready(
       function()
       {
         var audiojsOptions = {};
-
-        this.audio = audiojs.create(options.element, audiojsOptions);
-        cb();
+        that.audio = audiojs.create(options.element, audiojsOptions);
+        that.audio.loadStarted = function ()
+        {
+          cb();
+        };
       }
     );
   };
@@ -29,18 +36,19 @@
 
   self.setCurrentTime = function (time)
   {
-    this.audio.currentTime = time;
+    this.audio.element.currentTime = time;
+    this.audio.updatePlayhead();
   };
 
   self.getCurrentTime = function ()
   {
-    return this.audio.currentTime;
+    return this.audio.element.currentTime;
   };
 
   self.jumpTime = function (time)
   {
-    this.setCurrentTime(getCurrentTime() + time);
+    this.setCurrentTime(this.getCurrentTime() + time);
   }
 
-  shownoteseditor.players.pwp.prototype = self;
+  shownoteseditor.players.audiojs.prototype = self;
 })();

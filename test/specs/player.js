@@ -2,7 +2,7 @@
 {
   var player;
   var html5player;
-  var playerInfo = { name: "memory" };
+  var playerInfo = { name: "audiojs" };
 
   var audioHtml =
     '<audio id="player">' +
@@ -11,14 +11,16 @@
       '<source src="http://meta.metaebene.me/media/lautsprecher/ls000-der-lautsprecher.mp3" type="audio/mpeg"/>' +
     '</audio>';
 
-  module("connector",
+  module("player",
     {
       setup: function()
       {
-        var play = shownoteseditor.players[playerInfo.name];
-        player = new play({ element: "#player" }, function (){});
+        stop();
 
         $('#playground').append(audioHtml);
+
+        var play = shownoteseditor.players[playerInfo.name];
+        player = new play({ element: $("#player")[0] }, start);
         html5player = $('#playground audio')[0];
       },
       teardown: function()
@@ -34,6 +36,7 @@
     {
       var expected = 42;
 
+      html5player.play();
       player.setCurrentTime(expected);
       var actual = html5player.currentTime;
 
@@ -61,7 +64,7 @@
       player.setCurrentTime(expected);
       var actual = player.getCurrentTime();
 
-      equal(actual, expected);
+      equal(actual, expected, "time set");
     }
   );
 
@@ -95,26 +98,6 @@
       player.play();
 
       equal(html5player.paused, false);
-    }
-  );
-
-  test("isplaying() - true",
-    function ()
-    {
-      html5player.play();
-      var actual = player.isPlaying();
-
-      equal(actual, true);
-    }
-  );
-
-  test("isplaying() - false",
-    function ()
-    {
-      html5player.pause();
-      var actual = player.isPlaying();
-
-      equal(actual, false);
     }
   );
 })();

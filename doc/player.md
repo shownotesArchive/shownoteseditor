@@ -5,7 +5,6 @@ Players are used to present the given media files to the user. Each player has a
   * `options.element` should contain the ID of the HTML-element to place the actual player in, e.g.: `#player`
 * `play()`
 * `pause()`
-* `isPlaying()`
 * `setCurrentTime(time)`
 * `getCurrentTime()`
 * `jumpTime(time)`
