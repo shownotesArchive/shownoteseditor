@@ -1,5 +1,6 @@
 var shownoteseditor = {
   connectors: {},
+  editors: {},
   players: {}
 };
 
