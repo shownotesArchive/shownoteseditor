@@ -7,12 +7,6 @@
     console.log("memory init", options);
 
     this.notes = [];
-    this.events =
-    {
-      "noteAdded": [],   // (index, note)
-      "noteRemoved": [], // (index, note)
-      "noteEdited": []   // (index, note, changed)
-    };
 
     cb();
   };
@@ -22,7 +16,7 @@
     this.notes.push(note);
 
     cb();
-    this.triggerEvent('noteAdded', [this.notes.length - 1, note]);
+    this.trigger('noteAdded', this.notes.length - 1, note);
   };
 
   self.removeNote = function (index, cb)
@@ -34,7 +28,7 @@
     this.notes.splice(index, 1);
 
     cb();
-    this.triggerEvent('noteRemoved', [index, note]);
+    this.trigger('noteRemoved', index, note);
   };
 
   self.editNote = function (index, newNote, cb)
@@ -55,7 +49,7 @@
     this.notes[index] = newNote;
 
     cb();
-    this.triggerEvent('noteEdited', [index, newNote, changed]);
+    this.trigger('noteEdited', index, newNote, changed);
   };
 
   self.getNotes = function (cb)
@@ -70,26 +64,6 @@
 
     cb(null, this.notes[index]);
   };
-
-  self.addEventReceiver = function (event, cb)
-  {
-    if(Object.keys(this.events).indexOf(event) == -1)
-      throw "Unknown Event";
-
-    this.events[event].push(cb);
-  };
-
-  self.triggerEvent = function (event, args)
-  {
-    if(Object.keys(this.events).indexOf(event) == -1)
-      throw "Unknown Event";
-
-    for (var i = 0; i < this.events[event].length; i++)
-    {
-      var cb = this.events[event][i];
-      cb.apply(null, args);
-    }
-  }
 
   function getKeys()
   {
@@ -113,4 +87,5 @@
   }
 
   shownoteseditor.connectors.memory.prototype = self;
+  MicroEvent.mixin(shownoteseditor.connectors.memory);
 })();

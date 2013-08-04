@@ -36,7 +36,7 @@
       var addNote = { a: "b" };
       var called = false;
 
-      connector.addEventReceiver("noteAdded",
+      connector.bind("noteAdded",
         function (index, note)
         {
           if(called)
@@ -101,7 +101,7 @@
       var addNote = { a: "b" };
       var called = false;
 
-      connector.addEventReceiver("noteRemoved",
+      connector.bind("noteRemoved",
         function (index, note)
         {
           if(called)
@@ -166,7 +166,7 @@
   asyncTest("removeNote - invalid index",
     function ()
     {
-      connector.addEventReceiver("noteRemoved",
+      connector.bind("noteRemoved",
         function (index, note)
         {
           ok(false, "Event fired");
@@ -208,7 +208,7 @@
       var editedNote = { a: "val1", b: "newVal2" };
       var called = false;
 
-      connector.addEventReceiver("noteEdited",
+      connector.bind("noteEdited",
         function (index, note, changed)
         {
           if(called)
@@ -262,7 +262,7 @@
   asyncTest("editNote - invalid index",
     function ()
     {
-      connector.addEventReceiver("noteEdited",
+      connector.bind("noteEdited",
         function (index, note)
         {
           ok(false, "Event fired");

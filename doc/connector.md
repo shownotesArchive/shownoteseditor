@@ -1,7 +1,9 @@
 # Connectors
 
 A connector acts as the backend of shownoteseditor. Its job is it to store notes and possibly sync with a
-server of some kind. It has a number of public functions.
+server of some kind.
+
+## Public functions
 
 * `ctor (options, cb)`
 * `addNote (note, cb)`
@@ -12,10 +14,11 @@ server of some kind. It has a number of public functions.
   * triggers `noteEdited`-event
 * `getNotes (cb)`
 * `getNote (index, cb)`
-* `addEventReceiver (event, cb)`
+* `bind (event, fct)` - MicroEvent
+* `unbind (event, fct)` - MicroEvent
 
 
-Additionally it should fire following events:
+## Events
 
 * `noteAdded (index, note)`
 * `noteRemoved (index, note)`
