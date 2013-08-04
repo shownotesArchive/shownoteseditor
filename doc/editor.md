@@ -7,7 +7,7 @@ text and timestamp of a given note.
 * `ctor (options, cb)`
   * `options.element` must contain the element to place this editor in
   * `options.id` should contain an ID to identify this editor later
-* `end ()`
+* `close ()`
 * `getContent ()`
   * returns an object in the form: `{ text: '', time: 1234567890 }`
 
