@@ -19,14 +19,26 @@
       parent = "_root";
     }
 
+    var parentNote;
     note.notes = {};
 
-    var parentNote = this.findParent(parent);
+    if(parent == "_root")
+    {
+      parentNote = this.notes;
+    }
+    else
+    {
+      parentNote = this.findParent(parent); // parent of parent
+      if(!parentNote)
+        return cb("parent not found");
+      parentNote = parentNote.notes[parent]; // parent
+    }
+
     var id = generateUuid();
     parentNote.notes[id] = note;
 
+    this.trigger('noteAdded', id, note, parent);
     cb(null, id);
-    this.trigger('noteAdded', id, note);
   };
 
   self.removeNote = function (id, cb)
@@ -63,8 +75,8 @@
       parentNote.notes[id][change] = newNote[change];
     }
 
-    cb();
     this.trigger('noteEdited', id, newNote, changed);
+    cb();
   };
 
   self.getNotes = function (cb)
@@ -103,8 +115,6 @@
 
   self.findParent = function (id, note)
   {
-    if(id == "_root")
-      return this.notes;
     if(!note)
       note = this.notes;
 

@@ -21,6 +21,6 @@ server of some kind.
 
 ## Events
 
-* `noteAdded (id, note)`
+* `noteAdded (id, note, parentId)`
 * `noteRemoved (id, note)`
 * `noteEdited (id, note, changed)`

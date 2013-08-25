@@ -81,24 +81,25 @@
     }
   );
 
-  asyncTest("addNote event",
+  asyncTest("addNote event - root",
     function ()
     {
       var addNote = { a: "b", notes: {} };
       var called = false;
 
       connector.bind("noteAdded",
-        function (index, note)
+        function (index, note, parentId)
         {
           if(called)
           {
-            console.error("addNote callback called twice")
+            console.error("addNote event called twice")
             ok(false);
           }
 
           called = true;
-          ok(index);
+          ok(index, "event - id");
           deepEqual(note, addNote, "event - note ok");
+          equal(parentId, "_root", "event - parentId ok");
           start();
         }
       );
@@ -107,7 +108,61 @@
     }
   );
 
-  asyncTest("addNote",
+  asyncTest("addNote event - invalid parent",
+    function ()
+    {
+      connector.addNote({}, "foo",
+        function (err)
+        {
+          equal(err, "parent not found");
+          start();
+        }
+      );
+    }
+  );
+
+  asyncTest("addNote event - deep",
+    function ()
+    {
+      var addNote1 = { a: "b1", notes: {} };
+      var addNote2 = { a: "b2", notes: {} };
+      var called = 0;
+      var outerId;
+
+      connector.bind("noteAdded",
+        function (index, note, parentId)
+        {
+          called++;
+
+          if(called == 1)
+          {
+            // skip first note
+            return;
+          }
+          else if(called > 2)
+          {
+            console.error("addNote event called trice or more")
+            ok(false);
+          }
+
+          ok(index, "event - id");
+          deepEqual(note, addNote2, "event - note ok");
+          equal(parentId, outerId, "event - parentId ok");
+          start();
+        }
+      );
+
+      connector.addNote(addNote1,
+        function (err, id)
+        {
+          outerId = id;
+          connector.addNote(addNote2, id, function () {});
+        }
+      );
+    }
+  );
+
+  asyncTest("addNote - 1 deep",
     function ()
     {
       var note = { a: "b" };
@@ -125,6 +180,62 @@
 
           start();
         }
+      );
+    }
+  );
+
+  asyncTest("addNote - 2 deep",
+    function ()
+    {
+      var outerNote = { a: "b1" };
+      var innerNote = { a: "b2" };
+      var outerId;
+      var innerId;
+
+      async.series(
+        [
+          function (cb)
+          {
+            connector.addNote(outerNote,
+              function (err, id)
+              {
+                outerId = id;
+                cb(err);
+              }
+            );
+          },
+          function (cb)
+          {
+            connector.addNote(innerNote, outerId,
+              function (err, id)
+              {
+                innerId = id;
+                cb(err);
+              }
+            );
+          },
+          function (cb)
+          {
+            connector.getNotes(function (err, notes)
+              {
+                var root;
+
+                root = notes.notes;
+                var keys = Object.keys(root);
+                equal(keys.length, 1, "level 1 - One note added");
+                deepEqual(root[outerId], outerNote, "level 1 - Right note added");
+
+                root = notes.notes[outerId].notes;
+                var keys = Object.keys(root);
+                equal(keys.length, 1, "level 2 - One note added");
+                deepEqual(root[innerId], innerNote, "level 2 - Right note added");
+
+                cb();
+              }
+            );
+          }
+        ],
+        start
       );
     }
   );
