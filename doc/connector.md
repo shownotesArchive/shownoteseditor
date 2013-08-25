@@ -6,20 +6,21 @@ server of some kind.
 ## Public functions
 
 * `ctor (options, cb)`
-* `addNote (note, cb)`
+* `addNote (note,[ parent,] cb)`
+  * callback: `function (error, id) {}`
   * triggers `noteAdded`-event
-* `removeNote  (index, cb)`
+* `removeNote  (id, cb)`
   * triggers `noteRemoved`-event
-* `editNote (index, newNote, cb)`
+* `editNote (id, newNote, cb)`
   * triggers `noteEdited`-event
 * `getNotes (cb)`
-* `getNote (index, cb)`
+* `getNote (id, cb)`
 * `bind (event, fct)` - MicroEvent
 * `unbind (event, fct)` - MicroEvent
 
 
 ## Events
 
-* `noteAdded (index, note)`
-* `noteRemoved (index, note)`
-* `noteEdited (index, note, changed)`
+* `noteAdded (id, note)`
+* `noteRemoved (id, note)`
+* `noteEdited (id, note, changed)`

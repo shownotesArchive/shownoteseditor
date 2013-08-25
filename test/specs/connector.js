@@ -1,13 +1,13 @@
 (function ()
 {
   var connector;
-  var connectorName = "memory";
+  var connectorInfo = { name: "memory", isSynced: false };
 
   module("connector",
     {
       setup: function()
       {
-        var con = shownoteseditor.connectors[connectorName];
+        var con = shownoteseditor.connectors[connectorInfo.name];
         connector = new con({}, function (){});
       },
       teardown: function()
@@ -17,13 +17,64 @@
     }
   );
 
+  test("findParent - basic",
+    function ()
+    {
+      var root = { notes: {} };
+      connector.findParent("", root);
+      ok(true);
+    }
+  );
+
+  test("findParent - 1 deep",
+    function ()
+    {
+      var root = { notes: { "a": { notes: {} } } };
+      var parent = connector.findParent("a", root);
+      equal(parent, root);
+    }
+  );
+
+  test("findParent - 2 deep",
+    function ()
+    {
+      var innerNote = { notes: { "b": { notes: {} } } };
+      var root = { notes: { "a": innerNote  } };
+
+      var parent = connector.findParent("b", root);
+      deepEqual(parent, innerNote);
+    }
+  );
+
+  test("findParent - not found",
+    function ()
+    {
+      var root = { notes: { "a": { notes: { } }  } };
+
+      var parent = connector.findParent("b", root);
+      equal(parent, null);
+    }
+  );
+
+  test("findParent - multiple",
+    function ()
+    {
+      var innerNote = { notes: { "c": { notes: {} }, "b": { notes: {} } } };
+      var root = { notes: { "a": innerNote  } };
+
+      var parent = connector.findParent("b", root);
+      deepEqual(innerNote, parent);
+    }
+  );
+
   asyncTest("addNote callback",
     function ()
     {
       connector.addNote({},
-        function ()
+        function (err, id)
         {
-          ok(true);
+          ok(!err);
+          ok(id);
           start();
         }
       );
@@ -33,7 +84,7 @@
   asyncTest("addNote event",
     function ()
     {
-      var addNote = { a: "b" };
+      var addNote = { a: "b", notes: {} };
       var called = false;
 
       connector.bind("noteAdded",
@@ -46,7 +97,7 @@
           }
 
           called = true;
-          equal(index, 0, "event - index ok");
+          ok(index);
           deepEqual(note, addNote, "event - note ok");
           start();
         }
@@ -66,8 +117,9 @@
         {
           connector.getNotes(function (err, notes)
             {
-              equal(notes.length, 1, "One note added");
-              deepEqual(notes[0], note, "Right note added");
+              var keys = Object.keys(notes.notes);
+              equal(keys.length, 1, "One note added");
+              deepEqual(notes.notes[keys[0]], note, "Right note added");
             }
           );
 
@@ -81,9 +133,9 @@
     function ()
     {
       connector.addNote({ a: "b3" },
-        function (err)
+        function (err, id)
         {
-          connector.removeNote(0,
+          connector.removeNote(id,
             function ()
             {
               ok(true);
@@ -100,9 +152,10 @@
     {
       var addNote = { a: "b" };
       var called = false;
+      var addedId = null;
 
       connector.bind("noteRemoved",
-        function (index, note)
+        function (id, note)
         {
           if(called)
           {
@@ -111,16 +164,17 @@
           }
 
           called = true;
-          equal(index, 0, "event - index ok");
+          equal(id, addedId, "event - index ok");
           deepEqual(note, addNote, "event - note ok");
           start();
         }
       );
 
       connector.addNote(addNote,
-        function (err)
+        function (err, id)
         {
-          connector.removeNote(0, function () {});
+          addedId = id;
+          connector.removeNote(id, function () {});
         }
       );
     }
@@ -136,23 +190,38 @@
           { a: "b3" }
         ];
 
+      var ids = [];
+
       async.series(
         [
           function (cb)
           {
-            async.each(addNotes, connector.addNote.bind(connector), cb);
+            async.eachSeries(addNotes,
+              function (note, cb)
+              {
+                connector.addNote.call(connector,
+                  note,
+                  function (err, id)
+                  {
+                    ids.push(id);
+                    cb();
+                  }
+                );
+              },
+              cb);
           },
           function (cb)
           {
-            connector.removeNote(1, cb); // remove b2
+            connector.removeNote(ids[1], cb); // remove b2
           },
           function (cb)
           {
             connector.getNotes(function (err, notes)
               {
-                equal(notes.length, 2, "Note removed");
-                equal(addNotes[0], notes[0], "Note 1 untouched");
-                equal(addNotes[2], notes[1], "Note 3 untouched");
+                var keys = Object.keys(notes.notes);
+                equal(keys.length, 2, "Note removed");
+                equal(addNotes[0], notes.notes[keys[0]], "Note 1 untouched");
+                equal(addNotes[2], notes.notes[keys[1]], "Note 3 untouched");
                 cb();
               }
             );
@@ -173,10 +242,10 @@
         }
       );
 
-      connector.removeNote(1,
+      connector.removeNote("foo",
         function (err)
         {
-          equal(err, "Invalid index", "Error ok");
+          equal(err, "not found", "Error ok");
           start();
         }
       );
@@ -187,9 +256,9 @@
     function ()
     {
       connector.addNote({},
-        function ()
+        function (err, id)
         {
-          connector.editNote(0, { a: "b" },
+          connector.editNote(id, { a: "b" },
             function ()
             {
               ok(true);
@@ -205,11 +274,12 @@
     function ()
     {
       var addNote = { a: "val1", b: "val2" };
-      var editedNote = { a: "val1", b: "newVal2" };
+      var editedNote = { a: "val1", b: "newVal2", notes: {} };
       var called = false;
+      var addedId = null;
 
       connector.bind("noteEdited",
-        function (index, note, changed)
+        function (id, note, changed)
         {
           if(called)
           {
@@ -218,7 +288,7 @@
           }
 
           called = true;
-          equal(index, 0, "event - index ok");
+          equal(id, addedId, "event - id ok");
           deepEqual(note, editedNote, "event - note ok");
           deepEqual(changed, ["b"], "event - changed ok");
           start();
@@ -226,9 +296,10 @@
       );
 
       connector.addNote(addNote,
-        function ()
+        function (err, id)
         {
-          connector.editNote(0, editedNote, function () {});
+          addedId = id;
+          connector.editNote(id, editedNote, function () {});
         }
       );
     }
@@ -238,17 +309,17 @@
     function ()
     {
       var addNote = { a: "val1", b: "val2" };
-      var editedNote = { a: "val1", b: "newVal2" };
+      var editedNote = { a: "val1", b: "newVal2", notes: {} };
 
       connector.addNote(addNote,
-        function (err)
+        function (err, id)
         {
-          connector.editNote(0, editedNote,
+          connector.editNote(id, editedNote,
             function (err)
             {
               connector.getNotes(function (err, notes)
                 {
-                  deepEqual(notes[0], editedNote, "Note changed");
+                  deepEqual(notes.notes[id], editedNote, "Note changed");
                   start();
                 }
               );
@@ -259,11 +330,11 @@
     }
   );
 
-  asyncTest("editNote - invalid index",
+  asyncTest("editNote - invalid id",
     function ()
     {
       connector.bind("noteEdited",
-        function (index, note)
+        function (id, note)
         {
           ok(false, "Event fired");
         }
@@ -272,7 +343,7 @@
       connector.editNote(1, {},
         function (err)
         {
-          equal(err, "Invalid index", "Error ok");
+          equal(err, "not found", "Error ok");
           start();
         }
       );
@@ -282,12 +353,12 @@
   asyncTest("getNote",
     function ()
     {
-      var addNote = { a: "val1", b: "val2" };
+      var addNote = { a: "val1", b: "val2", notes: {} };
 
       connector.addNote(addNote,
-        function (err)
+        function (err, id)
         {
-          connector.getNote(0,
+          connector.getNote(id,
             function (err, note)
             {
               deepEqual(addNote, note, "Right note returned");
@@ -299,13 +370,13 @@
     }
   );
 
-  asyncTest("getNote - invalid index",
+  asyncTest("getNote - invalid id",
     function ()
     {
-      connector.getNote(1,
+      connector.getNote("foo",
         function (err)
         {
-          equal(err, "Invalid index", "Error ok");
+          equal(err, "not found", "Error ok");
           start();
         }
       );
