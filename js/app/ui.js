@@ -2,7 +2,7 @@
 {
   var self = {};
 
-  function ctor(options, cb)
+  shownoteseditor.ui = function (options, cb)
   {
     console.log("UI init", options);
 
@@ -14,6 +14,5 @@
     this.player = new player(options.player.options, cb);
   };
 
-  shownoteseditor.ui = ctor;
   shownoteseditor.ui.prototype = self;
 })();

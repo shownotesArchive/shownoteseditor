@@ -8,7 +8,7 @@ var shownoteseditor = {
 {
   var self = {};
 
-  function ctor(options, cb)
+  shownoteseditor.editor = function (options, cb)
   {
     console.log("Main init", options);
 
@@ -47,6 +47,5 @@ var shownoteseditor = {
     );
   };
 
-  shownoteseditor.editor = ctor;
   shownoteseditor.editor.prototype = self;
 })();
