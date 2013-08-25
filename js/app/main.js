@@ -1,7 +1,8 @@
 var shownoteseditor = {
   connectors: {},
   editors: {},
-  players: {}
+  players: {},
+  lists: {}
 };
 
 (function ()
@@ -40,7 +41,7 @@ var shownoteseditor = {
         },
         function (cb)
         {
-          this.ui = new shownoteseditor.ui(options, cb);
+          this.ui = new shownoteseditor.ui(options.ui, cb);
         }
       ],
       cb
