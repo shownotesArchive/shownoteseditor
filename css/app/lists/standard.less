@@ -1,0 +1,50 @@
+ul.list.standard
+{
+  li.note
+  {
+    .time
+    {
+
+    }
+    .text
+    {
+      margin-left: 0.5em;
+    }
+    .controls
+    {
+      display: inline-block;
+
+      *
+      {
+        cursor: pointer;
+      }
+    }
+    ul.tags
+    {
+      margin: 0;
+      margin-left: 0.5em;
+      padding: 0;
+      display: inline-block;
+
+      li
+      {
+        list-style: none;
+        display: inline-block;
+
+      }
+      li:before
+      {
+        content: "#";
+      }
+      li:after
+      {
+        content: ",";
+        margin-right: 0.2em;
+      }
+      li:last-child:after
+      {
+        content: "";
+      }
+    }
+  }
+}

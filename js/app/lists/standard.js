@@ -2,8 +2,15 @@
 {
   var self = {};
 
-  var mainTemplate = "<ul id='notes'></ul>";
-  var noteTemplate = "<li data-id=''><span class='time'></span> <span class='text'></span><ul class='tags'></ul><ul class='subnotes'></ul></li>";
+  var mainTemplate = "<ul class='list standard'></ul>";
+  var noteTemplate = "<li data-id='' class='note'>"
+                   +   "<span class='time'></span>"
+                   +   "<span class='text'></span>"
+                   +   "<ul class='tags'></ul>"
+                   +   "<div class='controls'>"
+                   +   "</div>"
+                   +   "<ul class='subnotes'></ul>"
+                   + "</li>";
   var tagTemplate = "<li></li>";
 
   shownoteseditor.lists.standard = function (options, cb)
@@ -11,7 +18,7 @@
     console.log("List-Standard init", options);
 
     $(options.element).replaceWith(mainTemplate);
-    this.element = $('#notes');
+    this.element = $("ul.list.standard:first");
 
     cb();
   };
