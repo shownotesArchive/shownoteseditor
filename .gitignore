@@ -1,3 +1,5 @@
 js/lib
 .idea
 .DS_Store
+css/app/lists/*.css
+css/lib
