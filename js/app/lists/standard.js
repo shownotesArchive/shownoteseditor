@@ -12,6 +12,7 @@
                    +   "<ul class='subnotes'></ul>"
                    + "</li>";
   var tagTemplate = "<li></li>";
+  var controlTemplate = "<i></i>";
 
   shownoteseditor.lists.standard = function (options, cb)
   {
@@ -39,6 +40,30 @@
       $tags.append($tag);
     }
 
+    var $controls = $note.find('.controls');
+    var controls = {
+      remove: { icon: "icon-trash", func: userRemoveNote }
+    };
+
+    for(var name in controls)
+    {
+      var control = controls[name];
+      controls[name].func = controls[name].func.bind(this);
+
+      var $control = $(controlTemplate);
+      $control.attr('data-name', name);
+      $control.addClass(name);
+      $control.addClass(control.icon);
+      $control.click(function ()
+        {
+          var name = $(this).attr("data-name");
+          controls[name].func(id);
+        }
+      );
+
+      $controls.append($control);
+    }
+
     var $parent;
 
     if(parent == "_root")
@@ -55,11 +80,18 @@
 
   self.removeNote = function (id)
   {
+    var $note = this.element.find('li[data-id=' + id + ']');
+    $note.remove();
   };
 
   self.editNote = function (id, note)
   {
   };
+
+  function userRemoveNote(id)
+  {
+    this.trigger("removeRequested", id);
+  }
 
   shownoteseditor.lists.standard.prototype = self;
   MicroEvent.mixin(shownoteseditor.lists.standard);

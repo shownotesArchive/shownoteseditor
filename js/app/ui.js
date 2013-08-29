@@ -32,6 +32,7 @@
 
           that.list = new list(listOps.options, function (){});
           that.list.bind("editRequested", listEditRequested.bind(that));
+          that.list.bind("removeRequested", listRemoveRequested.bind(that));
           that.list.bind("editRequested", listAddRequested.bind(that));
 
           connector.bind("noteAdded", that.list.addNote.bind(that.list));
@@ -61,6 +62,19 @@
 
   function listEditRequested(id, element, editEnded)
   {
+  }
+
+  function listRemoveRequested(id)
+  {
+    this.connector.removeNote(id,
+      function (err)
+      {
+        if(err)
+        {
+          alert(err);
+        }
+      }
+    );
   }
 
   function listAddRequested(parentId, element, addEnded)

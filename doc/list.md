@@ -17,6 +17,9 @@
   * `element`: the element to place the editor in
   * `editEndend`: callback to be called once the user finished the editing
 
+* `removeRequested (id)`
+  * `id`: note id
+
 * `addRequested (parentId, element, addEnded)`
   * `parentId`: parent note id
   * `element`: the element to place the editor in
