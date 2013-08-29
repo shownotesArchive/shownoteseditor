@@ -23,4 +23,4 @@ server of some kind.
 
 * `noteAdded (id, note, parentId)`
 * `noteRemoved (id, note)`
-* `noteEdited (id, note, changed)`
+* `noteEdited (id, newNote, changed)`

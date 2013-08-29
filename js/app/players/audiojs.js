@@ -14,12 +14,23 @@
     audiojs.events.ready(
       function()
       {
-        var audiojsOptions = {};
-        that.audio = audiojs.create(options.element, audiojsOptions);
-        that.audio.loadStarted = function ()
+        var $audio = $('<audio>');
+
+        for (var i = 0; i < options.files.length; i++)
         {
-          cb();
-        };
+          var file = options.files[i];
+
+          var $source = $('<source>');
+          $source.prop('src', file.src);
+          $source.prop('type', file.type);
+          $audio.append($source);
+        }
+
+        $(options.element).append($audio);
+
+        var audiojsOptions = {};
+        that.audio = audiojs.create($(options.element).find('audio')[0], audiojsOptions);
+        cb();
       }
     );
   };
@@ -42,13 +53,14 @@
 
   self.getCurrentTime = function ()
   {
-    return this.audio.element.currentTime;
+    return Math.floor(this.audio.element.currentTime);
   };
 
   self.jumpTime = function (time)
   {
     this.setCurrentTime(this.getCurrentTime() + time);
-  }
+  };
 
   shownoteseditor.players.audiojs.prototype = self;
+  MicroEvent.mixin(shownoteseditor.players.audiojs);
 })();

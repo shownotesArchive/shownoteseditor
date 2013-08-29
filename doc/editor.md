@@ -4,15 +4,23 @@ text and timestamp of a given note.
 
 ## Public functions
 
-* `ctor (options, cb)`
+* `ctor (options, player, cb)`
   * `options.element` must contain the element to place this editor in
   * `options.id` should contain an ID to identify this editor later
+  * `options.content.time` can contain the time to show initially
+  * `options.content.text` can contain the text to show initially
 * `close ()`
 * `getContent ()`
-  * returns an object in the form: `{ text: '', time: 1234567890 }`
+  * returns an note-object, see `note.md`
+* `setContent (content)`
+  * sets the content according to an note-object, see `note.md`
 
 ## Events
 
 * `contentChanged (id, content)`
+  * `id`: ID given in `ctor`
+  * `content`: see `getContent ()`
+
+* `submitted (id, content)`
   * `id`: ID given in `ctor`
   * `content`: see `getContent ()`

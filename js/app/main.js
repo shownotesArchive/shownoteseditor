@@ -13,6 +13,8 @@ var shownoteseditor = {
   {
     console.log("Main init", options);
 
+    var that = this;
+
     async.series(
       [
         function (cb)
@@ -37,11 +39,13 @@ var shownoteseditor = {
             return cb("Invalid connector name");
 
           var connector = shownoteseditor.connectors[options.connector.name];
-          this.connector = new connector(options.connector.options, cb);
+          that.connector = new connector(options.connector.options, function () {});
+          cb();
         },
         function (cb)
         {
-          this.ui = new shownoteseditor.ui(options.ui, cb);
+          that.ui = new shownoteseditor.ui(options.ui, that.connector, function () {});
+          cb();
         }
       ],
       cb

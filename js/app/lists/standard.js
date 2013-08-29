@@ -3,7 +3,8 @@
   var self = {};
 
   var mainTemplate = "<ul id='notes'></ul>";
-  var noteTemplate = "<li><span class='time'></span><span class='text'></span><br><ul class='subnotes'></ul></li>";
+  var noteTemplate = "<li data-id=''><span class='time'></span> <span class='text'></span><ul class='tags'></ul><ul class='subnotes'></ul></li>";
+  var tagTemplate = "<li></li>";
 
   shownoteseditor.lists.standard = function (options, cb)
   {
@@ -15,8 +16,31 @@
     cb();
   };
 
-  self.addNote = function (note, parent)
+  self.addNote = function (id, note, parent)
   {
+    var $note = $(noteTemplate);
+    $note.attr('data-id', id);
+    $note.find('.time').text(osftools.toHumanTime(note.time));
+    $note.find('.text').text(note.text);
+
+    var $tags = $note.find('.tags');
+    for (var tag in note.tags)
+    {
+      tag = note.tags[tag];
+      var $tag = $(tagTemplate);
+      $tag.text(tag);
+      $tags.append($tag);
+    }
+
+    if(parent == "_root")
+    {
+      this.element.append($note);
+    }
+    else
+    {
+      var $parent = this.element.find("li[data-id=" + parent + "]");
+      $parent.append($note);
+    }
   };
 
   self.removeNote = function (id)
@@ -28,4 +52,5 @@
   };
 
   shownoteseditor.lists.standard.prototype = self;
+  MicroEvent.mixin(shownoteseditor.lists.standard);
 })();

@@ -7,18 +7,19 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="js/lib/microevent.js"></script>
 
+    <script src="js/app/osftools.js"></script>
     <script src="js/app/main.js"></script>
     <script src="js/app/ui.js"></script>
     <script src="js/app/players/audiojs.js"></script>
     <script src="js/app/connectors/memory.js"></script>
     <script src="js/app/lists/standard.js"></script>
+    <script src="js/app/editors/inline.js"></script>
 </head>
 <body>
-    <audio id="player">
-        <source src="http://meta.metaebene.me/media/lautsprecher/ls000-der-lautsprecher.m4a" type="audio/mp4"/>
-        <source src="http://meta.metaebene.me/media/lautsprecher/ls000-der-lautsprecher.oga" type="audio/ogg"/>
-        <source src="http://meta.metaebene.me/media/lautsprecher/ls000-der-lautsprecher.mp3" type="audio/mpeg"/>
-    </audio>
+    <div id="player">
+    </div>
+
+    <div id="maineditor"></div>
 
     <div id="notes"></div>
 
@@ -39,7 +40,11 @@
                     name: "audiojs",
                     options:
                     {
-                        element: $("#player")[0]
+                        element: $("#player")[0],
+                        files:
+                        [
+                            { src: "./ls000-der-lautsprecher.mp3", type: "audio/mpeg" }
+                        ]
                     }
                 },
                 list:
@@ -48,6 +53,14 @@
                     options:
                     {
                         element: $('#notes')[0]
+                    }
+                },
+                editor:
+                {
+                    name: "inline",
+                    options:
+                    {
+                        element: $('#maineditor')[0]
                     }
                 }
             }
