@@ -39,15 +39,18 @@
       $tags.append($tag);
     }
 
+    var $parent;
+
     if(parent == "_root")
     {
-      this.element.append($note);
+      $parent = this.element;
     }
     else
     {
-      var $parent = this.element.find("li[data-id=" + parent + "]");
-      $parent.append($note);
+      $parent = this.element.find("li[data-id=" + parent + "] ul.subnotes");
     }
+
+    $parent.append($note);
   };
 
   self.removeNote = function (id)
