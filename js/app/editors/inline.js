@@ -36,6 +36,7 @@
     }
 
     $(options.element).append(this.editor.main);
+    setTimeout(function () { this.editor.text.focus(); }.bind(this), 50);
 
     this.id = options.id;
 
