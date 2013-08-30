@@ -4,7 +4,7 @@
 
   var editorHtml =
     '<div class="editor inline">' +
-      '<input type="text" class="time">' +
+      '<input type="text" class="time" placeholder="00:00:00">' +
       '<input type="text" class="text">' +
     '</div>';
 
@@ -30,7 +30,10 @@
     this.setTimeOnEdit = true;
 
     if(options.content)
-      setContent(options.content);
+    {
+      this.setTimeOnEdit = false;
+      this.setContent(options.content);
+    }
 
     $(options.element).append(this.editor.main);
 
@@ -48,7 +51,7 @@
   {
     var humanTime = osftools.toHumanTime(time);
     this.editor.time.text(humanTime);
-  }
+  };
 
   self.getContent = function ()
   {
@@ -61,14 +64,20 @@
   self.setContent = function (note)
   {
     if(note.time != undefined)
+    {
       this.editor.time.val(osftools.toHumanTime(note.time));
+    }
     if(note.text != undefined)
     {
-      this.editor.text.val(note.text);
-      if(note.tags != undefined)
-        this.editor.text.val(note.text + note.tags.join(' '));
+      var text = note.text;
+      if(note.tags != undefined && note.tags.length > 0)
+      {
+        text = text + " #" + note.tags.join(' #');
+      }
+
+      this.editor.text.val(text);
     }
-  }
+  };
 
   self.onContentChanged = function ()
   {

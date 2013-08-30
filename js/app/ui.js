@@ -49,10 +49,11 @@
           if(!editor)
             return cb("Invalid editorname");
 
-          editorOps.options.id = "main";
+          editorOps.options.id = "_root";
 
+          that.editor = editor;
           that.maineditor = new editor(editorOps.options, that.player, function (){});
-          that.maineditor.bind("submitted", maineditorSubmitted.bind(that));
+          that.maineditor.bind("submitted", addEditorSubmitted.bind(that));
           cb();
         }
       ],
@@ -62,6 +63,38 @@
 
   function listEditRequested(id, element, editEnded)
   {
+    var that = this;
+
+    this.connector.getNote(id,
+      function (err, note)
+      {
+        if(err)
+        {
+          editEnded();
+          return alert(err);
+        }
+
+        var options = {
+          element: element,
+          id: id,
+          content:
+          {
+            time: note.time,
+            text: note.text,
+            tags: note.tags
+          }
+        };
+
+        var editor = new that.editor(options, this.player, function (){});
+        editor.bind('submitted',
+          function (id, content)
+          {
+            editEnded();
+            editEditorSubmitted.call(that, id, content);
+          }
+        );
+      }
+    );
   }
 
   function listRemoveRequested(id)
@@ -81,12 +114,22 @@
   {
   }
 
-  function maineditorSubmitted(id, content)
+  function editEditorSubmitted(id, content)
   {
-    var note = {};
-    note.text = content.text;
+    this.connector.editNote(id, content,
+      function (err)
+      {
+        if(err)
+        {
+          alert(err);
+        }
+      }
+    );
+  }
 
-    this.connector.addNote(content,
+  function addEditorSubmitted(id, content)
+  {
+    this.connector.addNote(content, id,
       function (err)
       {
         if(err)

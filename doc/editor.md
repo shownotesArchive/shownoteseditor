@@ -7,8 +7,7 @@ text and timestamp of a given note.
 * `ctor (options, player, cb)`
   * `options.element` must contain the element to place this editor in
   * `options.id` should contain an ID to identify this editor later
-  * `options.content.time` can contain the time to show initially
-  * `options.content.text` can contain the text to show initially
+  * `options.content` can contain an note-object, see `note.md`
 * `close ()`
 * `getContent ()`
   * returns an note-object, see `note.md`

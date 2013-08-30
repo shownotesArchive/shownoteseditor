@@ -1,29 +1,57 @@
 ul.list.standard
 {
+  li
+  {
+    list-style: none;
+  }
+  li.addSubnote > i
+  {
+    cursor: pointer;
+  }
   li.note
   {
-    .time
+    > .time
     {
-
+      font-family: monospace;
     }
-    .text
+    > .text
     {
       &:before
       {
         content: "\a0"; // space
       }
     }
-    .controls
+    > .editorWrapper
+    {
+      display: none;
+    }
+    > .controls
     {
       display: inline-block;
+      margin: 0;
+      padding: 0;
       margin-left: 0.5em;
 
-      *
+      & > *
       {
         cursor: pointer;
+
+        &.icon-edit
+        {
+          position: relative;
+          top: 1px;
+        }
+        &:after
+        {
+          content: "\a0"; // space
+        }
+        &:last-child:after
+        {
+          content: "";
+        }
       }
     }
-    ul.tags
+    > ul.tags
     {
       margin: 0;
       padding: 0;
@@ -51,6 +79,23 @@ ul.list.standard
           content: "";
         }
       }
+    }
+  }
+  li.note.editing
+  {
+    > *
+    {
+      display: none !important;
+    }
+    > .editorWrapper
+    {
+      display: inline-block !important;
+      margin: 0;
+      padding: 0;
+    }
+    > .subNotes
+    {
+      display: block !important;
     }
   }
 }
