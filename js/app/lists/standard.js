@@ -11,7 +11,10 @@
                    +   "<div class='controls'>"
                    +   "</div>"
                    +   "<ul class='subnotes'>"
-                   +     "<li class='addSubnote'><i class='icon-plus addSubnote'></i></li>"
+                   +     "<li class='addSubnote'>"
+                   +       "<div class='editorWrapper'></div>"
+                   +       "<i class='icon-plus addSubnote'></i>"
+                   +     "</li>"
                    +   "</ul>"
                    + "</li>";
   var tagTemplate = "<li></li>";
@@ -59,13 +62,11 @@
       $controls.append($control);
     }
 
-    var that = this;
-
     $note.find('i.addSubnote').click(
       function ()
       {
-        userAddSubnote(id).bind(that);
-      }
+        userAddSubnote.call(this, id);
+      }.bind(this)
     );
 
     var $parent;
@@ -123,21 +124,32 @@
   function userEditNote(id)
   {
     var $note = this.findHtmlNote(id);
-    var $editor = $note.find('.editorWrapper');
+    var $editorWrapper = $note.find('.editorWrapper');
 
-    this.trigger("editRequested", id, $editor[0], editEnded);
+    this.trigger("editRequested", id, $editorWrapper[0], editEnded);
     $note.addClass("editing");
 
     function editEnded()
     {
       $note.removeClass("editing");
-      $editor.empty();
+      $editorWrapper.empty();
     }
   }
 
   function userAddSubnote(parentId)
   {
-    alert(parentId);
+    var $note = this.findHtmlNote(parentId);
+    var $addSubnote = $note.find('.addSubnote');
+    var $editorWrapper = $addSubnote.find('.editorWrapper');
+
+    this.trigger("addRequested", parentId, $editorWrapper[0], editEnded);
+    $addSubnote.addClass("editing");
+
+    function editEnded()
+    {
+      $addSubnote.removeClass("editing");
+      $editorWrapper.empty();
+    }
   }
 
   shownoteseditor.lists.standard.prototype = self;

@@ -4,9 +4,27 @@ ul.list.standard
   {
     list-style: none;
   }
-  li.addSubnote > i
+  li.addSubnote
   {
-    cursor: pointer;
+    > i
+    {
+      cursor: pointer;
+    }
+    > .editorWrapper
+    {
+      display: none;
+    }
+  }
+  li.addSubnote.editing
+  {
+    > *
+    {
+      display: none;
+    }
+    > .editorWrapper
+    {
+      display: inline-block !important;
+    }
   }
   li.note
   {
@@ -57,6 +75,10 @@ ul.list.standard
       padding: 0;
       display: inline-block;
 
+      &:empty:before
+      {
+        content: "";
+      }
       &:before
       {
         content: "\a0"; // space

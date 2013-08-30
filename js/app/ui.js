@@ -33,7 +33,7 @@
           that.list = new list(listOps.options, function (){});
           that.list.bind("editRequested", listEditRequested.bind(that));
           that.list.bind("removeRequested", listRemoveRequested.bind(that));
-          that.list.bind("editRequested", listAddRequested.bind(that));
+          that.list.bind("addRequested", listAddRequested.bind(that));
 
           connector.bind("noteAdded", that.list.addNote.bind(that.list));
           connector.bind("noteRemoved", that.list.removeNote.bind(that.list));
@@ -112,6 +112,20 @@
 
   function listAddRequested(parentId, element, addEnded)
   {
+    var that = this;
+    var options = {
+      element: element,
+      id: parentId + "_subnote"
+    };
+
+    var editor = new this.editor(options, this.player, function (){});
+    editor.bind('submitted',
+      function (id, content)
+      {
+        addEnded();
+        addEditorSubmitted.call(that, parentId, content);
+      }
+    );
   }
 
   function editEditorSubmitted(id, content)
