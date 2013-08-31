@@ -12,3 +12,4 @@ test/lib
 # generated css
 css/app/lists/*.css
 css/app/editors/*.css
+demo/style.css
