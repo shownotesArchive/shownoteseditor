@@ -88,6 +88,13 @@
     $note.find('> .time').text(osftools.toHumanTime(note.time));
     $note.find('> .text').text(note.text);
 
+    var classes = $note.attr('class').split(' ');
+    for (var i = 0; i < classes.length; i++) {
+      var cls = classes[i];
+      if(cls.indexOf("tag-") == 0)
+        $note.removeClass(cls);
+    }
+
     var $tags = $note.find('> .tags');
     $tags.empty();
     for (var tag in note.tags)
@@ -96,6 +103,7 @@
       var $tag = $(tagTemplate);
       $tag.text(tag);
       $tags.append($tag);
+      $note.addClass("tag-" + tag);
     }
   }
 
