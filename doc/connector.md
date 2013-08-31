@@ -15,6 +15,8 @@ server of some kind.
   * triggers `noteEdited`-event
 * `getNotes (cb)`
 * `getNote (id, cb)`
+* `getFriendlyJson ()`
+  * returns all notes in the format described in `note.md`
 * `bind (event, fct)` - MicroEvent
 * `unbind (event, fct)` - MicroEvent
 

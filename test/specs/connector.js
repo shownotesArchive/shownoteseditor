@@ -493,4 +493,65 @@
       );
     }
   );
+
+  test("getFriendlyJson",
+    function ()
+    {
+      var input = {
+        "notes":
+        {
+          "aaa":
+          {
+            "time": 20,
+            "text": "a",
+            "tags": [ "a", "b" ],
+            "notes":
+            {
+              "aaa.1":
+              {
+                "time": 30,
+                "text": "b",
+                "tags": [],
+                "notes": {}
+              }
+            }
+          },
+          "bbb":
+          {
+            "time": 40,
+            "text": "c",
+            "tags": [ "a", "b" ],
+            "notes": {}
+          }
+        }
+      };
+
+      var expected = [
+        {
+          "time": 20,
+          "text": "a",
+          "tags": [ "a", "b" ],
+          "notes":
+            [
+              {
+                "time": 30,
+                "text": "b",
+                "tags": [],
+                "notes": []
+              }
+            ]
+        },
+        {
+          "time": 40,
+          "text": "c",
+          "tags": [ "a", "b" ],
+          "notes": []
+        }
+      ];
+
+      var actual = connector.getFriendlyJson(input);
+
+      deepEqual(actual, expected);
+    }
+  );
 })();

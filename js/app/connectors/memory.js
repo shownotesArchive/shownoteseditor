@@ -111,7 +111,33 @@
     }
 
     return keys;
-  }
+  };
+
+  self.getFriendlyJson = function (note)
+  {
+    if(!note)
+    {
+      note = this.notes;
+    }
+
+    var notes = [];
+
+    for (var id in note.notes)
+    {
+      var snote = note.notes[id];
+      var fnote =
+      {
+        time: snote.time,
+        text: snote.text,
+        tags: snote.tags,
+        notes: this.getFriendlyJson(snote)
+      };
+
+      notes.push(fnote);
+    }
+
+    return notes;
+  };
 
   self.findParent = function (id, note)
   {
