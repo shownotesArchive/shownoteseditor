@@ -1,7 +1,14 @@
-js/lib
-.idea
+# OS
 .DS_Store
-css/app/lists/*.css
-css/app/editors/*.css
+
+# IDE
+.idea
+
+# libs
+js/lib
 css/lib
 test/lib
+
+# generated css
+css/app/lists/*.css
+css/app/editors/*.css
