@@ -33,6 +33,7 @@ var osftools = {};
       result.text.push(part);
     }
 
+    result.tags = osftools.normalizeTags(result.tags);
     result.text = result.text.join(' ');
 
     return result;
