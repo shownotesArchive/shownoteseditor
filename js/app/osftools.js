@@ -38,6 +38,25 @@ var osftools = {};
     return result;
   };
 
+  osftools.normalizeTags = function (tags)
+  {
+    var mapping = {
+      "c": "chapter",
+      "q": "quote"
+    };
+
+    var newTags = [];
+
+    for (var i = 0; i < tags.length; i++)
+    {
+      var tag = tags[i];
+      var newTag = mapping[tag] || tag;
+      newTags.push(newTag);
+    }
+
+    return newTags;
+  };
+
   osftools.toHumanTime = function (time)
   {
     if(!isNumber(time))

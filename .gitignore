@@ -4,3 +4,4 @@ js/lib
 css/app/lists/*.css
 css/app/editors/*.css
 css/lib
+test/lib

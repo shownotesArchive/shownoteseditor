@@ -11,3 +11,5 @@ Online and offline editor for shownotes.
 * normalize.css (MIT), http://necolas.github.io/normalize.css/
 * microevent (MIT), https://github.com/jeromeetienne/microevent.js
 * font-awesome (MIT / OFL 1.1), http://fortawesome.github.io/Font-Awesome/
+* qunit (MIT), http://qunitjs.com/
+* qunit-parameterize (MIT), https://github.com/AStepaniuk/qunit-parameterize

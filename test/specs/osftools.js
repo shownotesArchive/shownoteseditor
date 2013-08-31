@@ -5,77 +5,103 @@
     }
   );
 
-  var HumanTime_data =
-  {
-    "00:00": 0,
-    "01:01": 61,
-    "00:22": 22,
-    "02:01": 121,
-    "00:00:00": 0,
-    "01:01:01": 3661,
-    "01:01:22": 3682,
-    "02:01:01": 7261
-  };
+  var normalizeTagsData =
+    [
+      { title: "#c => #chapter", input: [ "c" ], output: [ "chapter" ] },
+      { title: "#q => #quote", input: [ "q" ], output: [ "quote" ] },
+      { title: "#foo => #foo", input: [ "foo" ], output: [ "foo" ] },
+      { title: "#foo #c => #foo #chapter", input: [ "foo", "c" ], output: [ "foo", "chapter" ] }
+    ];
+  QUnit.cases(normalizeTagsData).test("normalizeTags",
+    function (params)
+    {
+      var actual = osftools.normalizeTags(params.input);
+      deepEqual(actual, params.output);
+    }
+  );
 
-  for (var input in HumanTime_data)
+  var humanTimeData =
+  [
+    { human: "00:00", machine: 0 },
+    { human: "01:01", machine: 61 },
+    { human: "00:22", machine: 22 },
+    { human: "02:01", machine: 121 },
+    { human: "00:00:00", machine: 0 },
+    { human: "01:01:01", machine: 3661 },
+    { human: "01:01:22", machine: 3682 },
+    { human: "02:01:01", machine: 7261 }
+  ];
+
+  for (var i = 0; i < humanTimeData.length; i++)
+    humanTimeData[i].title = humanTimeData[i].human + " => " + humanTimeData[i].machine;
+
+  QUnit.cases(humanTimeData).test("fromHumanTime",
+    function (params)
+    {
+      var actual = osftools.fromHumanTime(params.human);
+      strictEqual(actual, params.machine);
+    }
+  );
+
+  for (var i = 0; i < humanTimeData.length; i++)
   {
-    fromHumanTime_createTest(input, HumanTime_data[input]);
+    if(humanTimeData[i].human.length == 5)
+      humanTimeData[i].human = "00:" + humanTimeData[i].human;
+    humanTimeData[i].title = humanTimeData[i].machine + " => " + humanTimeData[i].human;
   }
 
-  function fromHumanTime_createTest(input, expected)
-  {
-    test("fromHumanTime - " + input,
-      function ()
-      {
-        var actual = osftools.fromHumanTime(input);
-        strictEqual(actual, expected);
-      }
-    );
-  }
+  QUnit.cases(humanTimeData).test("toHumanTime",
+    function (params)
+    {
+      var actual = osftools.toHumanTime(params.machine);
+      strictEqual(actual, params.human);
+    }
+  );
 
-  for (var output in HumanTime_data)
-  {
-    var input = HumanTime_data[output];
-    if(output.length == 5)
-      output = "00:" + output;
-    toHumanTime_createTest(input, output);
-  }
+  var noteData =
+  [
+    {
+      title: "Note without time",
+      osf: "foo",
+      json: false
+    },
+    {
+      title: "Note with machine time and text",
+      osf: "0 foo",
+      json: { time: 0, text: "foo", tags: [] }
+    },
+    {
+      title: "Note with human time and text",
+      osf: "01:12:00 foo",
+      json: { time: 4320, text: "foo", tags: [] }
+    },
+    {
+      title: "Note with one tag",
+      osf: "0 foo #a",
+      json: { time: 0, text: "foo", tags: [ "a" ] }
+    },
+    {
+      title: "Note with two tags",
+      osf: "0 foo #a #b",
+      json: { time: 0, text: "foo", tags: [ "a", "b" ] }
+    },
+    {
+      title: "Note with with machine time and two tags",
+      osf: "42 foo #a #b",
+      json: { time: 42, text: "foo", tags: [ "a", "b" ] }
+    },
+    {
+      title: "Note with with human time and two tags",
+      osf: "01:12:00 foo #a #b",
+      json: { time: 4320, text: "foo", tags: [ "a", "b" ] }
+    }
+  ];
 
-  function toHumanTime_createTest(input, expected)
-  {
-    test("toHumanTime - " + input,
-      function ()
-      {
-        var actual = osftools.toHumanTime(input);
-        strictEqual(actual, expected);
-      }
-    );
-  }
-
-  var parseNote_data =
-  {
-    "foo": false,
-    "0 foo": { time: 0, text: "foo", tags: [] },
-    "0 foo #a": { time: 0, text: "foo", tags: [ "a" ] },
-    "0 foo #a #b": { time: 0, text: "foo", tags: [ "a", "b" ] },
-    "42 foo #a #b": { time: 42, text: "foo", tags: [ "a", "b" ] },
-    "01:12:00 foo #a #b": { time: 4320, text: "foo", tags: [ "a", "b" ] }
-  };
-
-  for (var input in parseNote_data)
-  {
-    parseNote_createTest(input, parseNote_data[input]);
-  }
-
-  function parseNote_createTest(input, expected)
-  {
-    test("parseNote - '" + input + "'",
-      function ()
-      {
-        var actual = osftools.parseNote(input);
-        deepEqual(actual, expected);
-      }
-    );
-  }
-
+  QUnit.cases(noteData).test("parseNote",
+    function (params)
+    {
+      var actual = osftools.parseNote(params.osf);
+      deepEqual(actual, params.json);
+    }
+  );
 })();
