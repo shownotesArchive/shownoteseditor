@@ -2,10 +2,10 @@ var osftools = {};
 
 (function ()
 {
-  osftools.parseNote = function (note)
+  osftools.parseNote = function (osf)
   {
-    var result = { time: null, text: [], tags: [] };
-    var parts = note.split(' ');
+    var note = { time: null, text: [], tags: [] };
+    var parts = osf.split(' ');
 
     for (var i = 0; i < parts.length; i++)
     {
@@ -20,23 +20,23 @@ var osftools = {};
         if(isNaN(time) || time === false)
           return false;
 
-        result.time = time;
+        note.time = time;
         continue;
       }
 
       if(part.indexOf('#') == 0)
       {
-        result.tags.push(part.substr(1));
+        note.tags.push(part.substr(1));
         continue;
       }
 
-      result.text.push(part);
+      note.text.push(part);
     }
 
-    result.tags = osftools.normalizeTags(result.tags);
-    result.text = result.text.join(' ');
+    note.tags = osftools.normalizeTags(note.tags);
+    note.text = note.text.join(' ');
 
-    return result;
+    return note;
   };
 
   osftools.normalizeTags = function (tags)
