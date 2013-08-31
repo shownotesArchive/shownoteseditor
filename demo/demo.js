@@ -44,5 +44,25 @@ var editor = new shownoteseditor.editor(options,
   function (err)
   {
     console.log("done, err=%s", err);
+    editor.connector.addNote({ time: 0, text: "a", tags: [ "a", "b" ] },
+      function (err, id)
+      {
+        editor.connector.addNote({ time: 0, text: "b", tags: [] }, id,
+          function (err)
+          {
+            console.log(err);
+          }
+        );
+      }
+    );
+  }
+);
+
+$('#btnExport').click(
+  function ()
+  {
+    var notes = editor.connector.getFriendlyJson();
+    var osf = osftools.osfNotes(notes);
+    $('#txtOsf').val(osf);
   }
 );

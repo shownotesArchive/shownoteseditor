@@ -10,7 +10,7 @@
     <link href="../css/app/lists/standard.css" rel="stylesheet">
     <link href="../css/app/editors/inline.css" rel="stylesheet">
 
-    <link href="./style.css" rel="stylesheet">
+    <link href="./demo.css" rel="stylesheet">
 
     <script src="../js/lib/async.js"></script>
     <script src="../js/lib/i18next-1.6.3.min.js"></script>
@@ -28,8 +28,12 @@
 </head>
 <body>
     <h1>SNE</h1>
-    <div id="mainControls">
-        <button id="btnExport">Export</button>
+    <div id="exportImport">
+        <textarea id="txtOsf"></textarea>
+        <div id="exportImportBtns">
+            <button id="btnImport">Import</button><br>
+            <button id="btnExport">Export</button>
+        </div>
     </div>
     <div id="player">
     </div>

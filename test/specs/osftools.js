@@ -141,4 +141,39 @@
       equal(actual, params.osf);
     }
   );
+
+  var osfNotesData = [
+    {
+      "time": 20,
+      "text": "a",
+      "tags": [ "a", "b" ],
+      "notes":
+        [
+          {
+            "time": 30,
+            "text": "b",
+            "tags": [],
+            "notes": []
+          }
+        ]
+    },
+    {
+      "time": 40,
+      "text": "c",
+      "tags": [ "a", "b" ],
+      "notes": []
+    }
+  ];
+
+  test("osfNotes",
+    function ()
+    {
+      var expected = "00:00:20 a #a #b\n"
+                   + "00:00:30 - b\n"
+                   + "00:00:40 c #a #b\n";
+
+      var actual = osftools.osfNotes(osfNotesData);
+      equal(actual,  expected);
+    }
+  );
 })();

@@ -39,12 +39,39 @@ var osftools = {};
     return note;
   };
 
-  osftools.osfNote = function (note)
+  osftools.osfNotes = function (notes, hierarchy)
   {
     var osf = "";
+    hierarchy = hierarchy || "";
+
+    for (var i = 0; i < notes.length; i++)
+    {
+      var note = notes[i];
+      osf += osftools.osfNote(note, hierarchy) + "\n";
+
+      if(note.notes.length > 0)
+      {
+        osf += osftools.osfNotes(note.notes, hierarchy + "-");
+      }
+    }
+
+    return osf;
+  };
+
+  osftools.osfNote = function (note, hierarchy)
+  {
+    var osf = "";
+    if(!hierarchy)
+    {
+      hierarchy = "";
+    }
+    else
+    {
+      hierarchy = " " + hierarchy;
+    }
 
     osf += osftools.toHumanTime(note.time);
-    osf += " " + note.text;
+    osf += hierarchy + " " + note.text;
     if(note.tags.length > 0)
       osf += " " + osftools.osfTags(note.tags);
 
