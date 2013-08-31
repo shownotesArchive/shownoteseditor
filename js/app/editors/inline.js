@@ -73,7 +73,7 @@
       var text = note.text;
       if(note.tags != undefined && note.tags.length > 0)
       {
-        text = text + " #" + note.tags.join(' #');
+        text = text + " " + osftools.osfTags(note.tags);
       }
 
       this.editor.text.val(text);

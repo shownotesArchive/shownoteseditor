@@ -12,11 +12,26 @@
       { title: "#foo => #foo", input: [ "foo" ], output: [ "foo" ] },
       { title: "#foo #c => #foo #chapter", input: [ "foo", "c" ], output: [ "foo", "chapter" ] }
     ];
+
   QUnit.cases(normalizeTagsData).test("normalizeTags",
     function (params)
     {
       var actual = osftools.normalizeTags(params.input);
       deepEqual(actual, params.output);
+    }
+  );
+
+  var osfTagsData =
+  [
+    { title: "One tag", input: [ "a" ], output: "#a" },
+    { title: "Two tags", input: [ "a" ], output: "#a" },
+  ];
+
+  QUnit.cases(osfTagsData).test("osfTags",
+    function (params)
+    {
+      var actual = osftools.osfTags(params.input);
+      equal(actual, params.output);
     }
   );
 
@@ -102,6 +117,28 @@
     {
       var actual = osftools.parseNote(params.osf);
       deepEqual(actual, params.json);
+    }
+  );
+
+  var osfNoteData =
+  [
+    {
+      title: "Note without tags",
+      osf: "01:12:00 foo",
+      json: { time: 4320, text: "foo", tags: [] }
+    },
+    {
+      title: "Note with tags",
+      osf: "01:12:00 foo #a #b",
+      json: { time: 4320, text: "foo", tags: [ "a", "b" ] }
+    }
+  ];
+
+  QUnit.cases(osfNoteData).test("osfNote",
+    function (params)
+    {
+      var actual = osftools.osfNote(params.json);
+      equal(actual, params.osf);
     }
   );
 })();

@@ -39,6 +39,23 @@ var osftools = {};
     return note;
   };
 
+  osftools.osfNote = function (note)
+  {
+    var osf = "";
+
+    osf += osftools.toHumanTime(note.time);
+    osf += " " + note.text;
+    if(note.tags.length > 0)
+      osf += " " + osftools.osfTags(note.tags);
+
+    return osf;
+  };
+
+  osftools.osfTags = function (tags)
+  {
+    return "#" + tags.join(' #');
+  }
+
   osftools.normalizeTags = function (tags)
   {
     var mapping = {
