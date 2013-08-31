@@ -2,10 +2,44 @@ var osftools = {};
 
 (function ()
 {
-  osftools.parseNote = function (osf)
+  osftools.parseNotes = function (osf)
+  {
+    osf = osf.replace(/\s+$/g, '');
+    var lines = osf.split('\n');
+    var notes = [];
+    var lastNote = {};
+
+    for (var i = 0; i < lines.length; i++)
+    {
+      var line = lines[i];
+      var note = osftools.parseNote(line, true);
+
+      var hierarchy = note.hierarchy;
+      delete note.hierarchy;
+
+      note.notes = [];
+
+      lastNote[hierarchy] = note;
+
+      if(hierarchy > 0)
+      {
+        lastNote[hierarchy - 1].notes.push(note);
+      }
+      else
+      {
+        notes.push(note);
+      }
+    }
+
+    return notes;
+  }
+
+  osftools.parseNote = function (osf, doHierarchy)
   {
     var note = { time: null, text: [], tags: [] };
     var parts = osf.split(' ');
+
+    note.hierarchy = 0;
 
     for (var i = 0; i < parts.length; i++)
     {
@@ -24,6 +58,12 @@ var osftools = {};
         continue;
       }
 
+      if(i == 1 && part.match(/^-+$/))
+      {
+        note.hierarchy = part.length;
+        continue;
+      }
+
       if(part.indexOf('#') == 0)
       {
         note.tags.push(part.substr(1));
@@ -35,6 +75,9 @@ var osftools = {};
 
     note.tags = osftools.normalizeTags(note.tags);
     note.text = note.text.join(' ');
+
+    if(!doHierarchy)
+      delete note.hierarchy;
 
     return note;
   };

@@ -1,7 +1,13 @@
 # osftools
 
+## parseNotes (osf)
+Parses a number of notes in OSF-Format.
+
 ## parseNote (osf)
 Parses an note in OSF-Format, returns the note as defined in `note.md`.
+
+## osfNotes (notes)
+Converts a number of notes to OSF-Format.
 
 ## osfNote (note)
 Convert an note as defined in `note.md` to OSF-Format.

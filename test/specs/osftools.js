@@ -86,6 +86,18 @@
       json: { time: 0, text: "foo", tags: [] }
     },
     {
+      title: "Note with hierarchy 1",
+      hierarchy: true,
+      osf: "0 - foo",
+      json: { time: 0, text: "foo", tags: [], hierarchy: 1 }
+    },
+    {
+      title: "Note with hierarchy 2",
+      hierarchy: true,
+      osf: "0 -- foo",
+      json: { time: 0, text: "foo", tags: [], hierarchy: 2 }
+    },
+    {
       title: "Note with human time and text",
       osf: "01:12:00 foo",
       json: { time: 4320, text: "foo", tags: [] }
@@ -115,7 +127,7 @@
   QUnit.cases(noteData).test("parseNote",
     function (params)
     {
-      var actual = osftools.parseNote(params.osf);
+      var actual = osftools.parseNote(params.osf, params.hierarchy);
       deepEqual(actual, params.json);
     }
   );
@@ -142,7 +154,7 @@
     }
   );
 
-  var osfNotesData = [
+  var osfNotesData_json = [
     {
       "time": 20,
       "text": "a",
@@ -165,15 +177,24 @@
     }
   ];
 
+  var osfNotesData_osf =
+      "00:00:20 a #a #b\n"
+    + "00:00:30 - b\n"
+    + "00:00:40 c #a #b\n";
+
   test("osfNotes",
     function ()
     {
-      var expected = "00:00:20 a #a #b\n"
-                   + "00:00:30 - b\n"
-                   + "00:00:40 c #a #b\n";
+      var actual = osftools.osfNotes(osfNotesData_json);
+      equal(actual, osfNotesData_osf);
+    }
+  );
 
-      var actual = osftools.osfNotes(osfNotesData);
-      equal(actual,  expected);
+  test("parseNotes",
+    function ()
+    {
+      var actual = osftools.parseNotes(osfNotesData_osf);
+      deepEqual(actual, osfNotesData_json);
     }
   );
 })();
