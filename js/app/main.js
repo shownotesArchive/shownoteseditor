@@ -52,5 +52,10 @@ var shownoteseditor = {
     );
   };
 
+  self.loadNotes = function (notes, cb)
+  {
+    shownoteseditor.utils.loadNotes(this.connector, notes, cb);
+  };
+
   shownoteseditor.editor.prototype = self;
 })();
