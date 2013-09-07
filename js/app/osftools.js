@@ -2,6 +2,35 @@ var osftools = {};
 
 (function ()
 {
+  osftools.cloneNote = function (note, includeChildren)
+  {
+    var clone = { time: 0, text: "", tags: [] };
+
+    if(note.time)
+      clone.time = note.time;
+    if(note.text)
+      clone.text = note.text;
+    if(note.tags && note.tags.length)
+    {
+      for (var i = 0; i < note.tags.length; i++)
+      {
+        clone.tags.push(note.tags[i]);
+      }
+    }
+
+    if(includeChildren)
+    {
+      clone.notes = [];
+
+      for (var i = 0; i < note.notes.length; i++)
+      {
+        clone.notes.push(osftools.cloneNote(note.notes[i], true));
+      }
+    }
+
+    return clone;
+  };
+
   osftools.parseNotes = function (osf)
   {
     osf = osf.replace(/\s+$/g, '');
