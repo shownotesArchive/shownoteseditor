@@ -19,6 +19,8 @@
       parent = "_root";
     }
 
+    note = osftools.cloneNote(note, false);
+
     var parentNote;
     note.notes = {};
 
@@ -37,7 +39,7 @@
     var id = generateUuid();
     parentNote.notes[id] = note;
 
-    this.trigger('noteAdded', id, note, parent);
+    this.trigger('noteAdded', id, osftools.cloneNote(note, false), parent);
     cb(null, id);
   };
 
@@ -46,7 +48,7 @@
     var parentNote = this.findParent(id);
     if(!parentNote)
       return cb("not found");
-    var note = parentNote.notes[id];
+    var note = osftools.cloneNote(parentNote.notes[id], false);
     delete parentNote.notes[id];
 
     cb();
@@ -58,6 +60,7 @@
     var parentNote = this.findParent(id);
     if(!parentNote)
       return cb("not found");
+    newNote = osftools.cloneNote(newNote, false);
     var oldNote = parentNote.notes[id];
 
     var keys = getKeys(oldNote, newNote);
@@ -65,7 +68,30 @@
     var changed = keys.filter(
       function (key)
       {
-        return oldNote[key] != newNote[key] && key != "notes";
+        if(key == "notes")
+          return false;
+
+        if(newNote[key] instanceof Array)
+        {
+          if(!(oldNote[key] instanceof Array))
+            return false;
+          if(oldNote[key].length != newNote[key].length)
+            return false;
+
+          for (var i = 0; i < oldNote[key].length; i++)
+          {
+            if(oldNote[key][i] != newNote[key][i])
+              return true;
+          }
+
+          return false;
+        }
+        else if(oldNote[key] != newNote[key])
+        {
+          return true;
+        }
+
+        return false;
       }
     );
 
@@ -89,7 +115,7 @@
     var parentNote = this.findParent(id);
     if(!parentNote)
       return cb("not found");
-    cb(null, parentNote.notes[id]);
+    cb(null, osftools.cloneNote(parentNote.notes[id], false));
   };
 
   function getKeys()

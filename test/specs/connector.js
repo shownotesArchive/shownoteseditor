@@ -84,7 +84,7 @@
   asyncTest("addNote event - root",
     function ()
     {
-      var addNote = { a: "b", notes: {} };
+      var addNote = { time: 0, tags: [], text: "b" };
       var called = false;
 
       connector.bind("noteAdded",
@@ -124,8 +124,8 @@
   asyncTest("addNote event - deep",
     function ()
     {
-      var addNote1 = { a: "b1", notes: {} };
-      var addNote2 = { a: "b2", notes: {} };
+      var addNote1 = { time: 0, tags: [], text: "b1" };
+      var addNote2 = { time: 0, tags: [], text: "b2" };
       var called = 0;
       var outerId;
 
@@ -165,20 +165,17 @@
   asyncTest("addNote - 1 deep",
     function ()
     {
-      var note = { a: "b" };
+      var note = { time: 0, tags: [], text: "b" };
 
       connector.addNote(note,
-        function ()
+        function (err, id)
         {
-          connector.getNotes(function (err, notes)
+          connector.getNote(id, function (err, gotNote)
             {
-              var keys = Object.keys(notes.notes);
-              equal(keys.length, 1, "One note added");
-              deepEqual(notes.notes[keys[0]], note, "Right note added");
+              deepEqual(gotNote, note, "Right note added");
+              start();
             }
           );
-
-          start();
         }
       );
     }
@@ -187,8 +184,8 @@
   asyncTest("addNote - 2 deep",
     function ()
     {
-      var outerNote = { a: "b1" };
-      var innerNote = { a: "b2" };
+      var outerNote = { time: 0, tags: [], text: "b1" };
+      var innerNote = { time: 0, tags: [], text: "b2" };
       var outerId;
       var innerId;
 
@@ -223,12 +220,12 @@
                 root = notes.notes;
                 var keys = Object.keys(root);
                 equal(keys.length, 1, "level 1 - One note added");
-                deepEqual(root[outerId], outerNote, "level 1 - Right note added");
+                deepEqual(root[outerId].text, outerNote.text, "level 1 - Right note added");
 
                 root = notes.notes[outerId].notes;
                 var keys = Object.keys(root);
                 equal(keys.length, 1, "level 2 - One note added");
-                deepEqual(root[innerId], innerNote, "level 2 - Right note added");
+                deepEqual(root[innerId].text, innerNote.text, "level 2 - Right note added");
 
                 cb();
               }
@@ -243,7 +240,7 @@
   asyncTest("removeNote callback",
     function ()
     {
-      connector.addNote({ a: "b3" },
+      connector.addNote({ a: "b3", notes: {} },
         function (err, id)
         {
           connector.removeNote(id,
@@ -261,7 +258,7 @@
   asyncTest("removeNote event",
     function ()
     {
-      var addNote = { a: "b" };
+      var addNote = { time: 0, tags: [], text: "b" };
       var called = false;
       var addedId = null;
 
@@ -296,9 +293,9 @@
     {
       var addNotes =
         [
-          { a: "b1" },
-          { a: "b2" },
-          { a: "b3" }
+          { time: 0, tags: [], text: "b1", notes: {} },
+          { time: 0, tags: [], text: "b2" },
+          { time: 0, tags: [], text: "b3", notes: {} }
         ];
 
       var ids = [];
@@ -331,8 +328,8 @@
               {
                 var keys = Object.keys(notes.notes);
                 equal(keys.length, 2, "Note removed");
-                equal(addNotes[0], notes.notes[keys[0]], "Note 1 untouched");
-                equal(addNotes[2], notes.notes[keys[1]], "Note 3 untouched");
+                deepEqual(notes.notes[keys[0]], addNotes[0], "Note 1 untouched");
+                deepEqual(notes.notes[keys[1]], addNotes[2], "Note 3 untouched");
                 cb();
               }
             );
@@ -384,8 +381,8 @@
   asyncTest("editNote event",
     function ()
     {
-      var addNote = { a: "val1", b: "val2" };
-      var editedNote = { a: "val1", b: "newVal2", notes: {} };
+      var addNote = { time: 0, tags: [], text: "val1" };
+      var editedNote = { time: 0, tags: [], text: "val2" };
       var called = false;
       var addedId = null;
 
@@ -401,7 +398,7 @@
           called = true;
           equal(id, addedId, "event - id ok");
           deepEqual(note, editedNote, "event - note ok");
-          deepEqual(changed, ["b"], "event - changed ok");
+          deepEqual(changed, ["text"], "event - changed ok");
           start();
         }
       );
@@ -419,8 +416,8 @@
   asyncTest("editNote",
     function ()
     {
-      var addNote = { a: "val1", b: "val2" };
-      var editedNote = { a: "val1", b: "newVal2", notes: {} };
+      var addNote = { time: 0, tags: [], text: "val1" };
+      var editedNote = { time: 0, tags: [], text: "val2" };
 
       connector.addNote(addNote,
         function (err, id)
@@ -428,9 +425,9 @@
           connector.editNote(id, editedNote,
             function (err)
             {
-              connector.getNotes(function (err, notes)
+              connector.getNote(id, function (err, note)
                 {
-                  deepEqual(notes.notes[id], editedNote, "Note changed");
+                  deepEqual(note, editedNote, "Note changed");
                   start();
                 }
               );
@@ -464,7 +461,7 @@
   asyncTest("getNote",
     function ()
     {
-      var addNote = { a: "val1", b: "val2", notes: {} };
+      var addNote = { time: 0, tags: [], text: "val1" };
 
       connector.addNote(addNote,
         function (err, id)
