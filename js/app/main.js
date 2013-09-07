@@ -54,7 +54,21 @@ var shownoteseditor = {
 
   self.loadNotes = function (notes, cb)
   {
-    shownoteseditor.utils.loadNotes(this.connector, notes, cb);
+    var that = this;
+
+    async.series(
+      [
+        function (cb)
+        {
+          shownoteseditor.utils.clearNotes(that.connector, cb);
+        },
+        function (cb)
+        {
+          shownoteseditor.utils.loadNotes(that.connector, notes, cb);
+        }
+      ],
+      cb
+    );
   };
 
   shownoteseditor.editor.prototype = self;

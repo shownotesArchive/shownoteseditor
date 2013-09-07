@@ -33,5 +33,29 @@ shownoteseditor.utils = {};
       },
       cb
     );
-  }
+  };
+
+  shownoteseditor.utils.clearNotes = function (connector, cb)
+  {
+    async.waterfall(
+      [
+        function (cb)
+        {
+          connector.getNotes(cb);
+        },
+        function (notes, cb)
+        {
+          var ids = Object.keys(notes.notes);
+          async.eachSeries(ids,
+            function (id, cb)
+            {
+              connector.removeNote(id, cb);
+            },
+            cb
+          );
+        }
+      ],
+      cb
+    );
+  };
 })();

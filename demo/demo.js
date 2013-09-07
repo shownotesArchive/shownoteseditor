@@ -58,11 +58,23 @@ var editor = new shownoteseditor.editor(options,
   }
 );
 
+var $txtOsf = $('#txtOsf');
+
 $('#btnExport').click(
   function ()
   {
     var notes = editor.connector.getFriendlyJson();
     var osf = osftools.osfNotes(notes);
-    $('#txtOsf').val(osf);
+    $txtOsf.val(osf);
+  }
+);
+
+
+$('#btnImport').click(
+  function ()
+  {
+    var osf = $txtOsf.val();
+    var notes = osftools.parseNotes(osf);
+    editor.loadNotes(notes);
   }
 );
