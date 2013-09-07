@@ -24,7 +24,7 @@
   {
     console.log("List-Standard init", options);
 
-    $(options.element).replaceWith(mainTemplate);
+    $(options.element).append(mainTemplate);
     this.element = $("ul.list.standard:first");
 
     cb();
