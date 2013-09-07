@@ -1,17 +1,86 @@
+body
+{
+  overflow: hidden;
+}
+
+#title
+{
+  position: absolute;
+  margin: 5px;
+}
+
+#notes
+{
+  @width: 800px;
+
+  height: calc(~"100% - 160px");
+
+  overflow: scroll;
+
+  margin-top: 10px;
+  position: absolute;
+  width: @width;
+  left: calc(~"50% - " @width / 2);
+}
+
 #exportImport
 {
-  margin-bottom: 10px;
+  @btnsWidth: 110px;
+  @totalWidth: 500px;
+
+  z-index: 0;
+  position: absolute;
+  width: @totalWidth;
+  right: (@totalWidth + 50px) * -1;
+  bottom: 120px;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.3);
+  padding: 5px;
+  border-top-left-radius: 10px;
+
+  > textarea
+  {
+    width: calc(~"100% - " @btnsWidth);
+    height: 150px;
+  }
+
+  > .btns
+  {
+    width: @btnsWidth - 10px;
+    display: inline-block;
+  }
 }
 
-#exportImportBtns
+#bottom
 {
-  display: inline-block;
-}
+  z-index: 1;
+  position: fixed;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  background-color: rgba(0,0,0,0.3);
+  text-align: center;
+  padding-top: 20px;
 
-#txtOsf
-{
-  width: 350px;
-  height: 150px;
+  > *
+  {
+    box-shadow: 0 0 15px black;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  > #mainBtns
+  {
+    box-shadow: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+
+    > *
+    {
+      display: inline-block;
+    }
+  }
 }
 
 // http://www.bestcssbuttongenerator.com/

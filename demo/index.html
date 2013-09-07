@@ -26,22 +26,29 @@
     <script src="../js/app/connectors/memory.js"></script>
     <script src="../js/app/lists/standard.js"></script>
     <script src="../js/app/editors/inline.js"></script>
+
+    <script src="./lib/move.min.js"></script>
 </head>
 <body>
-    <h1>SNE</h1>
-    <div id="exportImport">
-        <textarea id="txtOsf"></textarea>
-        <div id="exportImportBtns">
+    <h1 id="title">Shownotes-<br>editor <i class="icon-heart"></i></h1>
+    <div id="notes"></div>
+
+    <div id="exportImport" class="hidden">
+        <div class="btns">
             <button id="btnImport">Import</button><br>
             <button id="btnExport">Export</button>
         </div>
+        <textarea id="txtOsf"></textarea>
     </div>
-    <div id="player">
-    </div>
-    <br>
-    <div id="maineditor"></div>
 
-    <div id="notes"></div>
+    <div id="bottom">
+        <div id="maineditor"></div>
+        <br>
+        <div id="player"></div>
+        <div id="mainBtns">
+            <button id="btnShowImportExport">Import / Export</button>
+        </div>
+    </div>
 
     <script src="./demo.js"></script>
 </body>

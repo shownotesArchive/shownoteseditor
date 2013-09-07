@@ -6,6 +6,11 @@ wget "https://raw.github.com/jamuhl/i18next/master/release/i18next-1.6.3.min.js"
 wget "https://raw.github.com/jeromeetienne/microevent.js/master/microevent.js" -O microevent.js
 cd ../..
 
+mkdir demo/lib
+cd demo/lib
+wget "https://raw.github.com/visionmedia/move.js/master/move.min.js" -O move.min.js
+cd ..
+
 mkdir test/lib
 cd test/lib
 wget "https://raw.github.com/AStepaniuk/qunit-parameterize/master/qunit-parameterize.js" -O qunit-parameterize.js

@@ -58,6 +58,22 @@ var editor = new shownoteseditor.editor(options,
   }
 );
 
+$('#btnShowImportExport').click(
+  function ()
+  {
+    var $exportImport = $('#exportImport');
+    $exportImport.toggleClass('hidden');
+    if($exportImport.hasClass('hidden'))
+    {
+      move("#exportImport").set("right", -550).end();
+    }
+    else
+    {
+      move("#exportImport").set("right", 0).end();
+    }
+  }
+);
+
 var $txtOsf = $('#txtOsf');
 
 $('#btnExport').click(
