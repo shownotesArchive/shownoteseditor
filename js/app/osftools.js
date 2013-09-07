@@ -18,7 +18,7 @@ var osftools = {};
       }
     }
 
-    if(includeChildren)
+    if(includeChildren && note.notes && note.notes.length)
     {
       clone.notes = [];
 
