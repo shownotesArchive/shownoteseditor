@@ -3,27 +3,28 @@ body
   overflow: hidden;
 }
 
-@titleWidth: 184px;
 #title
 {
-
-  width: @titleWidth;
+  float: left;
+  color: white;
   position: absolute;
-  margin: 5px;
+  left: 10px;
+  top: 2px;
 }
 
 #notes
 {
-  @leftMargin: 50px;
+  @marginTop: 10px;
+  @marginLeft: 25px;
 
-  height: calc(~"100% - 10px");
-  width: calc(~"100% - " @titleWidth + @leftMargin);
+  height: calc(~"100% - 120px - " @marginTop);
+  width: calc(~"100% - " @marginLeft);
+
+  margin-top: @marginTop;
+  margin-left: @marginLeft;
 
   overflow: scroll;
-
-  margin-top: 10px;
   position: absolute;
-  left: (@titleWidth + @leftMargin);
 }
 
 #exportImport
@@ -61,7 +62,7 @@ body
   bottom: 0;
   height: 100px;
   width: 100%;
-  background-color: rgba(0,0,0,0.3);
+  background-color: rgba(0,0,0,0.9);
   text-align: center;
   padding-top: 20px;
 
