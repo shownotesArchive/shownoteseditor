@@ -3,24 +3,27 @@ body
   overflow: hidden;
 }
 
+@titleWidth: 184px;
 #title
 {
+
+  width: @titleWidth;
   position: absolute;
   margin: 5px;
 }
 
 #notes
 {
-  @width: 800px;
+  @leftMargin: 50px;
 
-  height: calc(~"100% - 160px");
+  height: calc(~"100% - 10px");
+  width: calc(~"100% - " @titleWidth + @leftMargin);
 
   overflow: scroll;
 
   margin-top: 10px;
   position: absolute;
-  width: @width;
-  left: calc(~"50% - " @width / 2);
+  left: (@titleWidth + @leftMargin);
 }
 
 #exportImport
