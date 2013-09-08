@@ -4,23 +4,23 @@
   var html5player;
   var playerInfo = { name: "audiojs" };
 
-  var audioHtml =
-    '<audio id="player">' +
-      '<source src="http://meta.metaebene.me/media/lautsprecher/ls000-der-lautsprecher.m4a" type="audio/mp4"/>' +
-      '<source src="http://meta.metaebene.me/media/lautsprecher/ls000-der-lautsprecher.oga" type="audio/ogg"/>' +
-      '<source src="http://meta.metaebene.me/media/lautsprecher/ls000-der-lautsprecher.mp3" type="audio/mpeg"/>' +
-    '</audio>';
-
   module("player",
     {
       setup: function()
       {
         stop();
 
-        $('#playground').append(audioHtml);
+        var options =
+        {
+          element: $("#playground")[0],
+            files:
+          [
+            { src: "../demo/ls000-der-lautsprecher.mp3", type: "audio/mpeg" }
+          ]
+        }
 
         var play = shownoteseditor.players[playerInfo.name];
-        player = new play({ element: $("#player")[0] }, start);
+        player = new play(options, start);
         html5player = $('#playground audio')[0];
       },
       teardown: function()
