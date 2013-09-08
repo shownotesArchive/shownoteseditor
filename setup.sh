@@ -11,6 +11,10 @@ cd demo/lib
 wget "https://raw.github.com/visionmedia/move.js/master/move.min.js" -O move.min.js
 cd ..
 
+cd demo
+wget "http://der-lautsprecher.de/?download_media_file=1" -O ls000-der-lautsprecher.mp3
+cd ..
+
 mkdir test/lib
 cd test/lib
 wget "https://raw.github.com/AStepaniuk/qunit-parameterize/master/qunit-parameterize.js" -O qunit-parameterize.js

@@ -8,11 +8,15 @@
 js/lib
 css/lib
 test/lib
+demo/lib
 
 # generated css
 css/app/lists/*.css
 css/app/editors/*.css
 demo/demo.css
+
+# demo files
+demo/ls000-der-lautsprecher.mp3
 
 # Grunt and build
 dest
