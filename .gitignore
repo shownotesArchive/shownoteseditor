@@ -13,3 +13,7 @@ test/lib
 css/app/lists/*.css
 css/app/editors/*.css
 demo/demo.css
+
+# Grunt and build
+dest
+node_modules
