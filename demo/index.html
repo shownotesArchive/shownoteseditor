@@ -6,6 +6,7 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="./demo.css" rel="stylesheet">
+    <link href="./lib/bootstrap-tables.min.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="./lib/move.min.js"></script>
 
@@ -36,7 +37,7 @@
     <script src="../dest/app.min.js"></script>
 -->
 </head>
-<body>
+<body class="docChooser">
     <div id="notes"></div>
 
     <div id="exportImport" class="hidden">
@@ -45,6 +46,36 @@
             <button id="btnExport">Export</button>
         </div>
         <textarea id="txtOsf"></textarea>
+    </div>
+
+    <div id="docChooser">
+        <h1>Shownoteseditor <i class="icon-heart"></i></h1>
+        <table id="docs" class="table">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Date</td>
+                    <td>Number of Notes</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Lautsprecher 000</td>
+                <td>25.11.2013</td>
+                <td>64</td>
+                <td class="btns">
+                    <button class="open">open</button>
+                    <button class="download">download</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="createDoc">
+            <span>New document:&nbsp;</span>
+            <input id="createDocName">
+            <button>Create</button>
+        </div>
     </div>
 
     <div id="bottom">

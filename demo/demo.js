@@ -49,6 +49,15 @@ var sne = new shownoteseditor.sne(options,
   }
 );
 
+$('td.btns > button.open').click(
+  function ()
+  {
+    move("body").set('background-color', 'white').duration("0.8s").end();
+    move("#docChooser").scale(5).set('opacity', 0).duration("0.8s").end();
+    setTimeout(function (){ $('body').removeClass('docChooser'); }, 500);
+  }
+)
+
 $('#btnShowImportExport').click(
   function ()
   {
