@@ -9,7 +9,7 @@ var shownoteseditor = {
 {
   var self = {};
 
-  shownoteseditor.editor = function (options, cb)
+  shownoteseditor.sne = function (options, cb)
   {
     console.log("Main init", options);
 
@@ -71,5 +71,5 @@ var shownoteseditor = {
     );
   };
 
-  shownoteseditor.editor.prototype = self;
+  shownoteseditor.sne.prototype = self;
 })();

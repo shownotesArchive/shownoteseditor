@@ -40,14 +40,14 @@ var options =
   }
 };
 
-var editor = new shownoteseditor.editor(options,
+var sne = new shownoteseditor.sne(options,
   function (err)
   {
     console.log("done, err=%s", err);
-    editor.connector.addNote({ time: 0, text: "a", tags: [ "a", "b" ] },
+    sne.connector.addNote({ time: 0, text: "a", tags: [ "a", "b" ] },
       function (err, id)
       {
-        editor.connector.addNote({ time: 0, text: "b", tags: [] }, id,
+        sne.connector.addNote({ time: 0, text: "b", tags: [] }, id,
           function (err)
           {
             console.log(err);
@@ -79,7 +79,7 @@ var $txtOsf = $('#txtOsf');
 $('#btnExport').click(
   function ()
   {
-    var notes = editor.connector.getFriendlyJson();
+    var notes = sne.connector.getFriendlyJson();
     var osf = osftools.osfNotes(notes);
     $txtOsf.val(osf);
   }
@@ -91,6 +91,6 @@ $('#btnImport').click(
   {
     var osf = $txtOsf.val();
     var notes = osftools.parseNotes(osf);
-    editor.loadNotes(notes);
+    sne.loadNotes(notes);
   }
 );
