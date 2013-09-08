@@ -26,3 +26,15 @@ server of some kind.
 * `noteAdded (id, note, parentId)`
 * `noteRemoved (id, note)`
 * `noteEdited (id, newNote, changed)`
+
+## Options for `memory.js`
+```javascript
+{
+  name: "memory",
+  options:
+  {
+    docname: "",
+    save: false | "localStorage",
+  }
+}
+```

@@ -5,6 +5,8 @@ var options =
     name: "memory",
     options:
     {
+      docname: "ls000",
+      save: "localStorage"
     }
   },
   ui:
@@ -44,17 +46,6 @@ var sne = new shownoteseditor.sne(options,
   function (err)
   {
     console.log("done, err=%s", err);
-    sne.connector.addNote({ time: 0, text: "a", tags: [ "a", "b" ] },
-      function (err, id)
-      {
-        sne.connector.addNote({ time: 0, text: "b", tags: [] }, id,
-          function (err)
-          {
-            console.log(err);
-          }
-        );
-      }
-    );
   }
 );
 

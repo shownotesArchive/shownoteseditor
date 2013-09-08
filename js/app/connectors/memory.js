@@ -7,8 +7,8 @@
     console.log("memory init", options);
 
     this.notes = { notes: {} };
-
-    cb();
+    this.docname = options.docname;
+    this.save = options.save || false;
   };
 
   self.addNote = function (note, parent, cb)
@@ -40,6 +40,7 @@
     parentNote.notes[id] = note;
 
     this.trigger('noteAdded', id, osftools.cloneNote(note, false), parent);
+    this.doSave();
     cb(null, id);
   };
 
@@ -52,6 +53,7 @@
     delete parentNote.notes[id];
 
     cb();
+    this.doSave();
     this.trigger('noteRemoved', id, note);
   };
 
@@ -102,6 +104,7 @@
     }
 
     this.trigger('noteEdited', id, newNote, changed);
+    this.doSave();
     cb();
   };
 
@@ -186,6 +189,43 @@
     }
 
     return null;
+  };
+
+  self.doSave = function ()
+  {
+    if(this.save == "localStorage")
+    {
+      var json = this.getFriendlyJson();
+      localStorage.setItem("sne_memory_doc_" + this.docname, JSON.stringify(json));
+    }
+  };
+
+  self.doLoad = function (cb)
+  {
+    if(this.save == "localStorage")
+    {
+      var json = localStorage.getItem("sne_memory_doc_" + this.docname);
+      var notes = JSON.parse(json);
+      var that = this;
+
+      async.series(
+        [
+          function (cb)
+          {
+            shownoteseditor.utils.clearNotes(that, cb);
+          },
+          function (cb)
+          {
+            shownoteseditor.utils.loadNotes(that, notes, cb);
+          }
+        ],
+        cb
+      );
+    }
+    else
+    {
+      cb();
+    }
   };
 
   // http://www.broofa.com/Tools/Math.uuid.js, MIT
