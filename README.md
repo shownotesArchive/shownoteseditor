@@ -14,3 +14,5 @@ Online and offline editor for shownotes.
 * qunit (MIT), http://qunitjs.com/
 * qunit-parameterize (MIT), https://github.com/AStepaniuk/qunit-parameterize
 * http://subtlepatterns.com/
+* bootstrap (Apache 2.0) (tables only), http://getbootstrap.com/
+* move.js (MIT), http://visionmedia.github.io/move.js/
