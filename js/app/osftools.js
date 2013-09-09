@@ -152,7 +152,7 @@ var osftools = {};
 
   osftools.osfTags = function (tags)
   {
-    return "#" + tags.join(' #');
+    return (tags.length > 0 ? "#" : "") + tags.join(' #');
   }
 
   osftools.normalizeTags = function (tags)

@@ -28,12 +28,12 @@
     {
       title: "Subnote - 1 lvl",
       subNotes: true,
-      noteIn: { text: "a", time: 0, tags: [], notes: [ { text: "b", time: 0, tags: [], notes: [] } ] }
+      noteIn: { text: "a", time: 0, tags: [], notes: [ { text: "b", time: 0, tags: [] } ] }
     },
     {
       title: "Subnote - 2 lvl",
       subNotes: true,
-      noteIn: { text: "a", time: 0, tags: [], notes: [ { text: "b", time: 0, tags: [], notes: [ { text: "b", time: 0, tags: [], notes: [] } ] } ] }
+      noteIn: { text: "a", time: 0, tags: [], notes: [ { text: "b", time: 0, tags: [], notes: [ { text: "b", time: 0, tags: [] } ] } ] }
     },
     {
       title: "Subnote - subNotes=false",
@@ -73,8 +73,9 @@
 
   var osfTagsData =
   [
+    { title: "No tag", input: [ ], output: "" },
     { title: "One tag", input: [ "a" ], output: "#a" },
-    { title: "Two tags", input: [ "a" ], output: "#a" },
+    { title: "Two tags", input: [ "a", "b" ], output: "#a #b" }
   ];
 
   QUnit.cases(osfTagsData).test("osfTags",
@@ -204,47 +205,80 @@
     }
   );
 
-  var osfNotesData_json = [
+  var osfNotesData = [
     {
-      "time": 20,
-      "text": "a",
-      "tags": [ "a", "b" ],
-      "notes":
-        [
-          {
-            "time": 30,
-            "text": "b",
-            "tags": [],
-            "notes": []
-          }
-        ]
+      title: "Single note",
+      osf: "00:00:00 a\n",
+      notes: [
+        { "time": 0, "text": "a", "tags": [], "notes": [] }
+      ]
     },
     {
-      "time": 40,
-      "text": "c",
-      "tags": [ "a", "b" ],
-      "notes": []
+      title: "Two notes",
+      osf: "00:00:00 a\n"
+         + "00:00:01 b\n",
+      notes: [
+        { "time": 0, "text": "a", "tags": [], "notes": [] },
+        { "time": 1, "text": "b", "tags": [], "notes": [] },
+      ]
+    },
+    {
+      title: "subnote - 1 lvl",
+      osf: "00:00:00 a\n"
+         + "00:00:01 - b\n",
+      notes: [
+        {
+          "time": 0,
+          "text": "a",
+          "tags": [],
+          "notes":
+            [ { "time": 1, "text": "b", "tags": [], "notes": [] } ]
+        }
+      ]
+    },
+    {
+      title: "subnote - 1 lvl + 2 notes",
+      osf: "00:00:20 a #a #b\n"
+        + "00:00:30 - b\n"
+        + "00:00:40 c #a #b\n",
+      notes: [
+        {
+          "time": 20,
+          "text": "a",
+          "tags": [ "a", "b" ],
+          "notes":
+            [
+              {
+                "time": 30,
+                "text": "b",
+                "tags": [],
+                "notes": []
+              }
+            ]
+        },
+        {
+          "time": 40,
+          "text": "c",
+          "tags": [ "a", "b" ],
+          "notes": []
+        }
+      ]
     }
   ];
 
-  var osfNotesData_osf =
-      "00:00:20 a #a #b\n"
-    + "00:00:30 - b\n"
-    + "00:00:40 c #a #b\n";
-
-  test("osfNotes",
-    function ()
+  QUnit.cases(osfNotesData).test("osfNotes",
+    function (params)
     {
-      var actual = osftools.osfNotes(osfNotesData_json);
-      equal(actual, osfNotesData_osf);
+      var actual = osftools.osfNotes(params.notes);
+      equal(actual, params.osf);
     }
   );
 
-  test("parseNotes",
-    function ()
+  QUnit.cases(osfNotesData).test("parseNotes",
+    function (params)
     {
-      var actual = osftools.parseNotes(osfNotesData_osf);
-      deepEqual(actual, osfNotesData_json);
+      var actual = osftools.parseNotes(params.osf);
+      deepEqual(actual, params.notes);
     }
   );
 })();
