@@ -37,7 +37,7 @@
     <script src="../dest/app.min.js"></script>
 -->
 </head>
-<body class="docChooser">
+<body>
     <div id="notes"></div>
 
     <div id="exportImport" class="hidden">
@@ -48,33 +48,37 @@
         <textarea id="txtOsf"></textarea>
     </div>
 
-    <div id="docChooser">
-        <h1>Shownoteseditor <i class="icon-heart"></i></h1>
-        <table id="docs" class="table">
-            <thead>
-                <tr>
-                    <td>Name</td>
-                    <td>Date</td>
-                    <td>Number of Notes</td>
-                    <td></td>
-                </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Lautsprecher 000</td>
-                <td>25.11.2013</td>
-                <td>64</td>
-                <td class="btns">
-                    <button class="open">open</button>
-                    <button class="download">download</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div id="createDoc">
-            <span>New document:&nbsp;</span>
-            <input id="createDocName">
-            <button>Create</button>
+    <div id="docChooserWrapper" class="active">
+        <div id="docChooser">
+            <h1>Shownoteseditor <i class="icon-heart"></i></h1>
+            <div id="docsWrapper">
+                <table id="docs" class="table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Date</td>
+                            <td>Number of Notes</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Lautsprecher 000</td>
+                            <td>25.11.2013</td>
+                            <td>64</td>
+                            <td class="btns">
+                                <button class="open">open</button>
+                                <button class="download">download</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="createDoc">
+                <span>New document:&nbsp;</span>
+                <input id="createDocName">
+                <button>Create</button>
+            </div>
         </div>
     </div>
 

@@ -1,78 +1,69 @@
 body
 {
   overflow: hidden;
+}
 
-  &.docChooser
+#docChooserWrapper
+{
+  display: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: 5;
+
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+
+  &.active
   {
-    background-color: gray;
-
-    > *
-    {
-      display: none;
-    }
-
-    > #docChooser
-    {
-      display: block !important;
-    }
-  }
-
-  &:not(.docChooser)
-  {
-    #docChooser
-    {
-      display: none;
-    }
+    display: block;
   }
 }
 
 #docChooser
 {
-  display: block;
-  position: absolute;
-  z-index: 2;
-
   @bgcolor: white;
   border-radius: 50px;
   background-color: @bgcolor;
   box-shadow: 0 0 100px @bgcolor;
   color: black;
 
-  @height: 600px;
-  height: @height;
-  @width: 60%;
-  width: @width;
+  width: 60%;
 
-  @padding: 20px;
-  padding: @padding;
-  padding-top: 0;
+  padding: 20px;
+  padding-top: 1px;
 
-  top: calc(~"50% - 30px - " (@height + @padding) / 2);
-  left: calc(~"50% - (" @padding ~" + " @width ~") / 2");
+  margin: 50px auto;
 
   > h1
   {
     text-align: center;
   }
 
-  > #docs
+  > #docsWrapper
   {
-    td.btns
-    {
-      width: 229px;
+    height: 300px;
+    overflow: scroll;
 
-      > *
+    > #docs
+    {
+      td.btns
       {
-        margin-right: 5px;
+        width: 229px;
+
+        > *
+        {
+          margin-right: 5px;
+        }
       }
     }
   }
 
   > #createDoc
   {
-    position: absolute;
-    right: (@padding + 10px);
-    bottom: @padding;
   }
 }
 
