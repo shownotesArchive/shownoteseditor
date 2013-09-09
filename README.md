@@ -13,3 +13,4 @@ Online and offline editor for shownotes.
 * font-awesome (MIT / OFL 1.1), http://fortawesome.github.io/Font-Awesome/
 * qunit (MIT), http://qunitjs.com/
 * qunit-parameterize (MIT), https://github.com/AStepaniuk/qunit-parameterize
+* http://subtlepatterns.com/
