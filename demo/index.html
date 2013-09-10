@@ -10,6 +10,8 @@
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="./lib/move.min.js"></script>
 
+    <script src="./tabletools.js"></script>
+
     <link href="../css/lib/normalize.css" rel="stylesheet">
     <link href="../css/app/lists/standard.css" rel="stylesheet">
     <link href="../css/app/editors/inline.css" rel="stylesheet">
@@ -62,22 +64,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Lautsprecher 000</td>
-                            <td>25.11.2013</td>
-                            <td>64</td>
-                            <td class="btns">
-                                <button class="open">open</button>
-                                <button class="download">download</button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
             <div id="createDoc">
                 <span>New document:&nbsp;</span>
-                <input id="createDocName">
-                <button>Create</button>
+                <input id="txtCreateDoc">
+                <button id="btnCreateDoc">Create</button>
+            </div>
+            <div style="display: none">
+                <div id="btnsTemplate" class="btns">
+                    <button class="open">open</button>
+                    <button class="download">download</button>
+                </div>
             </div>
         </div>
     </div>
