@@ -2,6 +2,6 @@
 {
   name: "",
   accessDate: new Date(),
-  notes: 0
+  notesCount: 0
 }
 ```

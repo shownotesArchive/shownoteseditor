@@ -15,7 +15,8 @@ shownoteseditor.connectors[connector].listDocuments({ save: "localStorage" },
     function addDoc (doc)
     {
       var $btns = $('#btnsTemplate').clone();
-      var $td = tabletools.addRow($docs, [ doc.name, "0", "0", $btns ]);
+      var accessDate = moment(doc.accessDate).format("DD.MM.YYYY");
+      var $td = tabletools.addRow($docs, [ doc.name, accessDate, doc.notesCount, $btns ]);
 
       $btns = $td.find('.btns').parent().addClass('btns');
       $td.find('button.open').click(

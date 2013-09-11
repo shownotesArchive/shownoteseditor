@@ -198,9 +198,10 @@
       var json = this.getFriendlyJson();
       localStorage.setItem("sne_memory_doc_" + this.docname, JSON.stringify(json));
 
-      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || [];
-      if(docs.indexOf(this.docname) == -1)
-        docs.push(this.docname);
+      var doc = { name: this.docname, notesCount: osftools.countNotes(json), accessDate: new Date() };
+      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
+      if(docs instanceof Array) docs = {}; // old alpha only format
+      docs[this.docname] = doc;
       localStorage.setItem("sne_memory_docs", JSON.stringify(docs));
     }
   };
@@ -250,13 +251,14 @@
   {
     if(options.save == "localStorage")
     {
-      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || [];
+      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
+      if(docs instanceof Array) docs = {}; // old alpha only format
       var result = [];
 
-      for (var i = 0; i < docs.length; i++)
+      for (var name in docs)
       {
-        var doc = docs[i];
-        result.push({ name: doc });
+        docs[name].accessDate = new Date(docs[name].accessDate);
+        result.push(docs[name]);
       }
 
       cb(null, result);
