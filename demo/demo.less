@@ -66,9 +66,10 @@ body
       {
         width: 229px;
 
-        > *
+        button
         {
           margin-right: 5px;
+          margin-bottom: 0 !important;
         }
       }
     }
@@ -155,10 +156,12 @@ body
     position: absolute;
     top: 5px;
     right: 5px;
+    display:block;
+    width:auto;
 
     > *
     {
-      display: inline-block;
+      display: block;
     }
   }
 }
@@ -188,7 +191,7 @@ button
 
   text-shadow:0px 1px 0px #ffffff;
 
-  margin-bottom: 5px;
+  margin-bottom: 5px !important;
 }
 
 button:hover

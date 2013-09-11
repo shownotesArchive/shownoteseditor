@@ -1,33 +1,41 @@
 var $docs = $('#docs');
 var connector = "memory";
 
-shownoteseditor.connectors[connector].listDocuments({ save: "localStorage" },
-  function (err, docs)
-  {
-    tabletools.clear($docs);
+function showDocChooser()
+{
+  $('#docChooserWrapper').addClass('active');
+  $('#docChooserWrapper').attr('style', '');
 
-    for (var i = 0; i < docs.length; i++)
+  shownoteseditor.connectors[connector].listDocuments({ save: "localStorage" },
+    function (err, docs)
     {
-      var doc = docs[i];
-      addDoc(doc);
-    }
+      tabletools.clear($docs);
 
-    function addDoc (doc)
-    {
-      var $btns = $('#btnsTemplate').clone();
-      var accessDate = moment(doc.accessDate).format("DD.MM.YYYY");
-      var $td = tabletools.addRow($docs, [ doc.name, accessDate, doc.notesCount, $btns ]);
+      for (var i = 0; i < docs.length; i++)
+      {
+        var doc = docs[i];
+        addDoc(doc);
+      }
 
-      $btns = $td.find('.btns').parent().addClass('btns');
-      $td.find('button.open').click(
-        function ()
-        {
-          openDoc(doc.name);
-        }
-      );
+      function addDoc (doc)
+      {
+        var $btns = $('#btnsTemplate').clone();
+        var accessDate = moment(doc.accessDate).format("DD.MM.YYYY");
+        var $td = tabletools.addRow($docs, [ doc.name, accessDate, doc.notesCount, $btns ]);
+
+        $btns = $td.find('.btns').parent().addClass('btns');
+        $td.find('button.open').click(
+          function ()
+          {
+            openDoc(doc.name);
+          }
+        );
+      }
     }
-  }
-);
+  );
+}
+
+showDocChooser();
 
 $('#btnCreateDoc').click(
   function ()
@@ -83,6 +91,8 @@ function openDoc (name)
     }
   };
 
+  $('#notes, #maineditor, #player').empty();
+
   var sne = new shownoteseditor.sne(options,
     function (err)
     {
@@ -107,6 +117,13 @@ $('#btnShowImportExport').click(
     {
       move("#exportImport").set("right", 0).end();
     }
+  }
+);
+
+$('#btnShowDocChooser').click(
+  function ()
+  {
+    showDocChooser();
   }
 );
 
