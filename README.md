@@ -17,3 +17,4 @@ Online and offline editor for shownotes.
 * bootstrap (Apache 2.0) (tables only), http://getbootstrap.com/
 * move.js (MIT), http://visionmedia.github.io/move.js/
 * moment.js (MIT), http://momentjs.com/
+* uiTableFilter (MIT), http://gregweber.info/projects/uitablefilter.html

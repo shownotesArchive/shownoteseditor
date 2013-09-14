@@ -9,6 +9,7 @@
     <link href="./lib/bootstrap-tables.min.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="./lib/move.min.js"></script>
+    <script src="./lib/jquery.uitablefilter.js"></script>
 
     <script src="./tabletools.js"></script>
 
@@ -54,14 +55,15 @@
     <div id="docChooserWrapper" class="active">
         <div id="docChooser">
             <h1>Shownoteseditor <i class="icon-heart"></i></h1>
+            <span>Filter documents: <input id="docsSearch"></span>
             <div id="docsWrapper">
                 <table id="docs" class="table">
                     <thead>
                         <tr>
-                            <td>Name</td>
-                            <td>Date</td>
-                            <td>Number of Notes</td>
-                            <td></td>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Number of Notes</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

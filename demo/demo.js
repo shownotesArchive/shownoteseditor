@@ -37,6 +37,13 @@ function showDocChooser()
 
 showDocChooser();
 
+$('#docsSearch').keyup(
+  function ()
+  {
+    $.uiTableFilter($docs, $('#docsSearch').val(), "Name");
+  }
+);
+
 $('#btnCreateDoc').click(
   function ()
   {

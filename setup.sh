@@ -10,6 +10,7 @@ cd ../..
 mkdir demo/lib
 cd demo/lib
 wget "https://raw.github.com/visionmedia/move.js/master/move.min.js" -O move.min.js
+wget "http://gregweber.info/projects/demo/flavorzoom_files/jquery.uitablefilter.js" -O jquery.uitablefilter.js
 cd ..
 
 cd demo
