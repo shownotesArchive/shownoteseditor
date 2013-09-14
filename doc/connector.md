@@ -3,6 +3,11 @@
 A connector acts as the backend of shownoteseditor. Its job is it to store notes and possibly sync with a
 server of some kind.
 
+## Static functions
+* listDocuments (options, cb)
+* getDocument (name, cb)
+  * returns the documents content as notes-object
+
 ## Public functions
 
 * `ctor (options, cb)`

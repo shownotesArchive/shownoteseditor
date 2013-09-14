@@ -3,6 +3,83 @@ body
   overflow: hidden;
 }
 
+#docChooserWrapper
+{
+  display: none;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: 10;
+
+  width: 100%;
+  height: 100%;
+
+  &.active
+  {
+    display: block;
+  }
+
+  &:before
+  {
+    content: "";
+    position: absolute;
+    background-color: gray;
+    /* http://subtlepatterns.com/diamond-upholstery/ */
+    background-image: url("diamond_upholstery.png");
+    -webkit-filter: brightness(60%);
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+#docChooser
+{
+  @bgcolor: #FFF;
+  border-radius: 50px;
+  background-color: @bgcolor;
+  box-shadow: 0 0 100px @bgcolor;
+  color: black;
+
+  width: 60%;
+
+  padding: 20px;
+  padding-top: 1px;
+
+  margin: 50px auto;
+
+  > h1
+  {
+    text-align: center;
+  }
+
+  > #docsWrapper
+  {
+    height: 300px;
+    overflow: scroll;
+
+    > #docs
+    {
+      td.btns
+      {
+        width: 229px;
+
+        button
+        {
+          margin-right: 5px;
+          margin-bottom: 0 !important;
+        }
+      }
+    }
+  }
+
+  > #createDoc
+  {
+  }
+}
+
 #title
 {
   float: left;
@@ -79,10 +156,12 @@ body
     position: absolute;
     top: 5px;
     right: 5px;
+    display:block;
+    width:auto;
 
     > *
     {
-      display: inline-block;
+      display: block;
     }
   }
 }
@@ -107,12 +186,12 @@ button
   font-family:arial;
   font-size:15px;
   font-weight:bold;
-  padding:6px 24px;
+  padding:4px 24px;
   text-decoration:none;
 
   text-shadow:0px 1px 0px #ffffff;
 
-  margin-bottom: 5px;
+  margin-bottom: 5px !important;
 }
 
 button:hover

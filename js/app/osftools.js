@@ -31,6 +31,19 @@ var osftools = {};
     return clone;
   };
 
+  osftools.countNotes = function (notes)
+  {
+    var count = 0;
+
+    for (var i = 0; i < notes.length; i++)
+    {
+      count++;
+      count += osftools.countNotes(notes[i].notes);
+    }
+
+    return count;
+  };
+
   osftools.parseNotes = function (osf)
   {
     osf = osf.replace(/\s+$/g, '');

@@ -1,53 +1,108 @@
-var options =
-{
-  connector:
-  {
-    name: "memory",
-    options:
-    {
-      docname: "ls000",
-      save: "localStorage"
-    }
-  },
-  ui:
-  {
-    player:
-    {
-      name: "audiojs",
-      options:
-      {
-        element: $("#player")[0],
-        files:
-          [
-            { src: "./ls000-der-lautsprecher.mp3", type: "audio/mpeg" }
-          ]
-      }
-    },
-    list:
-    {
-      name: "standard",
-      options:
-      {
-        element: $('#notes')[0]
-      }
-    },
-    editor:
-    {
-      name: "inline",
-      options:
-      {
-        element: $('#maineditor')[0]
-      }
-    }
-  }
-};
+var $docs = $('#docs');
+var connector = "memory";
 
-var sne = new shownoteseditor.sne(options,
-  function (err)
+function showDocChooser()
+{
+  $('#docChooserWrapper').addClass('active');
+  $('#docChooserWrapper').attr('style', '');
+
+  shownoteseditor.connectors[connector].listDocuments({ save: "localStorage" },
+    function (err, docs)
+    {
+      tabletools.clear($docs);
+
+      for (var i = 0; i < docs.length; i++)
+      {
+        var doc = docs[i];
+        addDoc(doc);
+      }
+
+      function addDoc (doc)
+      {
+        var $btns = $('#btnsTemplate').clone();
+        var accessDate = moment(doc.accessDate).format("DD.MM.YYYY");
+        var $td = tabletools.addRow($docs, [ doc.name, accessDate, doc.notesCount, $btns ]);
+
+        $btns = $td.find('.btns').parent().addClass('btns');
+        $td.find('button.open').click(
+          function ()
+          {
+            openDoc(doc.name);
+          }
+        );
+      }
+    }
+  );
+}
+
+showDocChooser();
+
+$('#btnCreateDoc').click(
+  function ()
   {
-    console.log("done, err=%s", err);
+    var name = $('#txtCreateDoc').val();
+    openDoc(name);
   }
 );
+
+function openDoc (name)
+{
+  var options =
+  {
+    connector:
+    {
+      name: connector,
+      options:
+      {
+        docname: name,
+        save: "localStorage"
+      }
+    },
+    ui:
+    {
+      player:
+      {
+        name: "audiojs",
+        options:
+        {
+          element: $("#player")[0],
+          files:
+            [
+              { src: "./ls000-der-lautsprecher.mp3", type: "audio/mpeg" }
+            ]
+        }
+      },
+      list:
+      {
+        name: "standard",
+        options:
+        {
+          element: $('#notes')[0]
+        }
+      },
+      editor:
+      {
+        name: "inline",
+        options:
+        {
+          element: $('#maineditor')[0]
+        }
+      }
+    }
+  };
+
+  $('#notes, #maineditor, #player').empty();
+
+  var sne = new shownoteseditor.sne(options,
+    function (err)
+    {
+      console.log("done, err=%s", err);
+
+      move("#docChooserWrapper").set('opacity', 0).duration("0.5s").end();
+      setTimeout(function (){ $('#docChooserWrapper').removeClass('active'); }, 500);
+    }
+  );
+}
 
 $('#btnShowImportExport').click(
   function ()
@@ -62,6 +117,13 @@ $('#btnShowImportExport').click(
     {
       move("#exportImport").set("right", 0).end();
     }
+  }
+);
+
+$('#btnShowDocChooser').click(
+  function ()
+  {
+    showDocChooser();
   }
 );
 

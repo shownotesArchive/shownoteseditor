@@ -6,8 +6,11 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="./demo.css" rel="stylesheet">
+    <link href="./lib/bootstrap-tables.min.css" rel="stylesheet">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="./lib/move.min.js"></script>
+
+    <script src="./tabletools.js"></script>
 
     <link href="../css/lib/normalize.css" rel="stylesheet">
     <link href="../css/app/lists/standard.css" rel="stylesheet">
@@ -17,6 +20,7 @@
     <script src="../js/lib/i18next-1.6.3.min.js"></script>
     <script src="../js/lib/audiojs/audio.min.js"></script>
     <script src="../js/lib/microevent.js"></script>
+    <script src="../js/lib/moment.min.js"></script>
 
     <script src="../js/app/osftools.js"></script>
     <script src="../js/app/main.js"></script>
@@ -47,6 +51,37 @@
         <textarea id="txtOsf"></textarea>
     </div>
 
+    <div id="docChooserWrapper" class="active">
+        <div id="docChooser">
+            <h1>Shownoteseditor <i class="icon-heart"></i></h1>
+            <div id="docsWrapper">
+                <table id="docs" class="table">
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Date</td>
+                            <td>Number of Notes</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div id="createDoc">
+                <span>New document:&nbsp;</span>
+                <input id="txtCreateDoc">
+                <button id="btnCreateDoc">Create</button>
+            </div>
+            <div style="display: none">
+                <div id="btnsTemplate" class="btns">
+                    <button class="open">open</button>
+                    <button class="download">download</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="bottom">
         <h1 id="title">Shownotes-<br>editor <i class="icon-heart"></i></h1>
         <div id="maineditor"></div>
@@ -54,6 +89,7 @@
         <div id="player"></div>
         <div id="mainBtns">
             <button id="btnShowImportExport">Import / Export</button>
+            <button id="btnShowDocChooser">Back</button>
         </div>
     </div>
 

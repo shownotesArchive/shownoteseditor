@@ -7,28 +7,6 @@ ul.list.standard
   {
     list-style: none;
   }
-  li.addSubnote
-  {
-    > i
-    {
-      cursor: pointer;
-    }
-    > .editorWrapper
-    {
-      display: none;
-    }
-  }
-  li.addSubnote.editing
-  {
-    > *
-    {
-      display: none;
-    }
-    > .editorWrapper
-    {
-      display: inline-block !important;
-    }
-  }
   li.note
   {
     &.tag-quote
@@ -110,6 +88,52 @@ ul.list.standard
         &:last-child:after
         {
           content: "";
+        }
+      }
+    }
+    > ul.subnotes
+    {
+      padding-left: 40px;
+
+      &:empty
+      {
+        display: none;
+      }
+    }
+    > div.addSubnote
+    {
+      padding-left: 40px;
+
+      &.noSubnotes
+      {
+        padding: 0;
+        margin: 0;
+        display: inline-block;
+
+        &:before
+        {
+          content: "\a0"; // space
+        }
+      }
+
+      > i
+      {
+        cursor: pointer;
+      }
+      > .editorWrapper
+      {
+        display: none;
+      }
+
+      &.editing
+      {
+        > *
+        {
+          display: none;
+        }
+        > .editorWrapper
+        {
+          display: inline-block !important;
         }
       }
     }

@@ -197,6 +197,12 @@
     {
       var json = this.getFriendlyJson();
       localStorage.setItem("sne_memory_doc_" + this.docname, JSON.stringify(json));
+
+      var doc = { name: this.docname, notesCount: osftools.countNotes(json), accessDate: new Date() };
+      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
+      if(docs instanceof Array) docs = {}; // old alpha only format
+      docs[this.docname] = doc;
+      localStorage.setItem("sne_memory_docs", JSON.stringify(docs));
     }
   };
 
@@ -205,7 +211,7 @@
     if(this.save == "localStorage")
     {
       var json = localStorage.getItem("sne_memory_doc_" + this.docname);
-      var notes = JSON.parse(json);
+      var notes = JSON.parse(json) || [];
       var that = this;
 
       async.series(
@@ -240,4 +246,26 @@
 
   shownoteseditor.connectors.memory.prototype = self;
   MicroEvent.mixin(shownoteseditor.connectors.memory);
+
+  shownoteseditor.connectors.memory.listDocuments = function (options, cb)
+  {
+    if(options.save == "localStorage")
+    {
+      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
+      if(docs instanceof Array) docs = {}; // old alpha only format
+      var result = [];
+
+      for (var name in docs)
+      {
+        docs[name].accessDate = new Date(docs[name].accessDate);
+        result.push(docs[name]);
+      }
+
+      cb(null, result);
+    }
+    else
+    {
+      cb(null, []);
+    }
+  };
 })();

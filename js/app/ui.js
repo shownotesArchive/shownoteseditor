@@ -122,7 +122,7 @@
     editor.bind('submitted',
       function (id, content)
       {
-        addEnded();
+        addEnded(true);
         addEditorSubmitted.call(that, parentId, content);
       }
     );
