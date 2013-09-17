@@ -73,14 +73,32 @@
 
     if(parent == "_root")
     {
-      var $parent = this.element;
-      $parent.append($note);
+      $parent = this.element;
     }
     else
     {
-      var $subnotes = this.element.find("li[data-id=" + parent + "] > ul.subnotes");
-      $subnotes.parents(".note:first").find('> .addSubnote').removeClass('noSubnotes');
-      $subnotes.append($note);
+      $parent = this.element.find("li[data-id=" + parent + "] > ul.subnotes");
+      $parent.parents(".note:first").find('> .addSubnote').removeClass('noSubnotes');
+    }
+
+    var $notes = $parent.children();
+    var added = false;
+
+    for (var i = 0; i < $notes.length; i++)
+    {
+      var $eNote = $($notes[i]);
+
+      if(+$eNote.attr('data-time') > note.time)
+      {
+        $note.insertBefore($eNote);
+        added = true;
+        break;
+      }
+    }
+
+    if(!added)
+    {
+      $parent.append($note);
     }
   };
 
