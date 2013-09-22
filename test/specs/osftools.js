@@ -177,6 +177,11 @@
       title: "Note with with human time and two tags",
       osf: "01:12:00 foo #a #b",
       json: { time: 4320, text: "foo", tags: [ "a", "b" ] }
+    },
+    {
+      title: "Note with with human time and escaped tag",
+      osf: "01:12:00 foo \\#a #b",
+      json: { time: 4320, text: "foo \\#a", tags: [ "b" ] }
     }
   ];
 
