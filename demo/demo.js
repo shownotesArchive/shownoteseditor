@@ -100,7 +100,7 @@ function openDoc (name)
 
   $('#notes, #maineditor, #player').empty();
 
-  var sne = new shownoteseditor.sne(options,
+  sne = new shownoteseditor.sne(options,
     function (err)
     {
       console.log("done, err=%s", err);
