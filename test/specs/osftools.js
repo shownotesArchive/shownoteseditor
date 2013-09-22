@@ -132,6 +132,11 @@
       json: false
     },
     {
+      title: "Empty line",
+      osf: "",
+      json: false
+    },
+    {
       title: "Note with machine time and text",
       osf: "0 foo",
       json: { time: 0, text: "foo", tags: [] }

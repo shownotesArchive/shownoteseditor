@@ -56,6 +56,9 @@ var osftools = {};
       var line = lines[i];
       var note = osftools.parseNote(line, true);
 
+      if(!note)
+        continue;
+
       var hierarchy = note.hierarchy;
       delete note.hierarchy;
 
@@ -78,6 +81,11 @@ var osftools = {};
 
   osftools.parseNote = function (osf, doHierarchy)
   {
+    osf = osf.trim();
+
+    if(osf.length == 0)
+      return false;
+
     var note = { time: null, text: [], tags: [] };
     var parts = osf.split(' ');
 
