@@ -69,6 +69,13 @@
       }.bind(this)
     );
 
+    $note.find('.time').click(
+      function ()
+      {
+        userJumpTime.call(this, id);
+      }.bind(this)
+    );
+
     var $parent;
 
     if(parent == "_root")
@@ -188,6 +195,11 @@
         $addSubnote.addClass('noSubnotes');
       }
     }
+  }
+
+  function userJumpTime(id)
+  {
+    this.trigger("jumpRequested", id);
   }
 
   shownoteseditor.lists.standard.prototype = self;

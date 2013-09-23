@@ -34,6 +34,7 @@
           that.list.bind("editRequested", listEditRequested.bind(that));
           that.list.bind("removeRequested", listRemoveRequested.bind(that));
           that.list.bind("addRequested", listAddRequested.bind(that));
+          that.list.bind('jumpRequested', listJumpRequested.bind(that))
 
           connector.bind("noteAdded", that.list.addNote.bind(that.list));
           connector.bind("noteRemoved", that.list.removeNote.bind(that.list));
@@ -124,6 +125,19 @@
       {
         addEnded(true);
         addEditorSubmitted.call(that, parentId, content);
+      }
+    );
+  }
+
+  function listJumpRequested(id)
+  {
+    var that = this;
+
+    this.connector.getNote(id,
+      function (err, note)
+      {
+        var time = note.time;
+        that.player.setCurrentTime(time);
       }
     );
   }

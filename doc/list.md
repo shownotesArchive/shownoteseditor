@@ -24,3 +24,5 @@
   * `parentId`: parent note id
   * `element`: the element to place the editor in
   * `addEndend`: callback to be called once the user finished the adding
+
+* `jumpRequested (id)`
