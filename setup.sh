@@ -8,9 +8,9 @@ wget "https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js" -O moment.m
 
 mkdir audiojs
 cd audiojs
-wget "https://raw.github.com/shownotes/shownoteseditor/master/js/lib/audiojs/audio.min.js" -O audio.min.js
-wget "https://raw.github.com/shownotes/shownoteseditor/master/js/lib/audiojs/audiojs.swf" -O audiojs.swf
-wget "https://raw.github.com/shownotes/shownoteseditor/master/js/lib/audiojs/player-graphics.gif" -O player-graphics.gif
+wget "https://raw.github.com/luto/audiojs/master/audiojs/audio.min.js" -O audio.min.js
+wget "https://raw.github.com/luto/audiojs/master/audiojs/audiojs.swf" -O audiojs.swf
+wget "https://raw.github.com/luto/audiojs/master/audiojs/player-graphics.gif" -O player-graphics.gif
 cd ..
 
 cd ../..
