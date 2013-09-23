@@ -4,10 +4,12 @@ var osftools = {};
 {
   osftools.cloneNote = function (note, includeChildren)
   {
-    var clone = { time: 0, text: "", tags: [] };
+    var clone = { time: 0, text: "", link: "", tags: [] };
 
     if(note.time)
       clone.time = note.time;
+    if(note.link)
+      clone.link = note.link;
     if(note.text)
       clone.text = note.text;
     if(note.tags && note.tags.length)
@@ -86,8 +88,10 @@ var osftools = {};
     if(osf.length == 0)
       return false;
 
-    var note = { time: null, text: [], tags: [] };
+    var note = { time: null, text: [], link: "", tags: [] };
     var parts = osf.split(' ');
+    var gotTag = false;
+    var gotLink = false;
 
     note.hierarchy = 0;
 
@@ -117,8 +121,20 @@ var osftools = {};
       if(part.indexOf('#') == 0)
       {
         note.tags.push(part.substr(1));
-        continue;
+        gotTag = true;
       }
+
+      if (gotTag)
+        continue;
+
+      if(part.indexOf('<') == 0 && part.indexOf(">") == part.length - 1)
+      {
+        note.link = part.substr(1, part.length - 2);
+        gotLink = true;
+      }
+
+      if (gotLink)
+        continue;
 
       note.text.push(part);
     }
@@ -165,6 +181,8 @@ var osftools = {};
 
     osf += osftools.toHumanTime(note.time);
     osf += hierarchy + " " + note.text;
+    if(note.link.length > 0)
+      osf += " <" + note.link + ">";
     if(note.tags.length > 0)
       osf += " " + osftools.osfTags(note.tags);
 

@@ -57,9 +57,34 @@
   self.getContent = function ()
   {
     var time = this.editor.time.val();
-    var text = time + " " + this.editor.text.val();
+    var text = this.editor.text.val();
+    var parts = text.split(' ');
+    var link = null;
 
-    return osftools.parseNote(text);
+    text = "";
+
+    for (var i = 0; i < parts.length; i++) {
+      var part = parts[i];
+
+      if(part.indexOf("http://") == 0)
+      {
+        link = part;
+      }
+      else
+      {
+        text += i == 0 ? "" : " ";
+        text += part;
+      }
+    }
+
+    var note = osftools.parseNote(time + " " + text);
+
+    if(link)
+    {
+      note.link = link;
+    }
+
+    return note;
   };
 
   self.setContent = function (note)
@@ -71,7 +96,11 @@
     if(note.text != undefined)
     {
       var text = note.text;
-      if(note.tags != undefined && note.tags.length > 0)
+      if(note.link && note.link.length > 0)
+      {
+        text = text + note.link;
+      }
+      if(note.tags && note.tags.length > 0)
       {
         text = text + " " + osftools.osfTags(note.tags);
       }

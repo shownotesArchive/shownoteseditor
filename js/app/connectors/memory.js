@@ -158,6 +158,7 @@
       {
         time: snote.time,
         text: snote.text,
+        link: snote.link,
         tags: snote.tags,
         notes: this.getFriendlyJson(snote)
       };

@@ -6,6 +6,7 @@
   var noteTemplate = "<li data-id='' class='note'>"
                    +   "<span class='time'></span>"
                    +   "<span class='text'></span>"
+                   +   "<a class='link' target='_blank'></a>"
                    +   "<ul class='tags'></ul>"
                    +   "<div class='editorWrapper'></div>"
                    +   "<div class='controls'>"
@@ -113,6 +114,7 @@
   {
     $note.find('> .time').text(osftools.toHumanTime(note.time));
     $note.find('> .text').text(note.text);
+    $note.find('> .link').text(note.link).prop("href", note.link);
     $note.attr('data-time', note.time);
 
     var classes = $note.attr('class').split(' ');
