@@ -15,6 +15,7 @@
       function()
       {
         var $audio = $('<audio>');
+        $audio.prop("preload", "none");
 
         for (var i = 0; i < options.files.length; i++)
         {
@@ -28,7 +29,9 @@
 
         $(options.element).append($audio);
 
-        var audiojsOptions = {};
+        var audiojsOptions = {
+          useFlash: true
+        };
         that.audio = audiojs.create($(options.element).find('audio')[0], audiojsOptions);
         cb();
       }
@@ -47,13 +50,14 @@
 
   self.setCurrentTime = function (time)
   {
-    this.audio.element.currentTime = time;
-    this.audio.updatePlayhead();
+    var dur = this.audio.duration;
+    var percent = time / dur;
+    this.audio.skipTo(percent);
   };
 
   self.getCurrentTime = function ()
   {
-    return Math.floor(this.audio.element.currentTime);
+    return Math.floor(this.audio.currentTime);
   };
 
   self.jumpTime = function (time)
