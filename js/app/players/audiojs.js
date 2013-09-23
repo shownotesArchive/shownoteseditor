@@ -7,7 +7,7 @@
     console.log("audiojs init", options);
 
     if(typeof audiojs == "undefined")
-      Console.error("Please add audio.js to your HTML-Header.");
+      console.error("Please add audio.js to your HTML-Header.");
 
     var that = this;
 
