@@ -93,20 +93,25 @@
     {
       this.editor.time.val(osftools.toHumanTime(note.time));
     }
-    if(note.text != undefined)
-    {
-      var text = note.text;
-      if(note.link && note.link.length > 0)
-      {
-        text = text + note.link;
-      }
-      if(note.tags && note.tags.length > 0)
-      {
-        text = text + " " + osftools.osfTags(note.tags);
-      }
 
-      this.editor.text.val(text);
+    var textParts = [];
+
+    if(note.text && note.text.length > 0)
+    {
+      textParts.push(note.text);
     }
+    if(note.link && note.link.length > 0)
+    {
+      textParts.push(note.link);
+    }
+    if(note.tags && note.tags.length > 0)
+    {
+      textParts.push(osftools.osfTags(note.tags));
+    }
+
+    var text = textParts.join(" ");
+
+    this.editor.text.val(text);
   };
 
   self.onContentChanged = function ()

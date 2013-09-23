@@ -78,12 +78,7 @@
         var options = {
           element: element,
           id: id,
-          content:
-          {
-            time: note.time,
-            text: note.text,
-            tags: note.tags
-          }
+          content: osftools.cloneNote(note, false)
         };
 
         var editor = new that.editor(options, this.player, function (){});
