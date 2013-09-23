@@ -5,6 +5,14 @@ wget "https://raw.github.com/caolan/async/master/lib/async.js" -O async.js
 wget "https://raw.github.com/jamuhl/i18next/master/release/i18next-1.6.3.min.js" -O i18next-1.6.3.min.js
 wget "https://raw.github.com/jeromeetienne/microevent.js/master/microevent.js" -O microevent.js
 wget "https://rawgithub.com/timrwood/moment/2.1.0/min/moment.min.js" -O moment.min.js
+
+mkdir audiojs
+cd audiojs
+wget "https://raw.github.com/shownotes/shownoteseditor/master/js/lib/audiojs/audio.min.js" -O audio.min.js
+wget "https://raw.github.com/shownotes/shownoteseditor/master/js/lib/audiojs/audiojs.swf" -O audiojs.swf
+wget "https://raw.github.com/shownotes/shownoteseditor/master/js/lib/audiojs/player-graphics.gif" -O player-graphics.gif
+cd ..
+
 cd ../..
 
 mkdir demo/lib

@@ -6,6 +6,7 @@
 
 # libs
 js/lib
+js/lib/audiojs
 css/lib
 test/lib
 demo/lib
