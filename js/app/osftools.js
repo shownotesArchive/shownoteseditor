@@ -52,11 +52,21 @@ var osftools = {};
     var lines = osf.split('\n');
     var notes = [];
     var lastNote = {};
+    var absoluteOffset = 0;
+
+    if(lines.length > 0)
+    {
+      var first = lines[0];
+      var time = +first.split(' ')[0];
+      if(!isNaN(time))
+        absoluteOffset = time;
+    }
 
     for (var i = 0; i < lines.length; i++)
     {
       var line = lines[i];
       var note = osftools.parseNote(line, true);
+      note.time -= absoluteOffset;
 
       if(!note)
         continue;

@@ -257,6 +257,16 @@
       ]
     },
     {
+      title: "time offset",
+      parseOnly: true,
+      osf: "1380047583 a\n"
+         + "1380047584 b\n",
+      notes: [
+        { "time": 0, "text": "a", link: "", "tags": [], "notes": [] },
+        { "time": 1, "text": "b", link: "", "tags": [], "notes": [] }
+      ]
+    },
+    {
       title: "subnote - 1 lvl",
       osf: "00:00:00 a\n"
          + "00:00:01 - b\n",
@@ -307,6 +317,9 @@
   QUnit.cases(osfNotesData).test("osfNotes",
     function (params)
     {
+      if(params.parseOnly)
+        return ok("only parse.");
+
       var actual = osftools.osfNotes(params.notes);
       equal(actual, params.osf);
     }
