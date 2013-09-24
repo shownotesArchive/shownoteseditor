@@ -84,7 +84,7 @@
   asyncTest("addNote event - root",
     function ()
     {
-      var addNote = { time: 0, tags: [], text: "b" };
+      var addNote = { time: 0, link: "", tags: [], text: "b" };
       var called = false;
 
       connector.bind("noteAdded",
@@ -124,8 +124,8 @@
   asyncTest("addNote event - deep",
     function ()
     {
-      var addNote1 = { time: 0, tags: [], text: "b1" };
-      var addNote2 = { time: 0, tags: [], text: "b2" };
+      var addNote1 = { time: 0, link: "", tags: [], text: "b1" };
+      var addNote2 = { time: 0, link: "", tags: [], text: "b2" };
       var called = 0;
       var outerId;
 
@@ -165,7 +165,7 @@
   asyncTest("addNote - 1 deep",
     function ()
     {
-      var note = { time: 0, tags: [], text: "b" };
+      var note = { time: 0, link: "", tags: [], text: "b" };
 
       connector.addNote(note,
         function (err, id)
@@ -184,8 +184,8 @@
   asyncTest("addNote - 2 deep",
     function ()
     {
-      var outerNote = { time: 0, tags: [], text: "b1" };
-      var innerNote = { time: 0, tags: [], text: "b2" };
+      var outerNote = { time: 0, link: "", tags: [], text: "b1" };
+      var innerNote = { time: 0, link: "", tags: [], text: "b2" };
       var outerId;
       var innerId;
 
@@ -258,7 +258,7 @@
   asyncTest("removeNote event",
     function ()
     {
-      var addNote = { time: 0, tags: [], text: "b" };
+      var addNote = { time: 0, link: "", tags: [], text: "b" };
       var called = false;
       var addedId = null;
 
@@ -293,9 +293,9 @@
     {
       var addNotes =
         [
-          { time: 0, tags: [], text: "b1", notes: {} },
-          { time: 0, tags: [], text: "b2" },
-          { time: 0, tags: [], text: "b3", notes: {} }
+          { time: 0, link: "", tags: [], text: "b1", notes: {} },
+          { time: 0, link: "", tags: [], text: "b2" },
+          { time: 0, link: "", tags: [], text: "b3", notes: {} }
         ];
 
       var ids = [];
@@ -381,8 +381,8 @@
   asyncTest("editNote event",
     function ()
     {
-      var addNote = { time: 0, tags: [], text: "val1" };
-      var editedNote = { time: 0, tags: [], text: "val2" };
+      var addNote = { time: 0, link: "", tags: [], text: "val1" };
+      var editedNote = { time: 0, link: "", tags: [], text: "val2" };
       var called = false;
       var addedId = null;
 
@@ -416,8 +416,8 @@
   asyncTest("editNote",
     function ()
     {
-      var addNote = { time: 0, tags: [], text: "val1" };
-      var editedNote = { time: 0, tags: [], text: "val2" };
+      var addNote = { time: 0, link: "", tags: [], text: "val1" };
+      var editedNote = { time: 0, link: "", tags: [], text: "val2" };
 
       connector.addNote(addNote,
         function (err, id)
@@ -461,7 +461,7 @@
   asyncTest("getNote",
     function ()
     {
-      var addNote = { time: 0, tags: [], text: "val1" };
+      var addNote = { time: 0, link: "", tags: [], text: "val1" };
 
       connector.addNote(addNote,
         function (err, id)
@@ -501,6 +501,7 @@
           {
             "time": 20,
             "text": "a",
+            "link": "",
             "tags": [ "a", "b" ],
             "notes":
             {
@@ -508,6 +509,7 @@
               {
                 "time": 30,
                 "text": "b",
+                link: "",
                 "tags": [],
                 "notes": {}
               }
@@ -517,6 +519,7 @@
           {
             "time": 40,
             "text": "c",
+            "link": "",
             "tags": [ "a", "b" ],
             "notes": {}
           }
@@ -527,12 +530,14 @@
         {
           "time": 20,
           "text": "a",
+          "link": "",
           "tags": [ "a", "b" ],
           "notes":
             [
               {
                 "time": 30,
                 "text": "b",
+                "link": "",
                 "tags": [],
                 "notes": []
               }
@@ -541,6 +546,7 @@
         {
           "time": 40,
           "text": "c",
+          "link": "",
           "tags": [ "a", "b" ],
           "notes": []
         }
