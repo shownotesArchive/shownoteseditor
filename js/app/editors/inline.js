@@ -48,12 +48,6 @@
     $.remove(this.editor.prop('id'));
   };
 
-  self.currentTimeChanged = function (time)
-  {
-    var humanTime = osftools.toHumanTime(time);
-    this.editor.time.text(humanTime);
-  };
-
   self.getContent = function ()
   {
     var time = this.editor.time.val();
