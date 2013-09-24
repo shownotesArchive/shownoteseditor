@@ -46,13 +46,23 @@ $('#docsSearch').keyup(
   }
 );
 
-$('#btnCreateDoc').click(
-  function ()
+var createDocTxtIds = [ "txtCreateDoc" ];
+
+$('#' + createDocTxtIds.join(',#')).keypress(
+  function (e)
   {
-    var name = $('#txtCreateDoc').val();
-    openDoc(name);
+    if(e.which == 13)
+      createDoc();
   }
-);
+)
+
+$('#btnCreateDoc').click(createDoc);
+
+function createDoc ()
+{
+  var name = $('#txtCreateDoc').val();
+  openDoc(name);
+}
 
 function openDoc (name)
 {
