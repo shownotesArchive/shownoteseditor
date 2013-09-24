@@ -111,6 +111,7 @@ function openDoc (name)
   };
 
   $('#notes, #maineditor, #player').empty();
+  $('#txtOsf').val('');
 
   sne = new shownoteseditor.sne(options,
     function (err)
