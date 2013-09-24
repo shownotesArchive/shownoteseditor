@@ -11,6 +11,8 @@ function showDocChooser()
     {
       tabletools.clear($docs);
 
+      $('#noDocs').css('display', (docs.length == 0) ? 'block' : 'none');
+
       for (var i = 0; i < docs.length; i++)
       {
         var doc = docs[i];
