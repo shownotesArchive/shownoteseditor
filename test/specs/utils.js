@@ -6,34 +6,34 @@
     {
       title: "Single note",
       notes: [
-        { "time": 40, "text": "c", "tags": [] }
+        { "time": 40, "text": "c", "link": "", "tags": [] }
       ],
       expectedCalls:[
-        [{"time":40,"text":"c","tags":[]},"_root",null]
+        [{"time":40,"text":"c","link":"","tags":[]},"_root",null]
       ]
     },
     {
       title: "Two notes",
       notes: [
-        { "time": 40, "text": "a", "tags": [] },
-        { "time": 40, "text": "b", "tags": [] }
+        { "time": 40, "text": "a", "link": "", "tags": [] },
+        { "time": 40, "text": "b", "link": "", "tags": [] }
       ],
       expectedCalls:[
-        [{"time":40,"text":"a","tags":[]},"_root",null],
-        [{"time":40,"text":"b","tags":[]},"_root",null]
+        [{"time":40,"text":"a","link":"","tags":[]},"_root",null],
+        [{"time":40,"text":"b","link":"","tags":[]},"_root",null]
       ]
     },
     {
       title: "Sub-Note - one lvl",
       notes: [
         {
-          "time": 20, "text": "a", "tags": [],
-          "notes": [ { "time": 30, "text": "b", "tags": [] } ]
+          "time": 20, "text": "a", "link": "", "tags": [],
+          "notes": [ { "time": 30, "text": "b", "link": "", "tags": [] } ]
         }
       ],
       expectedCalls:[
-        [{"time":20,"text":"a","tags":[]},"_root",null],
-        [{"time":30,"text":"b","tags":[]},"a",null]
+        [{"time":20,"text":"a","link":"","tags":[]},"_root",null],
+        [{"time":30,"text":"b","link":"","tags":[]},"a",null]
       ]
     },
     {
@@ -51,9 +51,9 @@
         }
       ],
       expectedCalls:[
-        [{"time":20,"text":"a","tags":[]},"_root",null],
-        [{"time":30,"text":"b","tags":[]},"a",null],
-        [{"time":40,"text":"c","tags":[]},"b",null]
+        [{"time":20,"text":"a","link":"","tags":[]},"_root",null],
+        [{"time":30,"text":"b","link":"","tags":[]},"a",null],
+        [{"time":40,"text":"c","link":"","tags":[]},"b",null]
       ]
     },
   ];
