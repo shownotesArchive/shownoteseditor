@@ -103,9 +103,11 @@
       textParts.push(osftools.osfTags(note.tags));
     }
 
-    var text = textParts.join(" ");
-
-    this.editor.text.val(text);
+    if(textParts.length > 0)
+    {
+      var text = textParts.join(" ");
+      this.editor.text.val(text);
+    }
   };
 
   self.onContentChanged = function ()
