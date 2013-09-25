@@ -213,13 +213,15 @@ var osftools = {};
     }
 
     osf += osftools.toHumanTime(note.time);
-    osf += hierarchy + " " + note.text;
-    if(note.link.length > 0)
+    osf += hierarchy;
+    if(note.text && note.text.length > 0)
+      osf += " " + note.text;
+    if(note.link && note.link.length > 0)
       osf += " <" + note.link + ">";
-    if(note.tags.length > 0)
+    if(note.tags && note.tags.length > 0)
       osf += " " + osftools.osfTags(note.tags);
 
-    return osf;
+    return osf.trim();
   };
 
   osftools.osfTags = function (tags)
