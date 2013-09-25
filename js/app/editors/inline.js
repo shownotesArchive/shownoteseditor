@@ -90,15 +90,15 @@
 
     var textParts = [];
 
-    if(note.text && note.text.length > 0)
+    if(typeof note.text == "string")
     {
       textParts.push(note.text);
     }
-    if(note.link && note.link.length > 0)
+    if(typeof note.link == "string")
     {
       textParts.push(note.link);
     }
-    if(note.tags && note.tags.length > 0)
+    if(note.tags instanceof Array)
     {
       textParts.push(osftools.osfTags(note.tags));
     }
