@@ -48,28 +48,51 @@ var osftools = {};
 
   osftools.parseNotes = function (osf)
   {
-    osf = osf.replace(/\s+$/g, '');
+    osf = osf.trim();
     var lines = osf.split('\n');
     var notes = [];
     var lastNote = {};
     var absoluteOffset = 0;
+    var i = 0;
+    var inHead = false;
 
-    if(lines.length > 0)
-    {
-      var first = lines[0];
-      var time = +first.split(' ')[0];
-      if(!isNaN(time))
-        absoluteOffset = time;
-    }
-
-    for (var i = 0; i < lines.length; i++)
+    for (; i < lines.length; i++)
     {
       var line = lines[i];
+
+      if(!inHead && !!osftools.parseNote(line))
+        break; // no HEADER
+
+      if(line == "HEAD" || line == "HEADER")
+        inHead = true;
+      if(line == "/HEAD" || line == "/HEADER")
+        inHead = false;
+
+      if(inHead)
+        continue;
+
+      i++; // skip /HEADER
+      break;
+    }
+
+    for (; i < lines.length; i++)
+    {
+      var line = lines[i];
+
+      if(absoluteOffset == 0)
+      {
+        var time = +line.split(' ')[0];
+        if(!isNaN(time))
+          absoluteOffset = time;
+      }
+
       var note = osftools.parseNote(line, true);
-      note.time -= absoluteOffset;
 
       if(!note)
         continue;
+
+      if(absoluteOffset > 0)
+        note.time -= absoluteOffset;
 
       var hierarchy = note.hierarchy;
       delete note.hierarchy;
