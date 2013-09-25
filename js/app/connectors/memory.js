@@ -269,4 +269,18 @@
       cb(null, []);
     }
   };
+
+  shownoteseditor.connectors.memory.getDocument = function (options, docname, cb)
+  {
+    if(options.save == "localStorage")
+    {
+      var json = localStorage.getItem("sne_memory_doc_" + docname);
+      var notes = JSON.parse(json) || [];
+      cb(null, notes);
+    }
+    else
+    {
+      cb();
+    }
+  };
 })();

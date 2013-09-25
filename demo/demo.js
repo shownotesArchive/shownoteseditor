@@ -1,12 +1,13 @@
 var $docs = $('#docs');
 var connector = "memory";
+var connectorOptionsSave = "localStorage";
 
 function showDocChooser()
 {
   $('#docChooserWrapper').addClass('active');
   $('#docChooserWrapper').attr('style', '');
 
-  shownoteseditor.connectors[connector].listDocuments({ save: "localStorage" },
+  shownoteseditor.connectors[connector].listDocuments({ save: connectorOptionsSave },
     function (err, docs)
     {
       tabletools.clear($docs);
@@ -30,6 +31,12 @@ function showDocChooser()
           function ()
           {
             openDoc(doc.name);
+          }
+        );
+        $td.find('button.download').click(
+          function ()
+          {
+            downloadDoc(doc.name);
           }
         );
       }
@@ -74,7 +81,7 @@ function openDoc (name)
       options:
       {
         docname: name,
-        save: "localStorage"
+        save: connectorOptionsSave
       }
     },
     ui:
@@ -120,6 +127,28 @@ function openDoc (name)
 
       move("#docChooserWrapper").set('opacity', 0).duration("0.5s").end();
       setTimeout(function (){ $('#docChooserWrapper').removeClass('active'); }, 500);
+    }
+  );
+}
+
+function downloadDoc (name)
+{
+  shownoteseditor.connectors[connector].getDocument({ save: connectorOptionsSave }, name,
+    function (err, notes)
+    {
+      var osf = osftools.osfNotes(notes);
+
+      var parts = [osf];
+      var blob = new Blob(parts, { "type" : "text/octet-stream" });
+      var url = window.URL.createObjectURL(blob);
+
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = name + ".osf.txt";
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      delete a;
     }
   );
 }
