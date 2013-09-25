@@ -45,7 +45,13 @@ var shownoteseditor = {
         function (cb)
         {
           that.ui = new shownoteseditor.ui(options.ui, that.connector, function () {});
-          that.connector.doLoad(cb);
+          that.connector.doLoad(
+            function (err)
+            {
+              that.ui.loadFinished();
+              cb(err);
+            }
+          );
         }
       ],
       cb

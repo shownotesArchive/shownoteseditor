@@ -103,7 +103,8 @@ function openDoc (name)
         name: "standard",
         options:
         {
-          element: $('#notes')[0]
+          element: $('#notes')[0],
+          shouldScroll: true
         }
       },
       editor:

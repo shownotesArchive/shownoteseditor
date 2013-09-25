@@ -62,6 +62,11 @@
     );
   };
 
+  self.loadFinished = function ()
+  {
+    this.list.loadFinished();
+  };
+
   function listEditRequested(id, element, editEnded)
   {
     var that = this;

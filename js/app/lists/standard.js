@@ -28,6 +28,8 @@
     $(options.element).append(mainTemplate);
     this.element = $("ul.list.standard:first");
 
+    this.shouldScroll = options.shouldScroll;
+
     cb();
   };
 
@@ -107,7 +109,14 @@
     if(!added)
     {
       $parent.append($note);
+
+      if(this.shouldScroll && this.isLoadFinished)
+      {
+        var $p = this.element.parent();
+        $p.scrollTop($p[0].scrollHeight);
+      }
     }
+
   };
 
   function setHtmlNote($note, note)
@@ -155,7 +164,12 @@
   self.findHtmlNote = function (id)
   {
     return this.element.find('li[data-id=' + id + ']');
-  }
+  };
+
+  self.loadFinished = function ()
+  {
+    this.isLoadFinished = true;
+  };
 
   function userRemoveNote(id)
   {
