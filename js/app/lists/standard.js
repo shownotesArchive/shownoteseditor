@@ -4,18 +4,17 @@
 
   var mainTemplate = "<ul class='list standard'></ul>";
   var noteTemplate = "<li data-id='' class='note'>"
+                   +   "<div class='controls'>"
+                   +   "</div>"
                    +   "<span class='time'></span>"
                    +   "<span class='text'></span>"
                    +   "<a class='link' target='_blank'></a>"
                    +   "<ul class='tags'></ul>"
                    +   "<div class='editorWrapper'></div>"
-                   +   "<div class='controls'>"
-                   +   "</div>"
                    +   "<ul class='subnotes'>"
                    +   "</ul>"
-                  +    "<div class='addSubnote noSubnotes'>"
+                  +    "<div class='addSubnote'>"
                   +      "<div class='editorWrapper'></div>"
-                  +      "<i class='icon-plus addSubnote'></i>"
                   +    "</div>"
                    + "</li>";
   var tagTemplate = "<li></li>";
@@ -43,7 +42,8 @@
     var $controls = $note.find('.controls');
     var controls = {
       remove: { icon: "icon-trash", func: userRemoveNote },
-      edit: { icon: "icon-edit", func: userEditNote }
+      edit: { icon: "icon-edit", func: userEditNote },
+      addSubnote: { icon: "icon-plus", func: userAddSubnote }
     };
 
     for(var name in controls)
@@ -65,13 +65,6 @@
       $controls.append($control);
     }
 
-    $note.find('i.addSubnote').click(
-      function ()
-      {
-        userAddSubnote.call(this, id);
-      }.bind(this)
-    );
-
     $note.find('.time').click(
       function ()
       {
@@ -88,7 +81,6 @@
     else
     {
       $parent = this.element.find("li[data-id=" + parent + "] > ul.subnotes");
-      $parent.parents(".note:first").find('> .addSubnote').removeClass('noSubnotes');
     }
 
     var $notes = $parent.children();
@@ -150,9 +142,6 @@
     var $note = this.findHtmlNote(id);
     var $subnotes = $note.parents('.subnotes:first');
     $note.remove();
-
-    if($subnotes.children().length == 0)
-      $subnotes.parents(".note:first").find('> .addSubnote').addClass('noSubnotes');
   };
 
   self.editNote = function (id, note)
@@ -199,17 +188,11 @@
 
     this.trigger("addRequested", parentId, $editorWrapper[0], editEnded);
     $addSubnote.addClass("editing");
-    $addSubnote.removeClass('noSubnotes');
 
     function editEnded(success)
     {
       $addSubnote.removeClass("editing");
       $editorWrapper.empty();
-
-      if(!success)
-      {
-        $addSubnote.addClass('noSubnotes');
-      }
     }
   }
 

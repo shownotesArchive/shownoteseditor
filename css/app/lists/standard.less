@@ -9,6 +9,18 @@ ul.list.standard
   }
   li.note
   {
+    line-height: 27px;
+
+    &:after
+    {
+      /* http://themeforest.net/forums/thread/inner-border-in-css-/28536?page=1#266912 */
+      content: '';
+      position: absolute;
+      border-bottom: 1px solid #DDD;
+      margin-top: -2px;
+      width: 100%;
+    }
+
     &.tag-quote
     {
       font-style: italic;
@@ -45,17 +57,22 @@ ul.list.standard
       display: inline-block;
       margin: 0;
       padding: 0;
-      margin-left: 0.5em;
+      margin-right: 0.5em;
 
-      & > *
+      & > i
       {
         cursor: pointer;
 
-        &.icon-edit
-        {
-          position: relative;
-          top: 1px;
-        }
+        @color: lightgray;
+        border: solid @color;
+        border-radius: 5px;
+        background: @color;
+        margin-left: 3px;
+
+        display: inline-block;
+        width: 22px;
+        text-align: center;
+
         &:after
         {
           content: "\a0"; // space
@@ -112,22 +129,6 @@ ul.list.standard
     {
       padding-left: 40px;
 
-      &.noSubnotes
-      {
-        padding: 0;
-        margin: 0;
-        display: inline-block;
-
-        &:before
-        {
-          content: "\a0"; // space
-        }
-      }
-
-      > i
-      {
-        cursor: pointer;
-      }
       > .editorWrapper
       {
         display: none;
