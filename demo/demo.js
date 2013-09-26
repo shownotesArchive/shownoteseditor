@@ -1,6 +1,7 @@
 var $docs = $('#docs');
 var connector = "memory";
 var connectorOptionsSave = "localStorage";
+var docs = [];
 
 function showDocChooser()
 {
@@ -8,8 +9,9 @@ function showDocChooser()
   $('#docChooserWrapper').attr('style', '');
 
   shownoteseditor.connectors[connector].listDocuments({ save: connectorOptionsSave },
-    function (err, docs)
+    function (err, _docs)
     {
+      docs = _docs;;
       tabletools.clear($docs);
 
       $('#noDocs').css('display', (docs.length == 0) ? 'block' : 'none');
@@ -17,29 +19,29 @@ function showDocChooser()
       for (var i = 0; i < docs.length; i++)
       {
         var doc = docs[i];
-        addDoc(doc);
+        addDocToTable(doc);
       }
+    }
+  );
+}
 
-      function addDoc (doc)
-      {
-        var $btns = $('#btnsTemplate').clone();
-        var accessDate = moment(doc.accessDate).format("DD.MM.YYYY");
-        var $td = tabletools.addRow($docs, [ doc.name, accessDate, doc.notesCount, $btns ]);
+function addDocToTable (doc)
+{
+  var $btns = $('#btnsTemplate').clone();
+  var accessDate = moment(doc.accessDate).format("DD.MM.YYYY");
+  var $td = tabletools.addRow($docs, [ doc.name, accessDate, doc.notesCount, $btns ]);
 
-        $btns = $td.find('.btns').parent().addClass('btns');
-        $td.find('button.open').click(
-          function ()
-          {
-            openDoc(doc.name);
-          }
-        );
-        $td.find('button.download').click(
-          function ()
-          {
-            downloadDoc(doc.name);
-          }
-        );
-      }
+  $btns = $td.find('.btns').parent().addClass('btns');
+  $td.find('button.open').click(
+    function ()
+    {
+      openDoc(doc.name);
+    }
+  );
+  $td.find('button.download').click(
+    function ()
+    {
+      downloadDoc(doc.name);
     }
   );
 }
@@ -53,7 +55,7 @@ $('#docsSearch').keyup(
   }
 );
 
-var createDocTxtIds = [ "txtCreateDoc" ];
+var createDocTxtIds = [ "txtCreateDocName", "txtCreateDocFile" ];
 
 $('#' + createDocTxtIds.join(',#')).keypress(
   function (e)
@@ -67,12 +69,50 @@ $('#btnCreateDoc').click(createDoc);
 
 function createDoc ()
 {
-  var name = $('#txtCreateDoc').val();
-  openDoc(name);
+  var name = $('#txtCreateDocName').val();
+  var url = $('#txtCreateDocFile').val();
+
+  shownoteseditor.connectors[connector].createDocument(
+    { save: connectorOptionsSave },
+    {
+      name: name,
+      urls: [url]
+    },
+    function (err, doc)
+    {
+      if(err)
+      {
+        alert("Error: " + err);
+      }
+      else
+      {
+        addDocToTable(doc);
+        docs.push(doc);
+      }
+    }
+  );
 }
 
 function openDoc (name)
 {
+  var doc;
+
+  for (var i = 0; i < docs.length; i++)
+  {
+    if(docs[i].name == name)
+      doc = docs[i];
+  }
+
+  var files = [];
+
+  for (var i = 0; i < doc.urls.length; i++) {
+    var url = doc.urls[i];
+    if(url.indexOf(".mp3") == url.length - 4)
+      files.push({ src: url, type: "audio/mpeg" });
+    else
+      alert("Could not find type of:\n" + url);
+  }
+
   var options =
   {
     connector:
@@ -92,10 +132,7 @@ function openDoc (name)
         options:
         {
           element: $("#player")[0],
-          files:
-            [
-              { src: "./ls000-der-lautsprecher.mp3", type: "audio/mpeg" }
-            ]
+          files: files
         }
       },
       list:

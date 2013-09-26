@@ -283,4 +283,25 @@
       cb();
     }
   };
+
+  shownoteseditor.connectors.memory.createDocument = function (options, doc, cb)
+  {
+    if(options.save == "localStorage")
+    {
+      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
+      if(docs instanceof Array) docs = {}; // old alpha only format
+
+      doc.accessDate = +new Date();
+      doc.notesCount = 0;
+
+      docs[doc.name] = doc;
+      localStorage.setItem("sne_memory_docs", JSON.stringify(docs));
+
+      cb(null, doc);
+    }
+    else
+    {
+      cb(null);
+    }
+  };
 })();
