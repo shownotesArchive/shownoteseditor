@@ -1,6 +1,7 @@
 var $docs = $('#docs');
 var connector = "memory";
 var connectorOptionsSave = "localStorage";
+var previewPlayerTimeout = -1;
 var docs = [];
 
 function showDocChooser()
@@ -55,15 +56,42 @@ $('#docsSearch').keyup(
   }
 );
 
-var createDocTxtIds = [ "txtCreateDocName", "txtCreateDocFile" ];
-
-$('#' + createDocTxtIds.join(',#')).keypress(
+$('#txtCreateDocName').keypress(
   function (e)
   {
     if(e.which == 13)
       createDoc();
   }
-)
+);
+
+$('#txtCreateDocFile').keypress(
+  function (e)
+  {
+    if(e.which == 13)
+      createDoc();
+    else
+    {
+      clearTimeout(previewPlayerTimeout);
+      previewPlayerTimeout = setTimeout(showPreviewPlayer, 1000);
+    }
+  }
+);
+
+function showPreviewPlayer()
+{
+  var url = $('#txtCreateDocFile').val();
+  $('#createPlayerWrapper').empty();
+
+  var options = {
+    element: $("#createPlayerWrapper")[0],
+    files: getFilesArrayFromUrls([url]).files
+  };
+
+  if(options.files.length > 0)
+  {
+    var player = new shownoteseditor.players.audiojs(options, function () {});
+  }
+}
 
 $('#btnCreateDoc').click(createDoc);
 
@@ -93,6 +121,22 @@ function createDoc ()
   );
 }
 
+function getFilesArrayFromUrls (urls)
+{
+  var files = [];
+  var errors = [];
+
+  for (var i = 0; i < urls.length; i++) {
+    var url = urls[i];
+    if(url.indexOf(".mp3") == url.length - 4)
+      files.push({ src: url, type: "audio/mpeg" });
+    else
+      errors.push(url);
+  }
+
+  return { files: files, errors: errors };
+}
+
 function openDoc (name)
 {
   var doc;
@@ -103,16 +147,13 @@ function openDoc (name)
       doc = docs[i];
   }
 
-  var files = [];
+  var files = getFilesArrayFromUrls(doc.urls);
+  var errors = files.errors;
+  files = files.files;
 
-  for (var i = 0; i < doc.urls.length; i++) {
-    var url = doc.urls[i];
-    if(url.indexOf(".mp3") == url.length - 4)
-      files.push({ src: url, type: "audio/mpeg" });
-    else
-      alert("Could not find type of:\n" + url);
-  }
-
+  if(errors.length > 0)
+    alert("Could not find type of:\n" + errors.join("\n"));
+  
   var options =
   {
     connector:
