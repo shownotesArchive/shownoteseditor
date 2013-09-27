@@ -64,38 +64,7 @@
       return cb("not found");
     newNote = osftools.cloneNote(newNote, false);
     var oldNote = parentNote.notes[id];
-
-    var keys = getKeys(oldNote, newNote);
-
-    var changed = keys.filter(
-      function (key)
-      {
-        if(key == "notes")
-          return false;
-
-        if(newNote[key] instanceof Array)
-        {
-          if(!(oldNote[key] instanceof Array))
-            return true;
-          if(oldNote[key].length != newNote[key].length)
-            return true;
-
-          for (var i = 0; i < oldNote[key].length; i++)
-          {
-            if(oldNote[key][i] != newNote[key][i])
-              return true;
-          }
-
-          return false;
-        }
-        else if(oldNote[key] != newNote[key])
-        {
-          return true;
-        }
-
-        return false;
-      }
-    );
+    var changed = ostools.diffNotes(oldNote, newNote);
 
     for (var i = 0; i < changed.length; i++)
     {
@@ -119,27 +88,6 @@
     if(!parentNote)
       return cb("not found");
     cb(null, osftools.cloneNote(parentNote.notes[id], false));
-  };
-
-  function getKeys()
-  {
-    var keys = [];
-
-    for (var i = 0; i < arguments.length; i++)
-    {
-      var arg = arguments[i];
-      var argKeys = Object.keys(arg);
-
-      for (var j = 0; j < argKeys.length; j++)
-      {
-        var argKey = argKeys[j];
-
-        if(keys.indexOf(argKey) == -1)
-          keys.push(argKey);
-      }
-    }
-
-    return keys;
   };
 
   self.getFriendlyJson = function (note)

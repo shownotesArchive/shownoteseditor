@@ -290,6 +290,63 @@ var osftools = {};
     return time;
   };
 
+  osftools.diffNotes = function (note1, note2)
+  {
+
+    var keys = getKeys(oldNote, newNote);
+
+    var changed = keys.filter(
+      function (key)
+      {
+        if(key == "notes")
+          return false;
+
+        if(newNote[key] instanceof Array)
+        {
+          if(!(oldNote[key] instanceof Array))
+            return true;
+          if(oldNote[key].length != newNote[key].length)
+            return true;
+
+          for (var i = 0; i < oldNote[key].length; i++)
+          {
+            if(oldNote[key][i] != newNote[key][i])
+              return true;
+          }
+
+          return false;
+        }
+        else if(oldNote[key] != newNote[key])
+        {
+          return true;
+        }
+
+        return false;
+      }
+    );
+  };
+
+  osftools.getKeys = function (/* args.. */)
+  {
+    var keys = [];
+
+    for (var i = 0; i < arguments.length; i++)
+    {
+      var arg = arguments[i];
+      var argKeys = Object.keys(arg);
+
+      for (var j = 0; j < argKeys.length; j++)
+      {
+        var argKey = argKeys[j];
+
+        if(keys.indexOf(argKey) == -1)
+          keys.push(argKey);
+      }
+    }
+
+    return keys;
+  };
+
   // http://stackoverflow.com/a/1830844/2486196
   function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
