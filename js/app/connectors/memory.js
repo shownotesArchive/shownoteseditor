@@ -76,9 +76,9 @@
         if(newNote[key] instanceof Array)
         {
           if(!(oldNote[key] instanceof Array))
-            return false;
+            return true;
           if(oldNote[key].length != newNote[key].length)
-            return false;
+            return true;
 
           for (var i = 0; i < oldNote[key].length; i++)
           {
