@@ -5,21 +5,30 @@ server of some kind.
 
 ## Static functions
 * listDocuments (options, cb)
-* getDocument (name, cb)
+* getDocument (options, docname, cb)
   * returns the documents content as notes-object
+* createDocument (options, doc, cb)
+* deleteDocument (options, docname, cb)
+* changeDocument (options, docname, newDoc, cb)
 
 ## Public functions
 
 * `ctor (options, cb)`
 * `addNote (note,[ parent,] cb)`
-  * callback: `function (error, id) {}`
+  * callback: `function (err, id)`
   * triggers `noteAdded`-event
 * `removeNote  (id, cb)`
+  * callback: `function (err)`
   * triggers `noteRemoved`-event
 * `editNote (id, newNote, cb)`
+  * callback: `function (err)`
   * triggers `noteEdited`-event
 * `getNotes (cb)`
+  * callback: `function (err, rootNote)`
+    * `rootNote`: empty root-note with sub-notes in `notes` attribute
 * `getNote (id, cb)`
+  * callback: `function (err, note)`
+    * `note`: note without sub-notes
 * `getFriendlyJson ()`
   * returns all notes in the format described in `note.md`
 * `bind (event, fct)` - MicroEvent
@@ -29,8 +38,15 @@ server of some kind.
 ## Events
 
 * `noteAdded (id, note, parentId)`
+  * `id`: id of the added note
+  * `note`: added note
+  * `parentId`: id of the note this note as been added to or `_root`
 * `noteRemoved (id, note)`
+  * `id`: id of the deleted note
+  * `newNote`: deleted note
 * `noteEdited (id, newNote, changed)`
+  * `newNote`: fully edited note
+  * `changed`: array of changed attributes
 
 ## Options for `memory.js`
 ```javascript
