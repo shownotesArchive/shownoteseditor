@@ -45,7 +45,7 @@
 
   self.close = function ()
   {
-    $.remove(this.editor.prop('id'));
+    this.editor.main.remove();
   };
 
   self.getContent = function ()
@@ -90,15 +90,15 @@
 
     var textParts = [];
 
-    if(typeof note.text == "string")
+    if(typeof note.text == "string" && note.text.length > 0)
     {
       textParts.push(note.text);
     }
-    if(typeof note.link == "string")
+    if(typeof note.link == "string" && note.link.length > 0)
     {
       textParts.push(note.link);
     }
-    if(note.tags instanceof Array)
+    if(note.tags instanceof Array && note.tags.length > 0)
     {
       textParts.push(osftools.osfTags(note.tags));
     }
