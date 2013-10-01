@@ -292,8 +292,7 @@ var osftools = {};
 
   osftools.diffNotes = function (note1, note2)
   {
-
-    var keys = getKeys(oldNote, newNote);
+    var keys = osftools.getKeys(note1, note2);
 
     var changed = keys.filter(
       function (key)
@@ -301,22 +300,22 @@ var osftools = {};
         if(key == "notes")
           return false;
 
-        if(newNote[key] instanceof Array)
+        if(note1[key] instanceof Array)
         {
-          if(!(oldNote[key] instanceof Array))
+          if(!(note2[key] instanceof Array))
             return true;
-          if(oldNote[key].length != newNote[key].length)
+          if(note2[key].length != note1[key].length)
             return true;
 
-          for (var i = 0; i < oldNote[key].length; i++)
+          for (var i = 0; i < note1[key].length; i++)
           {
-            if(oldNote[key][i] != newNote[key][i])
+            if(note2[key][i] != note1[key][i])
               return true;
           }
 
           return false;
         }
-        else if(oldNote[key] != newNote[key])
+        else if(note2[key] != note1[key])
         {
           return true;
         }
@@ -324,6 +323,8 @@ var osftools = {};
         return false;
       }
     );
+
+    return changed;
   };
 
   osftools.getKeys = function (/* args.. */)

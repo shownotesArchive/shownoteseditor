@@ -344,4 +344,87 @@
       deepEqual(actual, params.notes);
     }
   );
+
+  var diffNotesData = [
+    {
+      title: "String - no change",
+      note1: { text: "a" },
+      note2: { text: "a" },
+      diff: []
+    },
+    {
+      title: "String - change",
+      note1: { text: "a" },
+      note2: { text: "b" },
+      diff: [ "text" ]
+    },
+    {
+      title: "Array - no change",
+      note1: { tags: [ "b" ] },
+      note2: { tags: [ "b" ] },
+      diff: []
+    },
+    {
+      title: "Array - add",
+      note1: { tags: [] },
+      note2: { tags: [ "b" ] },
+      diff: [ "tags" ]
+    },
+    {
+      title: "Array - remove",
+      note1: { tags: [ "b" ] },
+      note2: { tags: [] },
+      diff: [ "tags" ]
+    },
+    {
+      title: "Array - change",
+      note1: { tags: [ "a" ] },
+      note2: { tags: [ "b" ] },
+      diff: [ "tags" ]
+    }
+  ];
+
+  QUnit.cases(diffNotesData).test("diffNotes",
+    function (params)
+    {
+      var actual = osftools.diffNotes(params.note1, params.note2);
+      deepEqual(actual, params.diff);
+    }
+  );
+
+  var getKeysData = [
+    {
+      title: "one obj",
+      objs: [ { a: 1, b: 2 } ],
+      keys: [ "a", "b" ]
+    },
+    {
+      title: "Two objs - different attrs",
+      objs: [ { a: 1 }, { b: 1 } ],
+      keys: [ "a", "b" ]
+    },
+    {
+      title: "Two objs - same attrs",
+      objs: [ { a: 1 }, { a: 1 } ],
+      keys: [ "a" ]
+    },
+    {
+      title: "Three objs - different attrs",
+      objs: [ { a: 1 }, { b: 1 }, { c: 1 } ],
+      keys: [ "a", "b", "c" ]
+    },
+    {
+      title: "Three objs - same attrs",
+      objs: [ { a: 1 }, { a: 1 }, { a: 1 } ],
+      keys: [ "a" ]
+    }
+  ];
+
+  QUnit.cases(getKeysData).test("getKeys",
+    function (params)
+    {
+      var actual = osftools.getKeys.apply(null, params.objs);
+      deepEqual(actual, params.keys);
+    }
+  );
 })();

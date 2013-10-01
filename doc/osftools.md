@@ -23,3 +23,9 @@ Converts from human time (`HH:MM:SS` or `MM:SS`) to seconds.
 
 ## fromHumanTime (humantime)
 Converts from seconds to human time.
+
+## diffNotes (note1, note2)
+Returns all attributes that are different between the two given notes
+
+## getKeys (...)
+Returns all attributes that exist in all given objects
