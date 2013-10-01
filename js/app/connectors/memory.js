@@ -64,7 +64,7 @@
       return cb("not found");
     newNote = osftools.cloneNote(newNote, false);
     var oldNote = parentNote.notes[id];
-    var changed = ostools.diffNotes(oldNote, newNote);
+    var changed = osftools.diffNotes(oldNote, newNote);
 
     for (var i = 0; i < changed.length; i++)
     {
