@@ -63,6 +63,7 @@
     [
       { title: "#c => #chapter", input: [ "c" ], output: [ "chapter" ] },
       { title: "#q => #quote", input: [ "q" ], output: [ "quote" ] },
+      { title: "#g => #glossary", input: [ "g" ], output: [ "glossary" ] },
       { title: "#foo => #foo", input: [ "foo" ], output: [ "foo" ] },
       { title: "#foo #c => #foo #chapter", input: [ "foo", "c" ], output: [ "foo", "chapter" ] }
     ];

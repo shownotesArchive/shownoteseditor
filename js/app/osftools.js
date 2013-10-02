@@ -233,7 +233,8 @@ var osftools = {};
   {
     var mapping = {
       "c": "chapter",
-      "q": "quote"
+      "q": "quote",
+      "g": "glossary"
     };
 
     var newTags = [];
