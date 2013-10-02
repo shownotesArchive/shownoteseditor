@@ -13,9 +13,10 @@ ul.list.standard
 
     &:after
     {
-      /* http://themeforest.net/forums/thread/inner-border-in-css-/28536?page=1#266912 */
+      // http://themeforest.net/forums/thread/inner-border-in-css-/28536?page=1#266912
       content: '';
       position: absolute;
+      left: 0;
       border-bottom: 1px solid #DDD;
       margin-top: -2px;
       width: 100%;
@@ -63,7 +64,7 @@ ul.list.standard
       {
         cursor: pointer;
 
-        @color: lightgray;
+        @color: #EEEEEE;
         border: solid @color;
         border-radius: 5px;
         background: @color;
@@ -80,6 +81,19 @@ ul.list.standard
         &:last-child:after
         {
           content: "";
+        }
+
+        &.remove
+        {
+          color: #EA0000;
+        }
+        &.edit
+        {
+          color: #2648F0;
+        }
+        &.addSubnote
+        {
+          color: #00EE00;
         }
       }
     }
@@ -124,6 +138,17 @@ ul.list.standard
       {
         display: none;
       }
+
+      > .note:first-child:before
+      {
+        // http://themeforest.net/forums/thread/inner-border-in-css-/28536?page=1#266912
+        content: '';
+        position: absolute;
+        left: 0;
+        border-top: 1px solid #DDD;
+        margin-top: -2px;
+        width: 100%;
+      }
     }
     > div.addSubnote
     {
@@ -159,6 +184,7 @@ ul.list.standard
       margin: 0;
       padding: 0;
       padding-right: 5px;
+      width: 100%;
     }
     > .subNotes
     {
