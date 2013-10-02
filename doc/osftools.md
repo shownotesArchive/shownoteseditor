@@ -1,5 +1,12 @@
 # osftools
 
+## cloneNote (note, includeChildren)
+Creates an object that has the same values for all valide note-attributes as the given note.
+If `includeChildren` is true, this is done for all sub-notes, too.
+
+## countNotes (notes)
+Returns the total count of the array `notes` all all its sub-notes.
+
 ## parseNotes (osf)
 Parses a number of notes in OSF-Format.
 
