@@ -5,8 +5,10 @@ server of some kind.
 
 ## Static functions
 * listDocuments (options, cb)
+  * callback: `function (err, docs)`
+    * `docs` is an array, see `document.md`
 * getDocument (options, docname, cb)
-  * returns the documents content as notes-object
+  * callback: `function (err, doc)`, see `document.md`
 * createDocument (options, doc, cb)
 * deleteDocument (options, docname, cb)
 * changeDocument (options, docname, newDoc, cb)
