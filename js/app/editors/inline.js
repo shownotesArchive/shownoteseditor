@@ -108,6 +108,11 @@
       var text = textParts.join(" ");
       this.editor.text.val(text);
     }
+
+    if(note.text == null)
+    {
+      this.editor.text.val("");
+    }
   };
 
   self.onContentChanged = function ()
@@ -147,7 +152,7 @@
   {
     var content = this.getContent();
     this.trigger('submitted', this.id, content);
-    this.setContent({ time: 0, text: "" });
+    this.setContent({ time: 0, text: null });
     this.setTimeOnEdit = true;
   }
 

@@ -59,6 +59,13 @@
       note: { "link": "", "tags": [], "text": "", "time": 0 }
     },
     {
+      title: "clear text",
+      getContent: false,
+      time: "00:00:00",
+      text: "",
+      note: { "link": "a", "tags": [], "text": null, "time": 0 }
+    },
+    {
       title: "Time and text",
       time: "00:00:01",
       text: "a",
