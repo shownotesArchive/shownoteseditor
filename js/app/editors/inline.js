@@ -109,7 +109,7 @@
       this.editor.text.val(text);
     }
 
-    if(note.text == null)
+    if(note.text === null)
     {
       this.editor.text.val("");
     }
