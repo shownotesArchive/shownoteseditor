@@ -200,8 +200,7 @@
   {
     if(options.save == "localStorage")
     {
-      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
-      if(docs instanceof Array) docs = {}; // old alpha only format
+      var docs = getLocalStorageDocList();
       var result = [];
 
       for (var name in docs)
@@ -236,14 +235,12 @@
   {
     if(options.save == "localStorage")
     {
-      var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
-      if(docs instanceof Array) docs = {}; // old alpha only format
-
       doc.accessDate = +new Date();
       doc.notesCount = 0;
 
+      var docs = getLocalStorageDocList();
       docs[doc.name] = doc;
-      localStorage.setItem("sne_memory_docs", JSON.stringify(docs));
+      setLocalStorageDocList(docs);
 
       cb(null, doc);
     }
@@ -252,4 +249,52 @@
       cb(null);
     }
   };
+
+  shownoteseditor.connectors.memory.deleteDocument = function (options, docname, cb)
+  {
+    if(options.save == "localStorage")
+    {
+      var docs = getLocalStorageDocList();
+      delete docs[docname];
+      setLocalStorageDocList(docs);
+      localStorage.removeItem("sne_memory_doc_" + docname);
+
+      cb(null);
+    }
+    else
+    {
+      cb(null);
+    }
+  };
+
+  shownoteseditor.connectors.memory.changeDocument = function (options, docname, newDoc, cb)
+  {
+    if(options.save == "localStorage")
+    {
+      var docs = getLocalStorageDocList();
+      delete docs[docname];
+      docs[newDoc.name] = newDoc;
+      setLocalStorageDocList(docs);
+      localStorage.setItem("sne_memory_doc" + newDoc.name, localStorage.getItem("sne_memory_doc_" + docname))
+      localStorage.removeItem("sne_memory_doc_" + docname);
+
+      cb(null);
+    }
+    else
+    {
+      cb(null);
+    }
+  };
+
+  function getLocalStorageDocList ()
+  {
+    var docs = JSON.parse(localStorage.getItem("sne_memory_docs")) || {};
+    if(docs instanceof Array) docs = {}; // old alpha only format
+    return docs;
+  }
+
+  function setLocalStorageDocList (docs)
+  {
+    localStorage.setItem("sne_memory_docs", JSON.stringify(docs));
+  }
 })();

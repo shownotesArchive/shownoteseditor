@@ -8,7 +8,11 @@ function showDocChooser()
 {
   $('#docChooserWrapper').addClass('active');
   $('#docChooserWrapper').attr('style', '');
+  reloadDocsTable();
+}
 
+function reloadDocsTable ()
+{
   shownoteseditor.connectors[connector].listDocuments({ save: connectorOptionsSave },
     function (err, _docs)
     {
@@ -33,9 +37,11 @@ function addDocToTable (doc)
   var $td = tabletools.addRow($docs, [ doc.name, accessDate, doc.notesCount, $btns ]);
 
   $btns = $td.find('.btns').parent().addClass('btns');
-  $td.find('button.open').click(
-    function ()
+  $td.click(
+    function (e)
     {
+      if(e.target.tagName.toLowerCase() == "button")
+        return;
       openDoc(doc.name);
     }
   );
@@ -43,6 +49,19 @@ function addDocToTable (doc)
     function ()
     {
       downloadDoc(doc.name);
+    }
+  );
+  $td.find('button.rename').click(
+    function ()
+    {
+      downloadDoc(doc.name);
+    }
+  );
+  $td.find('button.delete').click(
+    function ()
+    {
+      deleteDoc(doc.name);
+      reloadDocsTable();
     }
   );
 }
@@ -233,6 +252,16 @@ function downloadDoc (name)
       document.body.appendChild(a);
       a.click();
       delete a;
+    }
+  );
+}
+
+function deleteDoc (name)
+{
+  shownoteseditor.connectors[connector].deleteDocument({ save: connectorOptionsSave }, name,
+    function (err)
+    {
+      reloadDocsTable();
     }
   );
 }
