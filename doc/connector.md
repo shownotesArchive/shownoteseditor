@@ -61,3 +61,19 @@ server of some kind.
   }
 }
 ```
+
+## Options for `firebase.js`
+```javascript
+{
+  name: "firebase",
+  options:
+  {
+    docname: "",
+    auth:
+    {
+      username: "",
+      password: ""
+    }
+  }
+}
+```
