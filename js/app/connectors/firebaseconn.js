@@ -197,24 +197,7 @@
 
   self.getFriendlyJson = function (note)
   {
-    var notes = [];
 
-    for (var id in note.notes)
-    {
-      var snote = note.notes[id];
-      var fnote =
-      {
-        time: snote.time,
-        text: snote.text,
-        link: snote.link,
-        tags: snote.tags,
-        notes: this.getFriendlyJson(snote)
-      };
-
-      notes.push(fnote);
-    }
-
-    return notes;
   };
 
   self.doLoad = function (cb)
@@ -278,9 +261,29 @@
     );
   };
 
-  shownoteseditor.connectors.firebase.getDocument = function (options, docname, cb)
+  shownoteseditor.connectors.firebase.getDocument = function (options, docid, cb)
   {
-    cb(null, []);
+    getUserRef (options,
+      function (err, userRef)
+      {
+        if(err)
+          return cb(err);
+
+        var notesRef = userRef.child('docs/' + docid + '/notes');
+        notesRef.once('value',
+          function (snap)
+          {
+            var val = snap.val();
+            var notes = [];
+            if(val != null)
+            {
+              notes = getFriendlyJson({ notes: val });
+            }
+            cb(null, notes);
+          }
+        );
+      }
+    );
   };
 
   shownoteseditor.connectors.firebase.createDocument = function (options, doc, cb)
@@ -319,6 +322,21 @@
   shownoteseditor.connectors.firebase.changeDocument = function (options, docname, newDoc, cb)
   {
     cb(null);
+  };
+
+  function getFriendlyJson(note)
+  {
+    var notes = [];
+
+    for (var id in note.notes)
+    {
+      var snote = note.notes[id];
+      var fnote = osftools.cloneNote(snote, false);
+      fnote.notes = getFriendlyJson(snote);
+      notes.push(fnote);
+    }
+
+    return notes;
   };
 
   shownoteseditor.connectors.firebase.registration = {

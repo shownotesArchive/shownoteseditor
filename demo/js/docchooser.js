@@ -57,25 +57,25 @@ sne.steps.docchooser = {};
           return;
         }
 
-        openDoc(doc.name);
+        openDoc(doc.id);
       }
     );
     $td.find('button.download').click(
       function ()
       {
-        downloadDoc(doc.name);
+        downloadDoc(doc.id, doc.name);
       }
     );
     $td.find('button.rename').click(
       function ()
       {
-        downloadDoc(doc.name);
+        downloadDoc(doc.id);
       }
     );
     $td.find('button.delete').click(
       function ()
       {
-        deleteDoc(doc.name);
+        deleteDoc(doc.id);
         reloadDocsTable();
       }
     );
@@ -173,13 +173,13 @@ sne.steps.docchooser = {};
     return { files: files, errors: errors };
   }
 
-  function openDoc (name)
+  function openDoc (id)
   {
     var doc;
 
     for (var i = 0; i < docs.length; i++)
     {
-      if(docs[i].name == name)
+      if(docs[i].id == id)
         doc = docs[i];
     }
 
@@ -196,9 +196,9 @@ sne.steps.docchooser = {};
     sne.steps.docchooser.hide();
   }
 
-  function downloadDoc (name)
+  function downloadDoc (id, name)
   {
-    shownoteseditor.connectors[sne.connectorName].getDocument(sne.connectorOptions, name,
+    shownoteseditor.connectors[sne.connectorName].getDocument(sne.connectorOptions, id,
       function (err, notes)
       {
         var osf = osftools.osfNotes(notes);
