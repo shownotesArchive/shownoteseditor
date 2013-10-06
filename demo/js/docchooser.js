@@ -16,8 +16,8 @@ sne.steps.docchooser = {};
 
   sne.steps.docchooser.hide = function ()
   {
-    docchooserCallback();
     $('#docChooserWrapper').removeClass('active');
+    docchooserCallback();
   };
 
   function reloadDocsTable ()

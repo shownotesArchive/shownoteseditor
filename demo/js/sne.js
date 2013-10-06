@@ -70,5 +70,6 @@ sne.steps.sne = {};
   sne.steps.sne.hide = function ()
   {
     $('#sneWrapper').removeClass('active');
+    sneCallback();
   };
 })();

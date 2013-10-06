@@ -20,8 +20,8 @@ sne.steps.login = {};
 
   sne.steps.login.hide = function ()
   {
-    loginCallback();
     $('#remove').removeClass('active');
+    loginCallback();
   };
 
   function fillForms(reg)
