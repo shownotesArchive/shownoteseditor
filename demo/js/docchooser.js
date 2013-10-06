@@ -75,8 +75,14 @@ sne.steps.docchooser = {};
     $td.find('button.delete').click(
       function ()
       {
-        deleteDoc(doc.id);
-        reloadDocsTable();
+        deleteDoc(doc.id,
+          function (err)
+          {
+            reloadDocsTable();
+            if(err)
+              alert(err);
+          }
+        );
       }
     );
   }
@@ -218,13 +224,8 @@ sne.steps.docchooser = {};
     );
   }
 
-  function deleteDoc (name)
+  function deleteDoc (id, cb)
   {
-    shownoteseditor.connectors[sne.connectorName].deleteDocument(sne.connectorOptions, name,
-      function (err)
-      {
-        reloadDocsTable();
-      }
-    );
+    shownoteseditor.connectors[sne.connectorName].deleteDocument(sne.connectorOptions, id, cb);
   }
 })();

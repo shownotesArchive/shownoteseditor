@@ -7,14 +7,13 @@
   {
     console.log("firebase init", options);
 
-    getUserRef(options,
-      function (err, userRef)
+    getDocRef(options, options.docid,
+      function (err, docRef)
       {
         if(err)
           return cb(err);
 
-        this.userRef = userRef;
-        this.docRef = this.userRef.child('docs/' + options.docid);
+        this.docRef = docRef;
         this.notesRef = this.docRef.child('notes');
         this.notesRef.on('child_added', fireChildAdded, this);
         this.notesRef.on('child_removed', fireChildRemoved, this);
@@ -65,6 +64,20 @@
         rememberMe: true
       });
     }
+  }
+
+  function getDocRef (options, docid, cb)
+  {
+    getUserRef (options,
+      function (err, userRef)
+      {
+        if(err)
+          return cb(err);
+
+        var docRef = userRef.child('docs/' + docid);
+        cb(null, docRef);
+      }
+    );
   }
 
   function fireChildAdded (snap)
@@ -288,14 +301,14 @@
 
   shownoteseditor.connectors.firebase.createDocument = function (options, doc, cb)
   {
-    getUserRef (options,
-      function (err, userRef)
+    var id = generateUuid();
+
+    getDocRef (options, id,
+      function (err, docRef)
       {
         if(err)
           return cb(err);
 
-        var id = generateUuid();
-        var docRef = userRef.child('docs/' + id);
         docRef.set(doc,
           function (err)
           {
@@ -314,14 +327,38 @@
     );
   };
 
-  shownoteseditor.connectors.firebase.deleteDocument = function (options, docname, cb)
+  shownoteseditor.connectors.firebase.deleteDocument = function (options, docid, cb)
   {
-    cb(null);
+    getDocRef (options, docid,
+      function (err, docRef)
+      {
+        if(err)
+          return cb(err);
+        docRef.remove(cb);
+      }
+    );
   };
 
-  shownoteseditor.connectors.firebase.changeDocument = function (options, docname, newDoc, cb)
+  shownoteseditor.connectors.firebase.changeDocument = function (options, docid, newDoc, cb)
   {
-    cb(null);
+    getDocRef (options, docid,
+      function (err, docRef)
+      {
+        if(err)
+          return cb(err);
+
+        var children = [ 'name', 'urls' ];
+
+        async.eachSeries(
+          children,
+          function (child, cb)
+          {
+            docRef.child(child).set(newDoc[child], cb);
+          },
+          cb
+        );
+      }
+    );
   };
 
   function getFriendlyJson(note)
