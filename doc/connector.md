@@ -12,6 +12,16 @@ server of some kind.
 * createDocument (options, doc, cb)
 * deleteDocument (options, docname, cb)
 * changeDocument (options, docname, newDoc, cb)
+* register (options)
+
+## Static fields
+* registration
+  * needsRegistration
+    * boolean
+  * registerFields
+    * string-array of needed fields to register
+  * loginFields
+    * string-array of needed fields to login
 
 ## Public functions
 
@@ -62,7 +72,7 @@ server of some kind.
 }
 ```
 
-## Options for `firebase.js`
+## Options for `firebaseconn.js`
 ```javascript
 {
   name: "firebase",
@@ -71,7 +81,7 @@ server of some kind.
     docname: "",
     auth:
     {
-      username: "",
+      email: "",
       password: ""
     }
   }

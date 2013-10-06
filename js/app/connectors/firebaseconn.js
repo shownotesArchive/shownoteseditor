@@ -7,16 +7,57 @@
   {
     console.log("firebase init", options);
 
-    this.docname = options.docname;
-    this.rootRef = new Firebase('https://sne.firebaseIO.com/users/' + options.username + "/" + options.docname);
-    this.notesRef = this.rootRef.child('notes');
-    this.notesRef.on('child_added', fireChildAdded, this);
-    this.notesRef.on('child_removed', fireChildRemoved, this);
+    getUserRef(options,
+      function (err, userRef)
+      {
+        if(err)
+          return cb(err);
 
-    idRefMap["_root"] = this.notesRef;
+        this.userRef = userRef;
+        this.docRef = this.userRef.child('docs/' + options.docid);
+        this.notesRef = this.docRef.child('notes');
+        this.notesRef.on('child_added', fireChildAdded, this);
+        this.notesRef.on('child_removed', fireChildRemoved, this);
 
-    cb();
+        idRefMap["_root"] = this.notesRef;
+
+        cb();
+      }.bind(this)
+    );
   };
+
+  function getUserRef (options, cb)
+  {
+    var rootRef = new Firebase('https://sne.firebaseIO.com/');
+    var loginCalled = false;
+
+    var auth = new FirebaseSimpleLogin(rootRef,
+      function(error, user)
+      {
+        if (error) {
+          cb(error);
+        } else if (user) {
+          var userRef = rootRef.child('users/' + user.id + '/');
+          cb(null, userRef, user.id);
+        } else if(loginCalled) {
+          cb("Log logged in");
+        } else {
+          loginCalled = true;
+        }
+      }
+    );
+
+    if(options.auth &&
+       typeof options.auth.email == "string" &&
+       typeof options.auth.password  == "string")
+    {
+      auth.login('password', {
+        email: options.auth.email,
+        password: options.auth.password,
+        rememberMe: true
+      });
+    }
+  }
 
   function fireChildAdded (snap)
   {
@@ -44,6 +85,9 @@
       ref.child(attr).on('value',
         function (snap)
         {
+          if(snap.val() === null)
+            return; // note got deleted
+          
           this.getNote(id,
             function (err, note)
             {
@@ -178,33 +222,100 @@
         return v.toString(16);
       }
     );
-  };
+  }
 
   shownoteseditor.connectors.firebase.prototype = self;
   MicroEvent.mixin(shownoteseditor.connectors.firebase);
 
+  shownoteseditor.connectors.firebase.login = function (options, cb)
+  {
+    getUserRef(options, cb);
+  };
+
   shownoteseditor.connectors.firebase.listDocuments = function (options, cb)
   {
-    cb(null, []);
+    getUserRef (options,
+      function (err, userRef)
+      {
+        if(err)
+          return cb(err);
+
+        var docsRef = userRef.child('docs');
+        docsRef.once('value',
+          function (snap)
+          {
+            var docs = [];
+            var val = snap.val();
+
+            if(val != null) // null => new user
+            {
+              var ids = Object.keys(val);
+
+              for (var i = 0; i < ids.length; i++)
+              {
+                var id = ids[i];
+                docs.push(
+                  {
+                    id: id,
+                    name: val[id].name
+                  }
+                );
+              }
+            }
+
+            cb(null, docs);
+          }
+        );
+      }
+    );
   };
 
-  shownoteseditor.connectors.memory.getDocument = function (options, docname, cb)
+  shownoteseditor.connectors.firebase.getDocument = function (options, docname, cb)
   {
     cb(null, []);
   };
 
-  shownoteseditor.connectors.memory.createDocument = function (options, doc, cb)
+  shownoteseditor.connectors.firebase.createDocument = function (options, doc, cb)
+  {
+    getUserRef (options,
+      function (err, userRef)
+      {
+        if(err)
+          return cb(err);
+
+        var id = generateUuid();
+        var docRef = userRef.child('docs/' + id);
+        docRef.set(doc,
+          function (err)
+          {
+            if(err)
+            {
+              cb(err);
+            }
+            else
+            {
+              doc.id = id;
+              cb(null, doc);
+            }
+          }
+        );
+      }
+    );
+  };
+
+  shownoteseditor.connectors.firebase.deleteDocument = function (options, docname, cb)
   {
     cb(null);
   };
 
-  shownoteseditor.connectors.memory.deleteDocument = function (options, docname, cb)
+  shownoteseditor.connectors.firebase.changeDocument = function (options, docname, newDoc, cb)
   {
     cb(null);
   };
 
-  shownoteseditor.connectors.memory.changeDocument = function (options, docname, newDoc, cb)
-  {
-    cb(null);
+  shownoteseditor.connectors.firebase.registration = {
+    needsRegistration: true,
+    registerFields: [ "email", "password" ],
+    loginFields: [ "email", "password" ]
   };
 })();

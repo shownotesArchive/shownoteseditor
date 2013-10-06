@@ -8,17 +8,19 @@
     <link href="./lib/bootstrap-tables.min.css" rel="stylesheet">
 </head>
 <body>
-    <div id="notes"></div>
-
-    <div id="exportImport" class="hidden">
-        <div class="btns">
-            <button id="btnImport">Import</button><br>
-            <button id="btnExport">Export</button>
+    <div id="login" class="step">
+        <div id="loginFields">
         </div>
-        <textarea id="txtOsf"></textarea>
+        <span id="loginError" class="error"></span><br>
+        <button id="loginSubmit">Login</button>
+        <hr>
+        <div id="registerFields">
+        </div>
+        <span id="registerError" class="error"></span><br>
+        <button id="registerSubmit">Register</button>
     </div>
 
-    <div id="docChooserWrapper" class="active">
+    <div id="docChooserWrapper" class="step">
         <div id="docChooser">
             <h1>Shownoteseditor <i class="icon-heart"></i></h1>
             <h1>Achtung! Noch wird alles nur lokal gespeichert!<br>Backups werden empfohlen.</h1>
@@ -57,20 +59,34 @@
         </div>
     </div>
 
-    <div id="bottom">
-        <h1 id="title">Shownotes-<br>editor <i class="icon-heart"></i></h1>
-        <div id="maineditor"></div>
-        <br>
-        <div id="player"></div>
-        <div id="mainBtns">
-            <button id="btnShowImportExport">Import / Export</button>
-            <button id="btnShowDocChooser">Back</button>
+    <div id="sneWrapper" class="step">
+        <div id="notes"></div>
+
+        <div id="exportImport" class="hidden">
+            <div class="btns">
+                <button id="btnImport">Import</button><br>
+                <button id="btnExport">Export</button>
+            </div>
+            <textarea id="txtOsf"></textarea>
+        </div>
+
+        <div id="bottom">
+            <h1 id="title">Shownotes-<br>editor <i class="icon-heart"></i></h1>
+            <div id="maineditor"></div>
+            <br>
+            <div id="player"></div>
+            <div id="mainBtns">
+                <button id="btnShowImportExport">Import / Export</button>
+                <button id="btnShowDocChooser">Back</button>
+            </div>
         </div>
     </div>
 
 
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+    <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase-simple-login.js'></script>
+
     <script src="./lib/move.min.js"></script>
     <script src="./lib/jquery.uitablefilter.js"></script>
 
@@ -92,7 +108,7 @@
     <script src="../js/app/ui.js"></script>
     <script src="../js/app/players/audiojs.js"></script>
     <script src="../js/app/connectors/memory.js"></script>
-    <script src="../js/app/connectors/firebase.js"></script>
+    <script src="../js/app/connectors/firebaseconn.js"></script>
     <script src="../js/app/lists/standard.js"></script>
     <script src="../js/app/editors/inline.js"></script>
 
@@ -105,6 +121,9 @@
         <script src="../dest/app.min.js"></script>
     -->
     
+    <script src="./js/docchooser.js"></script>
+    <script src="./js/login.js"></script>
+    <script src="./js/sne.js"></script>
     <script src="./demo.js"></script>
 </body>
 </html>
