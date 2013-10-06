@@ -29,7 +29,7 @@
   function getUserRef (options, cb)
   {
     var rootRef = new Firebase('https://sne.firebaseIO.com/');
-    var loginCalled = false;
+    var gotLoginCallback = false;
 
     var auth = new FirebaseSimpleLogin(rootRef,
       function(error, user)
@@ -39,10 +39,10 @@
         } else if (user) {
           var userRef = rootRef.child('users/' + user.id + '/');
           cb(null, userRef, user.id);
-        } else if(loginCalled) {
-          cb("Log logged in");
+        } else if(gotLoginCallback) {
+          cb("Not logged in");
         } else {
-          loginCalled = true;
+          gotLoginCallback = true;
         }
       }
     );
@@ -56,6 +56,10 @@
         password: options.auth.password,
         rememberMe: true
       });
+    }
+    else
+    {
+      gotLoginCallback = true;
     }
   }
 
@@ -87,7 +91,7 @@
         {
           if(snap.val() === null)
             return; // note got deleted
-          
+
           this.getNote(id,
             function (err, note)
             {
