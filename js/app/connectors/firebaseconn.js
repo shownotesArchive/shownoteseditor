@@ -31,6 +31,13 @@
     var rootRef = new Firebase('https://sne.firebaseIO.com/');
     var gotLoginCallback = false;
 
+    if(!options.auth ||
+       typeof options.auth.email != "string" &&
+       typeof options.auth.password  != "string")
+    {
+      gotLoginCallback = true;
+    }
+
     var auth = new FirebaseSimpleLogin(rootRef,
       function(error, user)
       {
@@ -47,19 +54,13 @@
       }
     );
 
-    if(options.auth &&
-       typeof options.auth.email == "string" &&
-       typeof options.auth.password  == "string")
+    if(!gotLoginCallback)
     {
       auth.login('password', {
         email: options.auth.email,
         password: options.auth.password,
         rememberMe: true
       });
-    }
-    else
-    {
-      gotLoginCallback = true;
     }
   }
 
