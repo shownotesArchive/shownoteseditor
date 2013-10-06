@@ -49,8 +49,14 @@ sne.steps.docchooser = {};
     $td.click(
       function (e)
       {
-        if(e.target.tagName.toLowerCase() == "button")
+        var $target = $(e.target);
+
+        if($target.prop('tagName').toLowerCase() == "button" ||
+           $target.parent().prop('tagName').toLowerCase() == "button")
+        {
           return;
+        }
+
         openDoc(doc.name);
       }
     );
