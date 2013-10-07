@@ -115,32 +115,38 @@ body, html
 
 #notes
 {
-  @marginTop: 10px;
   @marginLeft: 25px;
 
-  height: calc(~"100% - 120px - " @marginTop);
+  height: calc(~"100% - 130px");
   width: calc(~"100% - " @marginLeft);
-  height: -webkit-calc(~"100% - 120px - " @marginTop);
+  height: -webkit-calc(~"100% - 130px");
   width: -webkit-calc(~"100% - " @marginLeft);
 
-  margin-top: @marginTop;
+  margin-top: 10px;
   margin-left: @marginLeft;
 
   overflow: scroll;
   position: absolute;
 }
 
-#player
+#playerEditorWrapper
 {
-  > .audiojs
-  {
-    width: 520px;
-  }
+  width: -webkit-calc(100% - 50px);
+  max-width: 520px;
 }
 
 #maineditor
 {
-  width: 520px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#player
+{
+  > .audiojs
+  {
+    width: 100%;
+  }
 }
 
 #exportImport
