@@ -75,13 +75,7 @@ sne.steps.login = {};
     function ()
     {
       var reg = shownoteseditor.connectors[sne.connectorName].registration;
-      sne.connectorOptions.auth = {};
-
-      for (var i = 0; i < reg.loginFields.length; i++) {
-        var field = reg.loginFields[i];
-        var val = $loginFields.find('input[data-name=' + field + ']').val();
-        sne.connectorOptions.auth[field] = val;
-      }
+      sne.connectorOptions.auth = getFieldData($loginFields, reg.loginFields);
 
       shownoteseditor.connectors[sne.connectorName].login(
         sne.connectorOptions,
@@ -103,7 +97,37 @@ sne.steps.login = {};
   $('#registerSubmit').click(
     function ()
     {
-      alert("todo");
+      var reg = shownoteseditor.connectors[sne.connectorName].registration;
+      var regFields = getFieldData($registerFields, reg.registerFields);
+
+      shownoteseditor.connectors[sne.connectorName].register(
+        regFields,
+        function (err)
+        {
+          if(err)
+          {
+            $('#registerStatus').removeClass('success').addClass('error').text(err);
+          }
+          else
+          {
+            $('#registerStatus').removeClass('error').addClass('success').text("Success.");
+          }
+        }
+      );
     }
-  )
+  );
+
+  function getFieldData($fields, fields)
+  {
+    var auth = {};
+
+    for (var i = 0; i < fields.length; i++)
+    {
+      var field = fields[i];
+      var val = $fields.find('input[data-name=' + field + ']').val();
+      auth[field] = val;
+    }
+
+    return auth;
+  }
 })();

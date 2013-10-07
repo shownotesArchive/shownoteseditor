@@ -254,6 +254,13 @@
     getUserRef(options, cb);
   };
 
+  shownoteseditor.connectors.firebase.register = function (fields, cb)
+  {
+    var rootRef = new Firebase('https://sne.firebaseIO.com/');
+    var auth = new FirebaseSimpleLogin(rootRef, function(error, user) {});
+    auth.createUser(fields.email, fields.password, cb);
+  };
+
   shownoteseditor.connectors.firebase.listDocuments = function (options, cb)
   {
     getUserRef (options,
