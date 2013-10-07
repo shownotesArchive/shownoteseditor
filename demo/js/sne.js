@@ -9,6 +9,7 @@ sne.steps.sne = {};
   {
     sneCallback = cb;
     $('#sneWrapper').addClass('active');
+    $('body').css('overflow', 'hidden');
 
     var options =
     {
@@ -70,6 +71,7 @@ sne.steps.sne = {};
   sne.steps.sne.hide = function ()
   {
     $('#sneWrapper').removeClass('active');
+    $('body').css('overflow', '');
     sneCallback();
   };
 })();

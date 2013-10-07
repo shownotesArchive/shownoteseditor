@@ -15,6 +15,7 @@ demo/lib
 css/app/lists/*.css
 css/app/editors/*.css
 demo/demo.css
+demo/mobile.css
 
 # demo files
 demo/ls000-der-lautsprecher.mp3
