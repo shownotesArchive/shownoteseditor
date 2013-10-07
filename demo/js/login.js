@@ -6,6 +6,7 @@ sne.steps.login = {};
   var $loginFields = $('#loginFields');
   var $registerFields = $('#registerFields');
   var loginCallback = null;
+  var lockIntervalId = 0;
 
   sne.steps.login.show = function (cb)
   {
@@ -15,14 +16,22 @@ sne.steps.login = {};
     if(!reg.needsRegistration)
       return loginCallback();
 
+    lockIntervalId = setInterval(animateLock, 1000);
     fillForms(reg);
   };
 
   sne.steps.login.hide = function ()
   {
     $('#login').removeClass('active');
+    $('#loginLocks').css('display', 'none');
+    clearInterval(lockIntervalId);
     loginCallback();
   };
+
+  function animateLock()
+  {
+    $('#loginLocks > i').toggle();
+  }
 
   function fillForms(reg)
   {
@@ -31,7 +40,7 @@ sne.steps.login = {};
       function (err)
       {
         if (!err)
-          return loginCallback();
+          return sne.steps.login.hide();
 
         for (var i = 0; i < reg.loginFields.length; i++)
         {
