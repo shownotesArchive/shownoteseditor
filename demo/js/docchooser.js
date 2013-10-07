@@ -6,6 +6,7 @@ sne.steps.docchooser = {};
   var previewPlayerTimeout = -1;
   var docchooserCallback = null;
   var docs = [];
+  var $docs = $('#docs');
 
   sne.steps.docchooser.show = function (cb)
   {

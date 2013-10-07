@@ -4,6 +4,7 @@ sne.steps.sne = {};
 (function ()
 {
   var sneCallback = null;
+  var $txtOsf = $('#txtOsf');
 
   sne.steps.sne.show = function (cb)
   {
@@ -62,6 +63,7 @@ sne.steps.sne = {};
 
     sne.main = new shownoteseditor.sne(options,
       function (err)
+      
       {
         console.log("done, err=%s", err);
       }
@@ -74,4 +76,58 @@ sne.steps.sne = {};
     $('body').css('overflow', '');
     sneCallback();
   };
+
+  $('#btnShowDocChooser').click(
+    function ()
+    {
+      sne.steps.sne.hide();
+      sne.steps.docchooser.show(
+        function ()
+        {
+          sne.steps.sne.show(function (){});
+        }
+      );
+    }
+  );
+
+  $('#btnShowImportExport').click(
+    function ()
+    {
+      var $exportImport = $('#exportImport');
+      $exportImport.toggleClass('hidden');
+      if($exportImport.hasClass('hidden'))
+      {
+        move("#exportImport").set("right", -550).end();
+      }
+      else
+      {
+        move("#exportImport").set("right", 0).end();
+      }
+    }
+  );
+
+  $('#btnExport').click(
+    function ()
+    {
+      sne.main.connector.getFriendlyJson(
+        function (err, notes)
+        {
+          if(err)
+            return alert(err);
+
+          var osf = osftools.osfNotes(notes);
+          $txtOsf.val(osf);
+        }
+      );
+    }
+  );
+
+  $('#btnImport').click(
+    function ()
+    {
+      var osf = $txtOsf.val();
+      var notes = osftools.parseNotes(osf);
+      sne.loadNotes(notes);
+    }
+  );
 })();
