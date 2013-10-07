@@ -41,9 +41,16 @@ $('#btnShowImportExport').click(
 $('#btnExport').click(
   function ()
   {
-    var notes = sne.connector.getFriendlyJson();
-    var osf = osftools.osfNotes(notes);
-    $txtOsf.val(osf);
+    sne.main.connector.getFriendlyJson(
+      function (err, notes)
+      {
+        if(err)
+          return alert(err);
+        
+        var osf = osftools.osfNotes(notes);
+        $txtOsf.val(osf);
+      }
+    );
   }
 );
 

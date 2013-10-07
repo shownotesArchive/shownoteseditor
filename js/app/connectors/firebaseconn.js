@@ -208,9 +208,20 @@
     );
   };
 
-  self.getFriendlyJson = function (note)
+  self.getFriendlyJson = function (cb)
   {
-
+    this.notesRef.once('value',
+      function (snap)
+      {
+        var val = snap.val();
+        var notes = [];
+        if(val != null)
+        {
+          notes = getFriendlyJson({ notes: val });
+        }
+        cb(null, notes);
+      }
+    );
   };
 
   self.doLoad = function (cb)

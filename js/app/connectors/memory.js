@@ -90,32 +90,26 @@
     cb(null, osftools.cloneNote(parentNote.notes[id], false));
   };
 
-  self.getFriendlyJson = function (note)
+  self.getFriendlyJson = function (cb)
   {
-    if(!note)
-    {
-      note = this.notes;
-    }
+    var notes = getFriendlyJson(this.notes);
+    cb(null, notes);
+  };
 
+  function getFriendlyJson(note)
+  {
     var notes = [];
 
     for (var id in note.notes)
     {
       var snote = note.notes[id];
-      var fnote =
-      {
-        time: snote.time,
-        text: snote.text,
-        link: snote.link,
-        tags: snote.tags,
-        notes: this.getFriendlyJson(snote)
-      };
-
+      var fnote = osftools.cloneNote(snote, false);
+      fnote.notes = getFriendlyJson(snote);
       notes.push(fnote);
     }
 
     return notes;
-  };
+  }
 
   self.findParent = function (id, note)
   {

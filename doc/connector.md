@@ -41,8 +41,8 @@ server of some kind.
 * `getNote (id, cb)`
   * callback: `function (err, note)`
     * `note`: note without sub-notes
-* `getFriendlyJson ()`
-  * returns all notes in the format described in `note.md`
+* `getFriendlyJson (cb)`
+  * get all notes in the format described in `note.md`
 * `bind (event, fct)` - MicroEvent
 * `unbind (event, fct)` - MicroEvent
 
