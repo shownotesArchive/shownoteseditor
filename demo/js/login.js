@@ -23,14 +23,19 @@ sne.steps.login = {};
   sne.steps.login.hide = function ()
   {
     $('#login').removeClass('active');
-    $('#loginLocks').css('display', 'none');
-    clearInterval(lockIntervalId);
+    stopLockAnimation();
     loginCallback();
   };
 
   function animateLock()
   {
     $('#loginLocks > i').toggle();
+  }
+
+  function stopLockAnimation()
+  {
+    $('#loginLocks').css('display', 'none');
+    clearInterval(lockIntervalId);
   }
 
   function fillForms(reg)
@@ -53,6 +58,7 @@ sne.steps.login = {};
         }
 
         $('#login').addClass('active');
+        stopLockAnimation();
       }
     );
 
