@@ -21,7 +21,7 @@ body, html
   }
 }
 
-#docChooserWrapper
+#initwrapper
 {
   position: absolute;
   top: 0;
@@ -31,6 +31,22 @@ body, html
 
   width: 100%;
   min-height: 100%;
+
+  > div:first-child
+  {
+    @bgcolor: #FFF;
+    border-radius: 50px;
+    background-color: @bgcolor;
+    box-shadow: 0 0 100px @bgcolor;
+    color: black;
+
+    width: 60%;
+
+    padding: 20px;
+    padding-top: 1px;
+
+    margin: 50px auto;
+  }
 
   &:before
   {
@@ -45,26 +61,13 @@ body, html
   }
 }
 
+#mainTitle
+{
+  text-align: center;
+}
+
 #docChooser
 {
-  @bgcolor: #FFF;
-  border-radius: 50px;
-  background-color: @bgcolor;
-  box-shadow: 0 0 100px @bgcolor;
-  color: black;
-
-  width: 60%;
-
-  padding: 20px;
-  padding-top: 1px;
-
-  margin: 50px auto;
-
-  > h1
-  {
-    text-align: center;
-  }
-
   > #docsWrapper
   {
     height: 300px;

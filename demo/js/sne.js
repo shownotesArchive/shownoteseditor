@@ -3,12 +3,10 @@ sne.steps.sne = {};
 
 (function ()
 {
-  var sneCallback = null;
   var $txtOsf = $('#txtOsf');
 
-  sne.steps.sne.show = function (cb)
+  sne.steps.sne.show = function ()
   {
-    sneCallback = cb;
     $('#sneWrapper').addClass('active');
     $('body').css('overflow', 'hidden');
 
@@ -63,7 +61,6 @@ sne.steps.sne = {};
 
     sne.main = new shownoteseditor.sne(options,
       function (err)
-      
       {
         console.log("done, err=%s", err);
       }
@@ -74,7 +71,7 @@ sne.steps.sne = {};
   {
     $('#sneWrapper').removeClass('active');
     $('body').css('overflow', '');
-    sneCallback();
+    $('#initwrapper').css('display', 'block');
   };
 
   $('#btnShowDocChooser').click(

@@ -10,51 +10,52 @@
     <meta name="viewport" content="width=device-width, user-scalable=false;">
 </head>
 <body>
-    <div id="login" class="step">
-        <div id="loginFields">
-        </div>
-        <span id="loginError" class="error"></span><br>
-        <button id="loginSubmit">Login</button>
-        <hr>
-        <div id="registerFields">
-        </div>
-        <span id="registerError" class="error"></span><br>
-        <button id="registerSubmit">Register</button>
-    </div>
-
-    <div id="docChooserWrapper" class="step">
-        <div id="docChooser">
-            <h1>Shownoteseditor <i class="icon-heart"></i></h1>
-            <span>Filter documents: <input id="docsSearch"></span>
-            <hr>
-            <div id="docsWrapper">
-                <table id="docs" class="table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Notes</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <span id="noDocs" style="display:none">You do not have any documents. Create one below.</span>
+    <div id="initwrapper">
+        <div>
+            <h1 id="mainTitle">Shownoteseditor <i class="icon-heart"></i></h1>
+            <div id="login" class="step">
+                <div id="loginFields">
+                </div>
+                <span id="loginError" class="error"></span><br>
+                <button id="loginSubmit">Login</button>
+                <hr>
+                <div id="registerFields">
+                </div>
+                <span id="registerError" class="error"></span><br>
+                <button id="registerSubmit">Register</button>
             </div>
-            <hr>
-            <div id="createDoc">
-                <span>New document:</span><br>
-                <input id="txtCreateDocName" placeholder="Name"><br>
-                <input id="txtCreateDocFile" placeholder="File-URL"> (MP3)<br>
-                <div id="createPlayerWrapper"></div><br>
-                <button id="btnCreateDoc">Create</button>
-            </div>
-            <div style="display: none">
-                <div id="btnsTemplate" class="btns">
-                    <button class="edit"><i class="icon-pencil"></i></button>
-                    <button class="download"><i class="icon-download-alt"></i></button>
-                    <button class="delete"><i class="icon-trash"></i></button>
+            <div id="docChooser" class="step">
+                <span>Filter documents: <input id="docsSearch"></span>
+                <hr>
+                <div id="docsWrapper">
+                    <table id="docs" class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Notes</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <span id="noDocs" style="display:none">You do not have any documents. Create one below.</span>
+                </div>
+                <hr>
+                <div id="createDoc">
+                    <span>New document:</span><br>
+                    <input id="txtCreateDocName" placeholder="Name"><br>
+                    <input id="txtCreateDocFile" placeholder="File-URL"> (MP3)<br>
+                    <div id="createPlayerWrapper"></div><br>
+                    <button id="btnCreateDoc">Create</button>
+                </div>
+                <div style="display: none">
+                    <div id="btnsTemplate" class="btns">
+                        <button class="edit"><i class="icon-pencil"></i></button>
+                        <button class="download"><i class="icon-download-alt"></i></button>
+                        <button class="delete"><i class="icon-trash"></i></button>
+                    </div>
                 </div>
             </div>
         </div>

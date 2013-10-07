@@ -10,14 +10,14 @@ sne.steps.docchooser = {};
 
   sne.steps.docchooser.show = function (cb)
   {
-    $('#docChooserWrapper').addClass('active');
+    $('#docChooser').addClass('active');
     reloadDocsTable();
     docchooserCallback = cb;
   };
 
   sne.steps.docchooser.hide = function ()
   {
-    $('#docChooserWrapper').removeClass('active');
+    $('#docChooser').removeClass('active');
     docchooserCallback();
   };
 
