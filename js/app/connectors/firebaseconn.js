@@ -18,7 +18,7 @@
         this.notesRef.on('child_added', fireChildAdded, this);
         this.notesRef.on('child_removed', fireChildRemoved, this);
 
-        idRefMap["_root"] = this.notesRef;
+        idRefMap["_root"] = this.docRef; // idRefMap points to a *note*, or to things that have a .child('notes')
 
         cb();
       }.bind(this)
@@ -153,7 +153,7 @@
       return cb("parent not found");
 
     var id = generateUuid();
-    parentRef.child(id).set(note,
+    parentRef.child("notes/" + id).set(note,
       function (err)
       {
         cb(err, !!err ? id : null);
