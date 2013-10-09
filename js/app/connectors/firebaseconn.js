@@ -286,7 +286,8 @@
                 docs.push(
                   {
                     id: id,
-                    name: val[id].name
+                    name: val[id].name,
+                    urls: val[id].urls
                   }
                 );
               }
