@@ -13,6 +13,11 @@ wget "https://raw.github.com/luto/audiojs/master/audiojs/audiojs.swf" -O audiojs
 wget "https://raw.github.com/luto/audiojs/master/audiojs/player-graphics.gif" -O player-graphics.gif
 cd ..
 
+mkdir mediaelement
+wget "http://github.com/johndyer/mediaelement/zipball/master" -O elementjs.zip
+mediaelementfiles=$(unzip -l elementjs.zip | grep -oP "johndyer-mediaelement-[a-z0-9]+/build/.+" | grep -v txt)
+unzip -oqj elementjs.zip $mediaelementfiles -d mediaelement
+
 cd ../..
 
 mkdir demo/lib
