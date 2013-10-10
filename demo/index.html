@@ -19,15 +19,22 @@
             <div id="loginLocks"><i class="icon-lock"></i><i class="icon-unlock" style="display: none"></i><br>
             <span>logging in..</span></div>
             <div id="login" class="step">
-                <div id="loginFields">
+                <div id="loginForms">
+                    <div id="l_login">
+                        <h2>Login</h2>
+                        <div id="loginFields">
+                        </div>
+                        <span id="loginError" class="error"></span><br>
+                        <button id="loginSubmit">Login</button>
+                    </div>
+                    <div id="l_register">
+                        <h2>Register</h2>
+                        <div id="registerFields">
+                        </div>
+                        <span id="registerStatus"></span><br>
+                        <button id="registerSubmit">Register</button>
+                    </div>
                 </div>
-                <span id="loginError" class="error"></span><br>
-                <button id="loginSubmit">Login</button>
-                <hr>
-                <div id="registerFields">
-                </div>
-                <span id="registerStatus"></span><br>
-                <button id="registerSubmit">Register</button>
             </div>
             <div id="docChooser" class="step">
                 <span>Filter documents: <input id="docsSearch"></span>

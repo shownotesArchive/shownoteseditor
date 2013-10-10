@@ -15,6 +15,39 @@ body, html
 
 #login
 {
+  > #loginForms
+  {
+    width: 445px;
+    margin: 0 auto;
+
+    > div
+    {
+      width: 210px;
+      display: inline-block;
+
+      input
+      {
+        width: 175px;
+      }
+
+      h2
+      {
+        margin-top: 0;
+      }
+
+      &#l_login
+      {
+        text-align: right;
+        margin-right: 10px;
+      }
+
+      &#l_register
+      {
+        margin-left: 10px;
+      }
+    }
+  }
+
   .error
   {
     color: darkred;
@@ -22,6 +55,21 @@ body, html
   .success
   {
     color: green;
+  }
+
+  .field
+  {
+    margin-bottom: 5px;
+
+    > span
+    {
+      width: 100px;
+      display: inline-block;
+    }
+    > input
+    {
+
+    }
   }
 }
 

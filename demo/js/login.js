@@ -64,9 +64,18 @@ sne.steps.login = {};
 
     function addField($parent, field)
     {
-      var $field = $('<div><span></span><input></div>');
-      $field.find('span').text(field + ": ");
-      $field.find('input').attr('data-name', field);
+      var $field = $('<div class="field"><span></span><input></div>');
+      var $text = $field.children('span');
+      var $input = $field.children('input');
+
+      var text = field;
+      text = text.charAt(0).toUpperCase() + text.slice(1);
+      $text.text(text);
+
+      $input.attr('data-name', field);
+      if(field == "password")
+        $input.attr('type', 'password');
+
       $parent.append($field);
     }
   }
