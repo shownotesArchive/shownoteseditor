@@ -80,51 +80,55 @@ sne.steps.login = {};
     }
   }
 
-  $('#loginSubmit').click(
-    function ()
-    {
-      var reg = shownoteseditor.connectors[sne.connectorName].registration;
-      sne.connectorOptions.auth = getFieldData($loginFields, reg.loginFields);
+  $('#loginSubmit').click(submitLogin);
+  $('#registerSubmit').click(submitRegister);
 
-      shownoteseditor.connectors[sne.connectorName].login(
-        sne.connectorOptions,
-        function (err)
+  function submitLogin ()
+  {
+    var reg = shownoteseditor.connectors[sne.connectorName].registration;
+    sne.connectorOptions.auth = getFieldData($loginFields, reg.loginFields);
+    execLogin ();
+  }
+
+  function execLogin ()
+  {
+    shownoteseditor.connectors[sne.connectorName].login(
+      sne.connectorOptions,
+      function (err)
+      {
+        if(err)
         {
-          if(err)
-          {
-            $('#loginError').text(err);
-          }
-          else
-          {
-            sne.steps.login.hide();
-          }
+          $('#loginError').text(err);
         }
-      );
-    }
-  );
-
-  $('#registerSubmit').click(
-    function ()
-    {
-      var reg = shownoteseditor.connectors[sne.connectorName].registration;
-      var regFields = getFieldData($registerFields, reg.registerFields);
-
-      shownoteseditor.connectors[sne.connectorName].register(
-        regFields,
-        function (err)
+        else
         {
-          if(err)
-          {
-            $('#registerStatus').removeClass('success').addClass('error').text(err);
-          }
-          else
-          {
-            $('#registerStatus').removeClass('error').addClass('success').text("Success.");
-          }
+          sne.steps.login.hide();
         }
-      );
-    }
-  );
+      }
+    );
+  }
+
+  function submitRegister ()
+  {
+    var reg = shownoteseditor.connectors[sne.connectorName].registration;
+    var regFields = getFieldData($registerFields, reg.registerFields);
+
+    shownoteseditor.connectors[sne.connectorName].register(
+      regFields,
+      function (err)
+      {
+        if(err)
+        {
+          $('#registerStatus').addClass('error').text(err);
+        }
+        else
+        {
+          sne.connectorOptions.auth = regFields;
+          execLogin();
+        }
+      }
+    );
+  }
 
   function getFieldData($fields, fields)
   {
