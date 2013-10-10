@@ -186,6 +186,9 @@
     var $addSubnote = $note.children('.addSubnote');
     var $editorWrapper = $addSubnote.children('.editorWrapper');
 
+    if($addSubnote.hasClass("editing"))
+      return;
+
     this.trigger("addRequested", parentId, $editorWrapper[0], editEnded);
     $addSubnote.addClass("editing");
 
