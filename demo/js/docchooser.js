@@ -102,7 +102,7 @@ sne.steps.docchooser = {};
     }
   );
 
-  $('#txtCreateDocFile').keypress(
+  $('#txtCreateDocFile').keydown(
     function (e)
     {
       if(e.which == 13)
