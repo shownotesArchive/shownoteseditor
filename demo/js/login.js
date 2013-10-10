@@ -49,12 +49,12 @@ sne.steps.login = {};
 
         for (var i = 0; i < reg.loginFields.length; i++)
         {
-          addField($loginFields, reg.loginFields[i]);
+          addField($loginFields, reg.loginFields[i], submitLogin);
         }
 
         for (var i = 0; i < reg.registerFields.length; i++)
         {
-          addField($registerFields, reg.registerFields[i])
+          addField($registerFields, reg.registerFields[i], submitRegister);
         }
 
         $('#login').addClass('active');
@@ -62,7 +62,7 @@ sne.steps.login = {};
       }
     );
 
-    function addField($parent, field)
+    function addField($parent, field, submit)
     {
       var $field = $('<div class="field"><span></span><input></div>');
       var $text = $field.children('span');
@@ -75,6 +75,13 @@ sne.steps.login = {};
       $input.attr('data-name', field);
       if(field == "password")
         $input.attr('type', 'password');
+      $input.keypress(
+        function (e)
+        {
+          if(e.which == 13)
+            submit();
+        }
+      );
 
       $parent.append($field);
     }
