@@ -41,9 +41,9 @@
 
     var $controls = $note.find('.controls');
     var controls = {
-      remove: { icon: "icon-trash", func: userRemoveNote },
-      edit: { icon: "icon-edit", func: userEditNote },
-      addSubnote: { icon: "icon-plus", func: userAddSubnote }
+      remove: { icon: "icon-trash", tooltip: "Remove", func: userRemoveNote },
+      edit: { icon: "icon-edit", tooltip: "Edit", func: userEditNote },
+      addSubnote: { icon: "icon-plus", tooltip: "Add", func: userAddSubnote }
     };
 
     for(var name in controls)
@@ -53,6 +53,7 @@
 
       var $control = $(controlTemplate);
       $control.attr('data-name', name);
+      $control.attr('title', control.tooltip);
       $control.addClass(name);
       $control.addClass(control.icon);
       $control.click(function ()
