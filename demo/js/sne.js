@@ -7,6 +7,7 @@ sne.steps.sne = {};
 
   sne.steps.sne.show = function ()
   {
+    $('#initwrapper').css('display', 'none');
     $('#sneWrapper').addClass('active');
     $('body').css('overflow', 'hidden');
 

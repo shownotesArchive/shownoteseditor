@@ -15,7 +15,6 @@ sne.connectorOptions = { };
     function ()
     {
       sne.steps.sne.show();
-      $('#initwrapper').css('display', 'none');
     }
   );
 })();
