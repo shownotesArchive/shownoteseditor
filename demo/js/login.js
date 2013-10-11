@@ -23,6 +23,7 @@ sne.steps.login = {};
   sne.steps.login.hide = function ()
   {
     $('#login').removeClass('active');
+    $('#logout').show();
     stopLockAnimation();
     loginCallback();
   };
@@ -57,6 +58,7 @@ sne.steps.login = {};
           addField($registerFields, reg.registerFields[i], submitRegister);
         }
 
+        $('#logout').hide();
         $('#login').addClass('active');
         stopLockAnimation();
       }
@@ -89,6 +91,7 @@ sne.steps.login = {};
 
   $('#loginSubmit').click(submitLogin);
   $('#registerSubmit').click(submitRegister);
+  $('#logout').click(submitLogout);
 
   function submitLogin ()
   {
@@ -133,6 +136,16 @@ sne.steps.login = {};
           sne.connectorOptions.auth = regFields;
           execLogin();
         }
+      }
+    );
+  }
+
+  function submitLogout ()
+  {
+    shownoteseditor.connectors[sne.connectorName].logout(
+      function (err)
+      {
+        location.reload();
       }
     );
   }

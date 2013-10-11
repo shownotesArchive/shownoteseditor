@@ -261,6 +261,14 @@
     auth.createUser(fields.email, fields.password, cb);
   };
 
+  shownoteseditor.connectors.firebase.logout = function (cb)
+  {
+    var rootRef = new Firebase('https://sne.firebaseIO.com/');
+    var auth = new FirebaseSimpleLogin(rootRef, function(error, user) {});
+    auth.logout();
+    cb();
+  };
+
   shownoteseditor.connectors.firebase.listDocuments = function (options, cb)
   {
     getUserRef (options,

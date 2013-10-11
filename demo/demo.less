@@ -96,6 +96,7 @@ body, html
     background-color: @bgcolor;
     box-shadow: 0 0 100px @bgcolor;
     color: black;
+    position: relative;
 
     width: 60%;
 
@@ -103,6 +104,15 @@ body, html
     padding-top: 1px;
 
     margin: 50px auto;
+
+    > #logout
+    {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      cursor: pointer;
+      display: none;
+    }
   }
 
   &:before
