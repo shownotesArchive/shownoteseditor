@@ -33,6 +33,34 @@ var osftools = {};
     return clone;
   };
 
+  osftools.notesEqual = function (note1, note2)
+  {
+    var attrs = ["time", "text", "link", "tags"];
+
+    for (var i = 0; i < attrs.length; i++)
+    {
+      var attr = attrs[i];
+
+      if (note1[attr] instanceof Array)
+      {
+        if (!(note2[attr] instanceof Array))
+          return false;
+        if (note1[attr].length != note2[attr].length)
+          return false;
+
+        for (var j = 0; j < note2[attr].length; j++)
+        {
+          if(note1[attr][j] !== note2[attr][j])
+            return false;
+        }
+      }
+      else if (note1[attr] !== note2[attr])
+        return false;
+    }
+
+    return true;
+  };
+
   osftools.countNotes = function (notes)
   {
     var count = 0;

@@ -23,3 +23,6 @@ text and timestamp of a given note.
 * `submitted (id, content)`
   * `id`: ID given in `ctor`
   * `content`: see `getContent ()`
+
+* `canceled (id)`
+  * `id`: ID given in `ctor`

@@ -4,7 +4,7 @@
 
   var editorHtml =
     '<div class="editor inline">' +
-      '<input type="text" class="time" placeholder="00:00:00">' +
+      '<input type="text" class="time">' +
       '<input type="text" class="text">' +
     '</div>';
 
@@ -27,11 +27,11 @@
     this.editor.text.keyup(this.onTextChanged.bind(this));
     this.editor.text.keyup(this.onKeyPress.bind(this));
 
-    this.setTimeOnEdit = true;
+    this.updateTime = true;
 
     if(options.content)
     {
-      this.setTimeOnEdit = false;
+      this.updateTime = false;
       this.setContent(options.content);
     }
 
@@ -40,8 +40,17 @@
 
     this.id = options.id;
 
+    setInterval(autoUpdateTime.bind(this), 500);
+    autoUpdateTime();
+
     cb();
   };
+
+  function autoUpdateTime ()
+  {
+    if(this.updateTime)
+      this.setCurrentTime();
+  }
 
   self.close = function ()
   {
@@ -118,43 +127,59 @@
   self.onContentChanged = function ()
   {
     var content = this.getContent();
-    this.trigger('contentChanged', this.id, content);
+    if(!this.lastContent || !osftools.notesEqual(content, this.lastContent))
+      this.trigger('contentChanged', this.id, content);
+    this.lastContent = content;
   };
 
   self.onTextChanged = function ()
   {
-    if(this.editor.text.val().length == 0)
-    {
-      this.setTimeOnEdit = true;
-    }
-    else if(this.setTimeOnEdit)
-    {
-      this.setTimeOnEdit = false;
-      this.setCurrentTime();
-    }
+    this.updateTime = false;
   }
 
   self.setCurrentTime = function ()
   {
     var time = this.player.getCurrentTime();
     this.setContent({ time: time });
-  }
+  };
 
   self.onKeyPress = function (e)
   {
     if(e.which == 13) // enter
     {
-      this.triggerSubmit();
+      if(this.editor.text.val() == "")
+      {
+        this.triggerCancel();
+      }
+      else
+      {
+        this.triggerSubmit();
+      }
     }
-  }
+    else if(e.which == 27) // esc
+    {
+      this.triggerCancel();
+    }
+  };
 
   self.triggerSubmit = function ()
   {
     var content = this.getContent();
     this.trigger('submitted', this.id, content);
+    this.clear();
+  };
+
+  self.triggerCancel = function ()
+  {
+    this.trigger('canceled', this.id);
+    this.clear();
+  };
+
+  self.clear = function ()
+  {
     this.setContent({ time: 0, text: null });
-    this.setTimeOnEdit = true;
-  }
+    this.updateTime = true;
+  };
 
   shownoteseditor.editors.inline.prototype = self;
   MicroEvent.mixin(shownoteseditor.editors.inline);
