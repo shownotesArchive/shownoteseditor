@@ -40,13 +40,13 @@
 
     this.id = options.id;
 
-    setInterval(autoUpdateTime.bind(this), 500);
-    autoUpdateTime();
+    this.timeInterval = setInterval(this.autoUpdateTime.bind(this), 500);
+    this.autoUpdateTime();
 
     cb();
   };
 
-  function autoUpdateTime ()
+  self.autoUpdateTime = function ()
   {
     if(this.updateTime)
       this.setCurrentTime();
@@ -54,6 +54,7 @@
 
   self.close = function ()
   {
+    clearInterval(this.timeInterval);
     this.editor.main.remove();
   };
 

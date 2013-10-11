@@ -86,12 +86,19 @@
           content: osftools.cloneNote(note, false)
         };
 
-        var editor = new that.editor(options, this.player, function (){});
+        var editor = new that.editor(options, that.player, function (){});
         editor.bind('submitted',
           function (id, content)
           {
             editEnded();
             editEditorSubmitted.call(that, id, content);
+          }
+        );
+        editor.bind('canceled',
+          function (id)
+          {
+            editor.close();
+            editEnded();
           }
         );
       }
@@ -125,6 +132,13 @@
       {
         addEnded(true);
         addEditorSubmitted.call(that, parentId, content);
+      }
+    );
+    editor.bind('canceled',
+      function (id)
+      {
+        editor.close();
+        addEnded(false);
       }
     );
   }
