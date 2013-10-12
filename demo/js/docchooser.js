@@ -231,6 +231,11 @@ sne.steps.docchooser = {};
 
   function deleteDoc (id, cb)
   {
+    var res = confirm("Do you really want to delete this document?");
+
+    if(!res)
+      return;
+
     shownoteseditor.connectors[sne.connectorName].deleteDocument(sne.connectorOptions, id, cb);
   }
 })();
