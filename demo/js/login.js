@@ -142,6 +142,7 @@ sne.steps.login = {};
         else
         {
           sne.connectorOptions.auth = regFields;
+          sne.connectorOptions.auth.provider = "password";
           execLogin();
         }
       }
