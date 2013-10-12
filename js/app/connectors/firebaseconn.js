@@ -28,48 +28,37 @@
   function getUserRef (options, cb)
   {
     var rootRef = new Firebase('https://sne.firebaseIO.com/');
-    var gotLoginCallback = false;
-    var shouldCallLogin = true;
-    var callbackCalled = false;
+    var callLogin = false;
+    var authValid = true;
 
     if(!options.auth ||
+       options.auth.provider == "password" &&
        typeof options.auth.email != "string" &&
        typeof options.auth.password  != "string")
     {
-      shouldCallLogin = false;
+      authValid = false;
     }
-
-    gotLoginCallback = !shouldCallLogin;
 
     var auth = new FirebaseSimpleLogin(rootRef,
       function(error, user)
       {
-        if(callbackCalled)
-          return;
-        
         if (error) {
-          callbackCalled = true;
           cb(error);
         } else if (user) {
           var userRef = rootRef.child('users/' + user.id + '/');
-          callbackCalled = true;
           cb(null, userRef, user.id);
-        } else if(gotLoginCallback) {
-          callbackCalled = true;
-          cb("Not logged in");
+        } else if(!callLogin && authValid) {
+          callLogin = true;
         } else {
-          gotLoginCallback = true;
+          cb("Not logged in");
         }
       }
     );
 
-    if(shouldCallLogin)
+    if(callLogin)
     {
-      auth.login('password', {
-        email: options.auth.email,
-        password: options.auth.password,
-        rememberMe: true
-      });
+      options.auth.rememberMe = true;
+      auth.login(options.auth.provider, options.auth);
     }
   }
 

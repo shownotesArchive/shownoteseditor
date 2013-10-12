@@ -91,12 +91,20 @@ sne.steps.login = {};
 
   $('#loginSubmit').click(submitLogin);
   $('#registerSubmit').click(submitRegister);
+  $('#l_twitter').click(twitterLogin);
   $('#logout').click(submitLogout);
 
   function submitLogin ()
   {
     var reg = shownoteseditor.connectors[sne.connectorName].registration;
     sne.connectorOptions.auth = getFieldData($loginFields, reg.loginFields);
+    sne.connectorOptions.auth.provider = "password";
+    execLogin ();
+  }
+
+  function twitterLogin ()
+  {
+    sne.connectorOptions.auth = { provider: "twitter" };
     execLogin ();
   }
 
