@@ -153,6 +153,7 @@ sne.steps.docchooser = {};
         else
         {
           addDocToTable(doc);
+          $('#noDocs').css('display', 'none');
           docs.push(doc);
         }
       }
