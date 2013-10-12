@@ -18,3 +18,10 @@ Online and offline editor for shownotes.
 * move.js (MIT), http://visionmedia.github.io/move.js/
 * moment.js (MIT), http://momentjs.com/
 * uiTableFilter (MIT), http://gregweber.info/projects/uitablefilter.html
+* mediaelement.js (MIT), http://mediaelementjs.com/
+* Firebase, https://www.firebase.com/
+
+## Thanks
+Martin ([@pixelpille](https://twitter.com/Pixelpille))
+Mirco Blitz ([@lindworm](https://twitter.com/lindworm))
+The whole shownot.es-Team, for testing, ideas and support!
