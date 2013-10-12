@@ -59,6 +59,88 @@
     }
   );
 
+  var notesEqualData =
+    [
+      { title: "", eq: true,
+        note1: { text: "", time: 0, link: "", tags: [] },
+        note2: { text: "", time: 0, link: "", tags: [] } },
+      { title: "Text different", eq: false,
+        note1: { text: "", time: 0, link: "", tags: [] },
+        note2: { text: "a", time: 0, link: "", tags: [] } },
+      { title: "Time different", eq: false,
+        note1: { text: "", time: 0, link: "", tags: [] },
+        note2: { text: "", time: 1, link: "", tags: [] } },
+      { title: "Link different", eq: false,
+        note1: { text: "", time: 0, link: "", tags: [] },
+        note2: { text: "", time: 0, link: "a", tags: [] } },
+      { title: "Tags different - same len", eq: false,
+        note1: { text: "", time: 0, link: "", tags: [ "a" ] },
+        note2: { text: "", time: 0, link: "", tags: [ "b" ] } },
+      { title: "Tags different - diff. len 1", eq: false,
+        note1: { text: "", time: 0, link: "", tags: [ "a", "b" ] },
+        note2: { text: "", time: 0, link: "", tags: [ "b" ] } },
+      { title: "Tags different - diff. len 2", eq: false,
+        note1: { text: "", time: 0, link: "", tags: [ "a" ] },
+        note2: { text: "", time: 0, link: "", tags: [ "b", "a" ] } },
+      { title: "Tags same", eq: true,
+        note1: { text: "", time: 0, link: "", tags: [ "a", "b" ] },
+        note2: { text: "", time: 0, link: "", tags: [ "a", "b" ] } }
+    ];
+
+  QUnit.cases(notesEqualData).test("notesEqual",
+    function (params)
+    {
+      var actual = osftools.notesEqual(params.note1, params.note2);
+      deepEqual(actual, params.eq);
+    }
+  );
+
+  var sortNotesData =
+    [
+      {
+        unsorted: [
+          { time: 1, text: "b" },
+          { time: 0, text: "a" },
+          { time: 2, text: "c" }
+        ],
+        sorted: [
+          { time: 0, text: "a" },
+          { time: 1, text: "b" },
+          { time: 2, text: "c" }
+        ]
+      },
+      {
+        title: "Subnotes",
+        unsorted: [
+          { time: 0, text: "a",
+            notes: [
+              { time: 1, text: "b" },
+              { time: 0, text: "a" },
+              { time: 2, text: "c" }
+            ]
+          }
+        ],
+        sorted: [
+          { time: 0, text: "a",
+            notes: [
+              { time: 0, text: "a" },
+              { time: 1, text: "b" },
+              { time: 2, text: "c" }
+            ]
+          }
+        ]
+      }
+    ];
+
+  QUnit.cases(sortNotesData).test("sortNotes",
+    function (params)
+    {
+      var notes = params.unsorted;
+      osftools.sortNotes(notes);
+      deepEqual(notes, params.sorted);
+    }
+  )
+
   var normalizeTagsData =
     [
       { title: "#c => #chapter", input: [ "c" ], output: [ "chapter" ] },

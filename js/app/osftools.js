@@ -61,6 +61,26 @@ var osftools = {};
     return true;
   };
 
+  osftools.sortNotes = function (notes)
+  {
+    notes.sort(
+      function (n1, n2)
+      {
+        return n1.time - n2.time;
+      }
+    );
+
+    for (var i = 0; i < notes.length; i++)
+    {
+      var nn = notes[i];
+
+      if(nn.notes)
+        osftools.sortNotes(nn.notes);
+    }
+
+    return notes;
+  };
+
   osftools.countNotes = function (notes)
   {
     var count = 0;
