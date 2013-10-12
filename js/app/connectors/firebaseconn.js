@@ -226,6 +226,7 @@
         {
           notes = getFriendlyJson({ notes: val });
         }
+        osftools.sortNotes(notes);
         cb(null, notes);
       }
     );
