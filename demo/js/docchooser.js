@@ -10,6 +10,7 @@ sne.steps.docchooser = {};
 
   sne.steps.docchooser.show = function (cb)
   {
+    logNavigation('docchoser');
     $('#docChooser').addClass('active');
     reloadDocsTable();
     docchooserCallback = cb;
@@ -200,6 +201,7 @@ sne.steps.docchooser = {};
 
     sne.doc = doc;
     sne.files = files;
+    logNavigation('doc/' + doc.name);
 
     sne.steps.docchooser.hide();
   }
