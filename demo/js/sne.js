@@ -123,9 +123,14 @@ sne.steps.sne = {};
   $('#btnImport').click(
     function ()
     {
-      var osf = $txtOsf.val();
-      var notes = osftools.parseNotes(osf);
-      sne.loadNotes(notes);
+      var res = confirm("This is going to delete all notes from your document.\nAre you sure that this is what you want?");
+
+      if(res)
+      {
+        var osf = $txtOsf.val();
+        var notes = osftools.parseNotes(osf);
+        sne.main.loadNotes(notes);
+      }
     }
   );
 })();

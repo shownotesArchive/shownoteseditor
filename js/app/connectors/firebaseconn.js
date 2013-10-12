@@ -160,6 +160,11 @@
     noteRef.remove(cb);
   };
 
+  self.clearNotes = function (cb)
+  {
+    this.notesRef.remove(cb);
+  };
+
   self.editNote = function (id, newNote, cb)
   {
     this.getNote(id,

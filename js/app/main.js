@@ -66,7 +66,7 @@ var shownoteseditor = {
       [
         function (cb)
         {
-          shownoteseditor.utils.clearNotes(that.connector, cb);
+          that.connector.clearNotes(cb);
         },
         function (cb)
         {
