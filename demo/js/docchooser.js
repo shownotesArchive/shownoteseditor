@@ -153,9 +153,10 @@ sne.steps.docchooser = {};
         }
         else
         {
-          addDocToTable(doc);
-          $('#noDocs').css('display', 'none');
           docs.push(doc);
+          openDoc(doc.id);
+
+          $('#createDoc').children('input').val("");
         }
       }
     );
