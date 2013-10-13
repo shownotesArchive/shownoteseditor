@@ -95,92 +95,20 @@ sne.steps.docchooser = {};
     }
   );
 
-  $('#txtCreateDocName').keypress(
-    function (e)
-    {
-      if(e.which == 13)
-        createDoc();
-    }
-  );
+  $('#createDoc').click(showCreateDoc);
 
-  $('#txtCreateDocFile').keydown(
-    function (e)
-    {
-      if(e.which == 13)
-        createDoc();
-      else
-      {
-        clearTimeout(previewPlayerTimeout);
-        previewPlayerTimeout = setTimeout(showPreviewPlayer, 1000);
-      }
-    }
-  );
-
-  function showPreviewPlayer()
+  function showCreateDoc ()
   {
-    var url = $('#txtCreateDocFile').val();
-    $('#createPlayerWrapper').empty();
-
-    var options = {
-      element: $("#createPlayerWrapper")[0],
-      files: getFilesArrayFromUrls([url]).files
-    };
-
-    if(options.files.length > 0)
-    {
-      var player = new shownoteseditor.players.audiojs(options, function () {});
-    }
-  }
-
-  $('#btnCreateDoc').click(createDoc);
-
-  function createDoc ()
-  {
-    var name = $('#txtCreateDocName').val();
-    var url = $('#txtCreateDocFile').val();
-
-    shownoteseditor.connectors[sne.connectorName].createDocument(
-      sne.connectorOptions,
+    sne.steps.docedit.show("create", null,
+      function (success, doc)
       {
-        name: name,
-        urls: [url]
-      },
-      function (err, doc)
-      {
-        if(err)
-        {
-          alert("Error: " + err);
-        }
-        else
+        if(success)
         {
           docs.push(doc);
           openDoc(doc.id);
-
-          $('#createDoc').children('input').val("");
         }
       }
     );
-  }
-
-  function getFilesArrayFromUrls (urls)
-  {
-    var files = [];
-    var errors = [];
-
-    if(!urls || !urls.length)
-      return { files: [], errors: [] };
-
-    for (var i = 0; i < urls.length; i++)
-    {
-      var url = urls[i];
-
-      if(url.toLowerCase().indexOf(".mp3") == url.length - 4)
-        files.push({ src: url, type: "audio/mpeg" });
-      else
-        errors.push(url);
-    }
-
-    return { files: files, errors: errors };
   }
 
   function openDoc (id)
@@ -193,15 +121,8 @@ sne.steps.docchooser = {};
         doc = docs[i];
     }
 
-    var files = getFilesArrayFromUrls(doc.urls);
-    var errors = files.errors;
-    files = files.files;
-
-    if(errors.length > 0)
-      alert("Could not find type of:\n" + errors.join("\n"));
-
     sne.doc = doc;
-    sne.files = files;
+    sne.files = doc.urls;
     logNavigation('doc/' + doc.name);
 
     sne.steps.docchooser.hide();

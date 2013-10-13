@@ -16,9 +16,6 @@
             <a id="about" href="https://github.com/shownotes/shownoteseditor#shownotes-editor" target="_blank"><i class="icon-beaker"></i> About / GitHub</a>
             <br>
             <h1 id="mainTitle">Shownotes-Editor <i class="icon-heart"></i></h1>
-            <div id="flattrButton">
-                <script id='fbf0bvi'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=luto&button=compact&url=http%3A%2F%2Fsne.shownot.es%2F';f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbf0bvi');</script>
-            </div>
             <div id="loginLocks"><i class="icon-lock"></i><i class="icon-unlock" style="display: none"></i><br>
             <span>logging in..</span></div>
             <div id="login" class="step">
@@ -44,7 +41,8 @@
             </div>
             <div id="docChooser" class="step">
                 <span>Filter documents: <input id="docsSearch"></span>
-                <hr>
+                <button id="createDoc">Create document</button>
+                <hr style="clear:both">
                 <div id="docsWrapper">
                     <table id="docs" class="table">
                         <thead>
@@ -58,15 +56,7 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <span id="noDocs" style="display:none">You do not have any documents. Create one below.</span>
-                </div>
-                <hr>
-                <div id="createDoc">
-                    <span>New document:</span><br>
-                    <input id="txtCreateDocName" placeholder="Name"><br>
-                    <input id="txtCreateDocFile" placeholder="File-URL"> (MP3)<br>
-                    <div id="createPlayerWrapper"></div><br>
-                    <button id="btnCreateDoc">Create</button>
+                    <span id="noDocs" style="display:none">You do not have any documents.</span>
                 </div>
                 <div style="display: none">
                     <div id="btnsTemplate" class="btns">
@@ -74,6 +64,35 @@
                         <button class="download" title="Download"><i class="icon-download-alt"></i></button>
                         <button class="delete" title="Delete"><i class="icon-trash"></i></button>
                     </div>
+                </div>
+            </div>
+            <div id="docEdit" class="step">
+                <h2></h2>
+                <div id="docEdit_gen">
+                    <h3><i class="icon-wrench"></i> General</h3>
+                    <div class="field"><label for="docEdit_name">Name: </label><input name="docEdit_name" id="docEdit_name"></div>
+                    <div class="field"><label for="docEdit_url">Url: </label><input name="docEdit_url" id="docEdit_url"></div>
+                    <div id="docEdit_player"></div>
+                    <button id="docEdit_cancel"><i class="icon-remove"></i> Cancel</button>
+                    <button id="docEdit_save"><i class="icon-ok"></i> Save</button>
+                </div>
+                <!--
+                <h3><i class="icon-group"></i> Collaborators</h3>
+                <div id="docEdit_collabs">
+                    <ul id="">
+                        <li>luto <div class="controls"><i class="icon-trash"></i></div></li>
+                    </ul>
+                    <div>
+                        <label for="docEdit_collabs_name">Name: </label>
+                        <input name="docEdit_collabs_name" id="docEdit_collabs_name">
+                        <button>Add</button>
+                    </div>
+                </div>
+                -->
+            </div>
+            <div id="footer">
+                <div id="flattrButton">
+                    <script id='fbf0bvi'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=luto&button=compact&url=http%3A%2F%2Fsne.shownot.es%2F';f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbf0bvi');</script>
                 </div>
             </div>
         </div>
@@ -143,6 +162,7 @@
     -->
     
     <script src="./js/docchooser.js"></script>
+    <script src="./js/docedit.js"></script>
     <script src="./js/login.js"></script>
     <script src="./js/sne.js"></script>
     <script src="./demo.js"></script>

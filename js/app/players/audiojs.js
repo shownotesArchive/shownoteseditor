@@ -17,9 +17,16 @@
         var $audio = $('<audio>');
         $audio.prop("preload", "none");
 
-        for (var i = 0; i < options.files.length; i++)
+        var files = getFilesArrayFromUrls(options.files);
+        var errors = files.errors;
+        files = files.files;
+
+        if(errors.length > 0)
+          alert("Could not find type of:\n" + errors.join("\n"));
+
+        for (var i = 0; i < files.length; i++)
         {
-          var file = options.files[i];
+          var file = files[i];
 
           var $source = $('<source>');
           $source.prop('src', file.src);
@@ -37,6 +44,27 @@
       }
     );
   };
+
+  function getFilesArrayFromUrls (urls)
+  {
+    var files = [];
+    var errors = [];
+
+    if(!urls || !urls.length)
+      return { files: [], errors: [] };
+
+    for (var i = 0; i < urls.length; i++)
+    {
+      var url = urls[i];
+
+      if(url.toLowerCase().indexOf(".mp3") == url.length - 4)
+        files.push({ src: url, type: "audio/mpeg" });
+      else
+        errors.push(url);
+    }
+
+    return { files: files, errors: errors };
+  }
 
   self.play = function ()
   {

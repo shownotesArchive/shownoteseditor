@@ -86,9 +86,15 @@ body, html
   }
 }
 
-#flattrButton
+#footer
 {
-  float: right;
+  margin: 5px 5px 0 5px;
+  height: 20px;
+
+  #flattrButton
+  {
+    float: right;
+  }
 }
 
 #initwrapper
@@ -197,16 +203,52 @@ body, html
     }
   }
 
-  > #createDoc
+  #noDocs
   {
-    > *
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 50px;
+  }
+
+  #createDoc
+  {
+    float: right;
+  }
+}
+
+#docEdit
+{
+  #docEdit_gen
+  {
+    .field
     {
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+
+      > label
+      {
+        display: inline-block;
+        width: 60px;
+      }
     }
 
-    > #txtCreateDocFile
+    > button
     {
-      width: 300px;
+      margin-top: 10px;
+    }
+  }
+
+  #docEdit_collabs
+  {
+    > ul
+    {
+      > li
+      {
+        .controls
+        {
+          display: inline-block;
+          cursor: pointer;
+        }
+      }
     }
   }
 }
