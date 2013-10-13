@@ -113,6 +113,10 @@ sne.steps.docchooser = {};
           docs.push(doc);
           openDoc(doc.id);
         }
+        else
+        {
+          $('#docChooser').addClass('active');
+        }
       }
     );
   }
