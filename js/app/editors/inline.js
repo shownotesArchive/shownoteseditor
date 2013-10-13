@@ -24,7 +24,6 @@
 
     this.editor.text = this.editor.main.find('.text');
     this.editor.text.keyup(this.onContentChanged.bind(this));
-    this.editor.text.keyup(this.onTextChanged.bind(this));
     this.editor.text.keyup(this.onKeyPress.bind(this));
 
     this.updateTime = true;
@@ -40,6 +39,7 @@
 
     this.id = options.id;
 
+    this.lastSetTime = null;
     this.timeInterval = setInterval(this.autoUpdateTime.bind(this), 500);
     this.autoUpdateTime();
 
@@ -49,8 +49,18 @@
   self.autoUpdateTime = function ()
   {
     if(this.updateTime)
-      this.setCurrentTime();
-  }
+    {
+      var time = this.player.getCurrentTime();
+      var now = this.getContent().time;
+
+      if(this.lastSetTime != now && this.lastSetTime != null)
+        return;
+
+      this.setContent({ time: time });
+
+      this.lastSetTime = time;
+    }
+  };
 
   self.close = function ()
   {
@@ -133,17 +143,6 @@
     this.lastContent = content;
   };
 
-  self.onTextChanged = function ()
-  {
-    this.updateTime = false;
-  }
-
-  self.setCurrentTime = function ()
-  {
-    var time = this.player.getCurrentTime();
-    this.setContent({ time: time });
-  };
-
   self.onKeyPress = function (e)
   {
     if(e.which == 13) // enter
@@ -160,6 +159,10 @@
     else if(e.which == 27) // esc
     {
       this.triggerCancel();
+    }
+    else
+    {
+      this.updateTime = false;
     }
   };
 
@@ -179,6 +182,7 @@
   self.clear = function ()
   {
     this.setContent({ time: 0, text: null });
+    this.lastSetTime = null;
     this.updateTime = true;
   };
 
