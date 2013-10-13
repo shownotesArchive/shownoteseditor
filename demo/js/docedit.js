@@ -29,7 +29,7 @@ sne.steps.docedit = {};
 
   function fillEditor ()
   {
-    var heading = mode == "edit" ? "Edit document: " + doc.docname : "Create document";
+    var heading = mode == "edit" ? "Edit document: " + doc.name : "Create document";
     $('#docEdit').children("h2").text(heading);
 
     var docname = "";
