@@ -172,9 +172,9 @@ sne.steps.docchooser = {};
 
     for (var i = 0; i < urls.length; i++)
     {
-      var url = urls[i].toLowerCase();
+      var url = urls[i];
 
-      if(url.indexOf(".mp3") == url.length - 4)
+      if(url.toLowerCase().indexOf(".mp3") == url.length - 4)
         files.push({ src: url, type: "audio/mpeg" });
       else
         errors.push(url);
