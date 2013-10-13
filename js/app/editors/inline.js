@@ -105,7 +105,13 @@
   {
     if(note.time != undefined)
     {
+      var start = this.editor.time[0].selectionStart,
+            end = this.editor.time[0].selectionEnd;
+
       this.editor.time.val(osftools.toHumanTime(note.time));
+
+      if(this.editor.time.is(":focus"))
+        this.editor.time[0].setSelectionRange(start, end);
     }
 
     var textParts = [];
@@ -162,6 +168,12 @@
     }
     else
     {
+      if (e.keyCode == 37 ||
+          e.keyCode == 38 ||
+          e.keyCode == 39 ||
+          e.keyCode == 40)
+        return; // arrow keys
+
       this.updateTime = false;
     }
   };
