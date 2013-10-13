@@ -68,10 +68,16 @@ sne.steps.docchooser = {};
         downloadDoc(doc.id, doc.name);
       }
     );
-    $td.find('button.rename').click(
+    $td.find('button.edit').click(
       function ()
       {
-        downloadDoc(doc.id);
+        sne.steps.docedit.show("edit", doc,
+          function (success, doc)
+          {
+            $('#docChooser').addClass('active');
+            reloadDocsTable();
+          }
+        );
       }
     );
     $td.find('button.delete').click(
