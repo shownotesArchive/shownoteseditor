@@ -281,7 +281,7 @@
                     function (csnap)
                     {
                       refs.push({
-                        owner: false,
+                        owner: uid,
                         ref: csnap.ref()
                       });
                     }

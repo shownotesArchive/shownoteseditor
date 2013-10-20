@@ -53,11 +53,7 @@ sne.steps.docchooser = {};
   {
     var $btns = $('#btnsTemplate').clone();
     var accessDate = moment(doc.accessDate).format("DD.MM.YYYY");
-    var owner = doc.owner;
-    if(owner === false)
-      owner = "you";
-    else
-      owner = owner;
+    var owner = (usernameMap[doc.owner] || {}).name || "Unnamed";
     var $td = tabletools.addRow($docs, [ doc.name, accessDate, owner, $btns ]);
 
     $btns = $td.find('.btns').parent().addClass('btns');
