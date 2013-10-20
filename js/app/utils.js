@@ -9,7 +9,7 @@ shownoteseditor.utils = {};
       parent = "_root";
     }
 
-    async.eachSeries(notes,
+    async.each(notes,
       function (note, cb)
       {
         note = osftools.cloneNote(note, true);
