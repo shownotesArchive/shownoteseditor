@@ -51,9 +51,10 @@
           nameRef.once('value',
             function (snap)
             {
-              if(snap.val() == "")
+              if(!snap.val())
               {
-                var name = prompt("Please enter your nickname", "");
+                var name = null;
+                while (!name) name = prompt("Please enter your nickname", "");
                 nameRef.set(name);
               }
 
