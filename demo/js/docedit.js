@@ -3,6 +3,7 @@ sne.steps.docedit = {};
 
 (function ()
 {
+  var $collabs = $('#docEdit_collabs > ul:first');
   var previewPlayerTimeout = -1;
   var doceditCallback = null;
   var mode;
@@ -34,30 +35,66 @@ sne.steps.docedit = {};
 
     var docname = "";
     var url = "";
+    var users = {};
 
     if(mode == "edit")
     {
       docname = doc.name;
       url = doc.urls[0];
+      users = doc.access.users || {};
     }
 
     $('#docEdit_name').val(docname);
     $('#docEdit_url').val(url);
+
+    $collabs.empty();
+    for (var u in users)
+    {
+      var $li = createUserLi(u);
+      $collabs.append($li);
+    }
+  }
+
+  function createUserLi (u)
+  {
+    var $li = $('<li><span class="name"></span> <div class="controls"><i class="icon-trash delete"></i></div></li>')
+
+    $li.find('.name').text(u);
+    $li.prop('data-id', u);
+    $li.find('.delete').click(
+      function ()
+      {
+        $li.remove();
+      }
+    );
+
+    return $li;
   }
 
   function saveEditor (cb)
   {
-    var name = $('#docEdit_name').val();
-    var url = $('#docEdit_url').val();
+    var newDoc = {
+      name: $('#docEdit_name').val(),
+      urls: [$('#docEdit_url').val()],
+      access: {
+        public: false,
+        users: {}
+      }
+    };
+
+    var $users = $collabs.children('li');
+
+    for (var i = 0; i < $users.length; i++) {
+      var $user = $($users[i]);
+      var id = $user.prop('data-id')
+      newDoc.access.users[id] = { "canWrite": true };
+    }
 
     if(mode == "create")
     {
       shownoteseditor.connectors[sne.connectorName].createDocument(
         sne.connectorOptions,
-        {
-          name: name,
-          urls: [url]
-        },
+        newDoc,
         cb
       );
     }
@@ -66,14 +103,20 @@ sne.steps.docedit = {};
       shownoteseditor.connectors[sne.connectorName].changeDocument(
         sne.connectorOptions,
         doc.id,
-        {
-          name: name,
-          urls: [url]
-        },
+        newDoc,
         cb
       );
     }
   }
+
+  $('#docEdit_collabs_add').click(
+    function ()
+    {
+      var u = $('#docEdit_collabs_name').val();$
+      var $li = createUserLi(u);
+      $collabs.append($li);
+    }
+  );
 
   $('#docEdit_url').keydown(
     function (e)

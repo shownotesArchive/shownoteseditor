@@ -3,31 +3,32 @@
   var self = {};
   var idRefMap = {};
 
+  var rootRef = new Firebase('https://sne.firebaseIO.com/');
+
   shownoteseditor.connectors.firebase = function (options, cb)
   {
     console.log("firebase init", options);
 
-    getDocRef(options, options.docid,
-      function (err, docRef)
+    doLogin (options,
+      function (err, uid, userRef)
       {
         if(err)
           return cb(err);
 
-        this.docRef = docRef;
-        this.notesRef = this.docRef.child('notes');
+        this.docRef = new Firebase(options.docid);
+        this.notesRef = this.docRef.child('content/notes');
         this.notesRef.on('child_added', fireChildAdded, this);
         this.notesRef.on('child_removed', fireChildRemoved, this);
 
-        idRefMap["_root"] = this.docRef; // idRefMap points to a *note*, or to things that have a .child('notes')
+        idRefMap["_root"] = this.docRef.child('content'); // idRefMap points to a *note*, or to things that have a .child('notes')
 
         cb();
       }.bind(this)
     );
   };
 
-  function getUserRef (options, cb)
+  function doLogin (options, cb)
   {
-    var rootRef = new Firebase('https://sne.firebaseIO.com/');
     var callLogin = false;
     var authValid = true;
 
@@ -45,8 +46,20 @@
         if (error) {
           cb(error);
         } else if (user) {
-          var userRef = rootRef.child('users/' + user.id + '/');
-          cb(null, userRef, user.id);
+          var userRef = rootRef.child('users/' + user.id);
+          var nameRef = rootRef.child('userinfo/' + user.id + '/name');
+          nameRef.once('value',
+            function (snap)
+            {
+              if(snap.val() == "")
+              {
+                var name = prompt("Please enter your nickname", "");
+                nameRef.set(name);
+              }
+
+              cb(null, user.id, userRef);
+            }
+          );
         } else if(!callLogin && authValid) {
           callLogin = true;
         } else {
@@ -60,20 +73,6 @@
       options.auth.rememberMe = true;
       auth.login(options.auth.provider, options.auth);
     }
-  }
-
-  function getDocRef (options, docid, cb)
-  {
-    getUserRef (options,
-      function (err, userRef)
-      {
-        if(err)
-          return cb(err);
-
-        var docRef = userRef.child('docs/' + docid);
-        cb(null, docRef);
-      }
-    );
   }
 
   function fireChildAdded (snap)
@@ -214,12 +213,8 @@
     this.notesRef.once('value',
       function (snap)
       {
-        var val = snap.val();
-        var notes = [];
-        if(val != null)
-        {
-          notes = getFriendlyJson({ notes: val });
-        }
+        var val = snap.val() || {};
+        var notes = getFriendlyJson({ notes: val });
         osftools.sortNotes(notes);
         cb(null, notes);
       }
@@ -246,19 +241,17 @@
 
   shownoteseditor.connectors.firebase.login = function (options, cb)
   {
-    getUserRef(options, cb);
+    doLogin (options, cb);
   };
 
   shownoteseditor.connectors.firebase.register = function (fields, cb)
   {
-    var rootRef = new Firebase('https://sne.firebaseIO.com/');
     var auth = new FirebaseSimpleLogin(rootRef, function(error, user) {});
     auth.createUser(fields.email, fields.password, cb);
   };
 
   shownoteseditor.connectors.firebase.logout = function (cb)
   {
-    var rootRef = new Firebase('https://sne.firebaseIO.com/');
     var auth = new FirebaseSimpleLogin(rootRef, function(error, user) {});
     auth.logout();
     cb();
@@ -266,37 +259,90 @@
 
   shownoteseditor.connectors.firebase.listDocuments = function (options, cb)
   {
-    getUserRef (options,
-      function (err, userRef)
+    doLogin (options,
+      function (err, uid, userRef)
       {
         if(err)
           return cb(err);
 
-        var docsRef = userRef.child('docs');
-        docsRef.once('value',
-          function (snap)
-          {
-            var docs = [];
-            var val = snap.val();
+        var refs = [];
+        var docs = [];
 
-            if(val != null) // null => new user
+        async.parallel(
+          [
+            function (cb)
             {
-              var ids = Object.keys(val);
+              var docsRef = userRef.child('docs');
 
-              for (var i = 0; i < ids.length; i++)
-              {
-                var id = ids[i];
-                docs.push(
+              docsRef.once('value',
+                function (snap)
+                {
+                  snap.forEach(
+                    function (csnap)
+                    {
+                      refs.push({
+                        owner: false,
+                        ref: csnap.ref()
+                      });
+                    }
+                  );
+
+                  cb();
+                }
+              );
+            },
+            function (cb)
+            {
+              var sharedDocsRef = userRef.child('meta/sharedDocs');
+
+              sharedDocsRef.once('value',
+                function (snap)
+                {
+                  var val = snap.val() || [];
+
+                  for (var i = 0; i < val.length; i++)
                   {
-                    id: id,
-                    name: val[id].name,
-                    urls: val[id].urls
+                    refs.push({
+                      owner: val[i].user,
+                      ref: rootRef.child("users/" + val[i].user + "/docs/" + val[i].doc)
+                    });
+                  }
+
+                  cb();
+                }
+              );
+            }
+          ],
+          function ()
+          {
+            async.each(refs,
+              function (ref, cb)
+              {
+                ref.ref.once('value',
+                  function (snap)
+                  {
+                    var id = ref.ref.toString();
+                    var doc = snap.val();
+                    doc.access.users = doc.access.users || {};
+                    docs.push(
+                      {
+                        id: id,
+                        access: doc.access,
+                        owner: ref.owner,
+                        name: doc.content.name,
+                        urls: doc.content.urls
+                      }
+                    );
+
+                    cb();
                   }
                 );
+              },
+              function ()
+              {
+                cb(null, docs);
               }
-            }
-
-            cb(null, docs);
+            );
           }
         );
       }
@@ -305,22 +351,18 @@
 
   shownoteseditor.connectors.firebase.getDocument = function (options, docid, cb)
   {
-    getUserRef (options,
-      function (err, userRef)
+    doLogin (options,
+      function (err, uid, userRef)
       {
         if(err)
           return cb(err);
 
-        var notesRef = userRef.child('docs/' + docid + '/notes');
+        var notesRef = new Firebase(docid).child('content/notes');
         notesRef.once('value',
           function (snap)
           {
-            var val = snap.val();
-            var notes = [];
-            if(val != null)
-            {
-              notes = getFriendlyJson({ notes: val });
-            }
+            var val = snap.val() || {};
+            var notes = getFriendlyJson({ notes: val });
             cb(null, notes);
           }
         );
@@ -332,13 +374,19 @@
   {
     var id = generateUuid();
 
-    getDocRef (options, id,
-      function (err, docRef)
+    doLogin (options,
+      function (err, uid, userRef)
       {
         if(err)
           return cb(err);
 
-        docRef.set(doc,
+        var val = {
+          access: { public: false },
+          content: doc
+        };
+
+        var docRef = new Firebase("/users/" + uid + "/" + id);;
+        docRef.set(val,
           function (err)
           {
             if(err)
@@ -358,31 +406,43 @@
 
   shownoteseditor.connectors.firebase.deleteDocument = function (options, docid, cb)
   {
-    getDocRef (options, docid,
-      function (err, docRef)
+    doLogin (options,
+      function (err, uid, userRef)
       {
         if(err)
           return cb(err);
-        docRef.remove(cb);
+
+        new Firebase(docid).remove(cb);
       }
     );
   };
 
   shownoteseditor.connectors.firebase.changeDocument = function (options, docid, newDoc, cb)
   {
-    getDocRef (options, docid,
-      function (err, docRef)
+    doLogin (options,
+      function (err, uid, userRef)
       {
         if(err)
           return cb(err);
 
-        var children = [ 'name', 'urls' ];
+        var docRef = new Firebase(docid);
 
+        var contentChildren = [ 'name', 'urls' ];
         async.eachSeries(
-          children,
+          contentChildren,
           function (child, cb)
           {
-            docRef.child(child).set(newDoc[child], cb);
+            docRef.child('content').child(child).set(newDoc[child], cb);
+          },
+          cb
+        );
+
+        var accessChildren = [ 'public', 'users' ];
+        async.eachSeries(
+          accessChildren,
+          function (child, cb)
+          {
+            docRef.child('access').child(child).set(newDoc.access[child], cb);
           },
           cb
         );
@@ -390,7 +450,7 @@
     );
   };
 
-  function getFriendlyJson(note)
+  function getFriendlyJson(note, top)
   {
     var notes = [];
 
@@ -398,12 +458,15 @@
     {
       var snote = note.notes[id];
       var fnote = osftools.cloneNote(snote, false);
-      fnote.notes = getFriendlyJson(snote);
+      fnote.notes = getFriendlyJson(snote, false);
       notes.push(fnote);
     }
 
+    if(top !== false)
+      osftools.sortNotes(notes);
+
     return notes;
-  };
+  }
 
   shownoteseditor.connectors.firebase.registration = {
     needsRegistration: true,

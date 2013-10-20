@@ -2,7 +2,13 @@
 {
   name: "",
   urls: [],
-  accessDate: new Date(),
-  notesCount: 0
+  owner: 5,
+  access: {
+    users: {
+      "1": { "canWrite": true }
+    },
+    public: false
+  }
+  accessDate: new Date()
 }
 ```
