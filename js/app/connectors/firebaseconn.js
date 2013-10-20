@@ -452,6 +452,27 @@
     );
   };
 
+  shownoteseditor.connectors.firebase.getUsernameMap = function (options, cb)
+  {
+    doLogin (options,
+      function (err, uid, userRef)
+      {
+        if(err)
+          return cb(err);
+
+        var userinfoRef = rootRef.child("userinfo");
+
+        userinfoRef.once('value',
+          function (snap)
+          {
+            var val = snap.val() || {};
+            cb(null, val);
+          }
+        );
+      }
+    );
+  };
+
   function getFriendlyJson(note, top)
   {
     var notes = [];

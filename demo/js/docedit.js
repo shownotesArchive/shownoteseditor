@@ -6,10 +6,11 @@ sne.steps.docedit = {};
   var $collabs = $('#docEdit_collabs > ul:first');
   var previewPlayerTimeout = -1;
   var doceditCallback = null;
+  var usernameMap;
   var mode;
   var doc;
 
-  sne.steps.docedit.show = function (_mode, _doc, cb)
+  sne.steps.docedit.show = function (_mode, _doc, _usernameMap, cb)
   {
     logNavigation('docEdit');
     $('#docChooser').removeClass('active');
@@ -18,6 +19,7 @@ sne.steps.docedit = {};
 
     mode = _mode;
     doc = _doc;
+    usernameMap = _usernameMap;
 
     fillEditor();
   };
@@ -58,8 +60,12 @@ sne.steps.docedit = {};
   function createUserLi (u)
   {
     var $li = $('<li><span class="name"></span> <div class="controls"><i class="icon-trash delete"></i></div></li>')
+    var name = "Unnamed (" + u + ")";
 
-    $li.find('.name').text(u);
+    if(usernameMap[u])
+      name = usernameMap[u].name;
+
+    $li.find('.name').text(name);
     $li.prop('data-id', u);
     $li.find('.delete').click(
       function ()

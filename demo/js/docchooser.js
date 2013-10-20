@@ -3,8 +3,8 @@ sne.steps.docchooser = {};
 
 (function ()
 {
-  var previewPlayerTimeout = -1;
   var docchooserCallback = null;
+  var usernameMap = null;
   var docs = [];
   var $docs = $('#docs');
 
@@ -37,6 +37,14 @@ sne.steps.docchooser = {};
           var doc = docs[i];
           addDocToTable(doc);
         }
+      }
+    );
+
+    shownoteseditor.connectors[sne.connectorName].getUsernameMap(sne.connectorOptions,
+      function (err, _usernameMap)
+      {
+        usernameMap = _usernameMap;
+        console.log(usernameMap);
       }
     );
   }
@@ -76,7 +84,7 @@ sne.steps.docchooser = {};
     $td.find('button.edit').click(
       function ()
       {
-        sne.steps.docedit.show("edit", doc,
+        sne.steps.docedit.show("edit", doc, usernameMap,
           function (success, doc)
           {
             $('#docChooser').addClass('active');
@@ -110,7 +118,7 @@ sne.steps.docchooser = {};
 
   function showCreateDoc ()
   {
-    sne.steps.docedit.show("create", null,
+    sne.steps.docedit.show("create", null, usernameMap,
       function (success, doc)
       {
         if(success)
