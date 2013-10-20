@@ -3,7 +3,7 @@
   var self = {};
   var idRefMap = {};
 
-  var rootRef = new Firebase('https://sne.firebaseIO.com/');
+  var rootRef = new Firebase('https://lutotest.firebaseIO.com/');
 
   shownoteseditor.connectors.firebase = function (options, cb)
   {
@@ -381,11 +381,13 @@
           return cb(err);
 
         var val = {
-          access: { public: false },
+          access: doc.access,
           content: doc
         };
 
-        var docRef = new Firebase("/users/" + uid + "/" + id);;
+        delete val.content.access;
+
+        var docRef = rootRef.child("/users/" + uid + "/docs/" + id);
         docRef.set(val,
           function (err)
           {
