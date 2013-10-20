@@ -17,9 +17,6 @@ css/app/editors/*.css
 demo/demo.css
 demo/mobile.css
 
-# demo files
-demo/ls000-der-lautsprecher.mp3
-
 # Grunt and build
 dest
 node_modules

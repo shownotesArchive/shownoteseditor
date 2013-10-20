@@ -27,7 +27,6 @@ wget "http://gregweber.info/projects/demo/flavorzoom_files/jquery.uitablefilter.
 cd ..
 
 cd demo
-wget "http://der-lautsprecher.de/?download_media_file=1" -O ls000-der-lautsprecher.mp3
 cd ..
 
 mkdir test/lib
