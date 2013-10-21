@@ -43,10 +43,12 @@ sne.steps.login = {};
   {
     shownoteseditor.connectors[sne.connectorName].login(
       sne.connectorOptions,
-      function (err)
+      function (err, uid)
       {
         if (!err)
           return sne.steps.login.hide();
+
+        sne.uid = uid;
 
         for (var i = 0; i < reg.loginFields.length; i++)
         {
@@ -112,7 +114,7 @@ sne.steps.login = {};
   {
     shownoteseditor.connectors[sne.connectorName].login(
       sne.connectorOptions,
-      function (err)
+      function (err, uid)
       {
         if(err)
         {
@@ -120,6 +122,7 @@ sne.steps.login = {};
         }
         else
         {
+          sne.uid = uid;
           sne.steps.login.hide();
         }
       }

@@ -79,6 +79,9 @@ sne.steps.docchooser = {};
     $td.find('button.edit').click(
       function ()
       {
+        if(doc.owner != sne.uid)
+          return alert("You can only edit your own documents.");
+
         sne.steps.docedit.show("edit", doc, usernameMap,
           function (success, doc)
           {
@@ -91,6 +94,9 @@ sne.steps.docchooser = {};
     $td.find('button.delete').click(
       function ()
       {
+        if(doc.owner != sne.uid)
+          return alert("You can only delete your own documents.");
+
         deleteDoc(doc.id,
           function (err)
           {
