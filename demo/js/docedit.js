@@ -115,14 +115,79 @@ sne.steps.docedit = {};
     }
   }
 
+  var $collabs_search = $('#docEdit_collabs_search');
+  var $collabs_search_in = $collabs_search.find('input');
+  var $collabs_search_ul = $collabs_search.find('ul');
+
   $('#docEdit_collabs_add').click(
     function ()
     {
-      var u = $('#docEdit_collabs_name').val();$
-      var $li = createUserLi(u);
+      if($collabs_search_ul.children().length != 1)
+        return alert("User was not found");
+
+      var uid = $collabs_search_ul.children(":first").prop('data-id');
+      var $li = createUserLi(uid);
       $collabs.append($li);
+      clearCollabInput();
     }
   );
+
+  function clearCollabInput ()
+  {
+    $collabs_search_in.val('');
+    updateSearch();
+  }
+
+  $collabs_search_in.on('keydown',
+    function (e)
+    {
+      if(e.which == 13)
+        $('#docEdit_collabs_add').click()
+    }
+  );
+
+  $collabs_search_in.on('input', updateSearch);
+
+  function updateSearch ()
+  {
+    var val = $collabs_search_in.val().toLowerCase();
+    var i = 0;
+    $collabs_search_ul.empty();
+
+    if(val)
+    {
+      for (var uid in usernameMap)
+      {
+        if(usernameMap[uid].name && usernameMap[uid].name.toLowerCase().indexOf(val) !== -1)
+        {
+          createSearchResult(uid, usernameMap[uid]);
+          i++;
+
+          if(i == 10)
+            break;
+        }
+      }
+
+      function createSearchResult (uid, u)
+      {
+        var $li = $("<li>");
+        $li.text(u.name);
+        $li.prop('data-id', uid);
+        $li.click(function ()
+          {
+            $collabs.append(createUserLi(uid));
+            clearCollabInput();
+          }
+        );
+        $collabs_search_ul.append($li);
+      }
+    }
+
+    if($collabs_search_ul.children().length == 0)
+      $collabs_search_ul.hide();
+    else
+      $collabs_search_ul.show();
+  }
 
   $('#docEdit_url').keydown(
     function (e)

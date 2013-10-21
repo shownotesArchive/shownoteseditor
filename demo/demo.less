@@ -239,7 +239,7 @@ body, html
 
   #docEdit_collabs
   {
-    > ul
+    #docEdit_collabs_current
     {
       > li
       {
@@ -247,6 +247,50 @@ body, html
         {
           display: inline-block;
           cursor: pointer;
+        }
+      }
+    }
+
+    #docEdit_collabs_search
+    {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 10px;
+
+      > input
+      {
+
+      }
+
+      > ul
+      {
+        display: none;
+
+        position: absolute;
+        padding: 3px;
+        margin: 0;
+        list-style: none;
+
+        z-index: 100;
+        background-color: #F0F0F0;
+        height: 75px;
+        width: calc(~"100% - 6px");
+        border-radius: 0 0 5px 5px;
+
+        > li
+        {
+          display: inline-block;
+          color: blue;
+          cursor: pointer;
+
+          &:after
+          {
+            content: ",\a0";
+          }
+          &:last-child:after
+          {
+            content: "";
+          }
         }
       }
     }
