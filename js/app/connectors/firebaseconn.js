@@ -94,6 +94,7 @@
     ref.child('notes').on('child_removed', fireChildRemoved, this);
 
     var noteAttrs = ["time", "text", "link", "tags"];
+    var ignoreFirst = [];
 
     for (var i = 0; i < noteAttrs.length; i++)
     {
@@ -104,6 +105,11 @@
         {
           if(snap.val() === null)
             return; // note got deleted
+          if(ignoreFirst.indexOf(snap.name()) == -1)
+          {
+            ignoreFirst.push(snap.name());
+            return;
+          }
 
           this.getNote(id,
             function (err, note)
