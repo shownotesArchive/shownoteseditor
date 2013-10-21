@@ -44,7 +44,6 @@ sne.steps.docchooser = {};
       function (err, _usernameMap)
       {
         usernameMap = _usernameMap;
-        console.log(usernameMap);
       }
     );
   }
