@@ -398,7 +398,7 @@
             }
             else
             {
-              doc.id = id;
+              doc.id = docRef.toString();
               cb(null, doc);
             }
           }
