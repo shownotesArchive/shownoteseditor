@@ -34,6 +34,7 @@ module.exports = function(grunt) {
         files: {
           "css/app/editors/inline.css": "css/app/editors/inline.less",
           "css/app/lists/standard.css": "css/app/lists/standard.less",
+          "css/app/players/timeplayer.css": "css/app/players/timeplayer.less",
           "demo/demo.css": "demo/demo.less",
           "demo/mobile.css": "demo/mobile.less"
         }
