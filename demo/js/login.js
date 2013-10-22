@@ -45,10 +45,10 @@ sne.steps.login = {};
       sne.connectorOptions,
       function (err, uid)
       {
+        sne.uid = uid;
+
         if (!err)
           return sne.steps.login.hide();
-
-        sne.uid = uid;
 
         for (var i = 0; i < reg.loginFields.length; i++)
         {
