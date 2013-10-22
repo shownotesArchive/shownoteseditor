@@ -22,38 +22,6 @@
       }.bind(this)
     );
 
-    var firstSync = true;
-
-    this.connector.bindCustom("timeplayer/status",
-      function (key, val)
-      {
-        if(!val)
-          return;
-
-        if(val.status == "play")
-        {
-          var currentTime = this.getCurrentTime();
-
-          if(firstSync)
-            currentTime = val.playtime;
-
-          var time = currentTime + ((+new Date() + this.timeOffset) - val.realtime) / 1000;
-          time = Math.floor(time);
-
-
-          this.play(true);
-          this.setCurrentTime(time);
-        }
-        else
-        {
-          this.pause(true);
-          this.setCurrentTime(val.playtime);
-        }
-
-        firstSync = false;
-      }.bind(this)
-    );
-
     var $elem = $(options.element);
     this.player = {};
     this.player.main = $(html);
@@ -71,9 +39,40 @@
 
     this.paused = true;
 
+    this.firstSync = true;
+    this.connector.bindCustom("timeplayer/status", function (key, val) { this.onRemoteUpdate(val) }.bind(this));
+
     setInterval(updateTime.bind(this), 1000);
 
     cb();
+  };
+
+  self.onRemoteUpdate = function (val)
+  {
+    if(!val)
+      return;
+
+    if(val.status == "play")
+    {
+      var currentTime = this.getCurrentTime();
+
+      if(this.firstSync)
+        currentTime = val.playtime;
+
+      var time = currentTime + ((+new Date() + this.timeOffset) - val.realtime) / 1000;
+      time = Math.floor(time);
+
+
+      this.play(true);
+      this.setCurrentTime(time);
+    }
+    else
+    {
+      this.pause(true);
+      this.setCurrentTime(val.playtime);
+    }
+
+    this.firstSync = false;
   };
 
   self.setRemoteStatus = function (status)
