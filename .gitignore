@@ -14,6 +14,7 @@ demo/lib
 # generated css
 css/app/lists/*.css
 css/app/editors/*.css
+css/app/players/*.css
 demo/demo.css
 demo/mobile.css
 

@@ -9,22 +9,14 @@
   {
     console.log("firebase init", options);
 
-    doLogin (options,
-      function (err, uid, userRef)
-      {
-        if(err)
-          return cb(err);
+    this.docRef = new Firebase(options.docid);
+    this.notesRef = this.docRef.child('content/notes');
+    this.notesRef.on('child_added', fireChildAdded, this);
+    this.notesRef.on('child_removed', fireChildRemoved, this);
 
-        this.docRef = new Firebase(options.docid);
-        this.notesRef = this.docRef.child('content/notes');
-        this.notesRef.on('child_added', fireChildAdded, this);
-        this.notesRef.on('child_removed', fireChildRemoved, this);
+    idRefMap["_root"] = this.docRef.child('content'); // idRefMap points to a *note*, or to things that have a .child('notes')
 
-        idRefMap["_root"] = this.docRef.child('content'); // idRefMap points to a *note*, or to things that have a .child('notes')
-
-        cb();
-      }.bind(this)
-    );
+    doLogin (options, cb);
   };
 
   function doLogin (options, cb)
@@ -231,6 +223,43 @@
   self.doLoad = function (cb)
   {
     cb();
+  };
+
+  self.setCustom = function (key, value, cb)
+  {
+    this.docRef.child('custom').child(key).set(value, cb);
+  };
+
+  self.getCustom = function (key, cb)
+  {
+    this.docRef.child('custom').child(key).once('value',
+      function (snap)
+      {
+        var val = snap.val();
+        cb(null, val);
+      }
+    );
+  };
+
+  self.bindCustom = function (key, func)
+  {
+    this.docRef.child('custom').child(key).on('value',
+      function (snap)
+      {
+        var val = snap.val();
+        func(key, val);
+      }
+    );
+  };
+
+  self.getServerTimeOffset = function (cb)
+  {
+    rootRef.child(".info/serverTimeOffset").on("value", function(snap)
+        {
+        var offset = snap.val();
+        cb(null, offset);
+      }
+    );
   };
 
   // http://www.broofa.com/Tools/Math.uuid.js, MIT

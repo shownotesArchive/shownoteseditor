@@ -2,7 +2,7 @@
 {
   var self = {};
 
-  shownoteseditor.players.audiojs = function (options, cb)
+  shownoteseditor.players.audiojs = function (options, connector, cb)
   {
     console.log("audiojs init", options);
 

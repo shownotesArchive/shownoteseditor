@@ -19,7 +19,7 @@
           if(!player)
             return cb("Invalid playername");
 
-          that.player = new player(playerOps.options, function (){});
+          that.player = new player(playerOps.options, that.connector, function (){});
           cb();
         },
         function (cb)
