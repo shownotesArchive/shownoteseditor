@@ -11,6 +11,9 @@ sne.steps.sne = {};
     $('#sneWrapper').addClass('active');
     $('body').css('overflow', 'hidden');
 
+    var player = sne.doc.player;
+    player.options.element = $("#player")[0];
+
     var options =
     {
       connector:
@@ -23,15 +26,7 @@ sne.steps.sne = {};
       },
       ui:
       {
-        player:
-        {
-          name: "audiojs",
-          options:
-          {
-            element: $("#player")[0],
-            files: sne.files
-          }
-        },
+        player: player,
         list:
         {
           name: "standard",

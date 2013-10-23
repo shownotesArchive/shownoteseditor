@@ -359,16 +359,12 @@
                   {
                     var id = ref.ref.toString();
                     var doc = snap.val();
+
                     doc.access.users = doc.access.users || {};
-                    docs.push(
-                      {
-                        id: id,
-                        access: doc.access,
-                        owner: ref.owner,
-                        name: doc.content.name,
-                        urls: doc.content.urls
-                      }
-                    );
+                    doc.owner = ref.owner;
+                    doc.id = id;
+
+                    docs.push(doc);
 
                     cb();
                   }
@@ -416,15 +412,9 @@
         if(err)
           return cb(err);
 
-        var val = {
-          access: doc.access,
-          content: doc
-        };
-
-        delete val.content.access;
-
         var docRef = rootRef.child("/users/" + uid + "/docs/" + id);
-        docRef.set(val,
+        console.log(JSON.stringify(doc))
+        docRef.set(doc,
           function (err)
           {
             if(err)
@@ -464,23 +454,16 @@
           return cb(err);
 
         var docRef = new Firebase(docid);
+        var keys = Object.keys(newDoc);
 
-        var contentChildren = [ 'name', 'urls' ];
         async.eachSeries(
-          contentChildren,
-          function (child, cb)
+          keys,
+          function (key, cb)
           {
-            docRef.child('content').child(child).set(newDoc[child], cb);
-          },
-          cb
-        );
+            if(key == "content")
+              return;
 
-        var accessChildren = [ 'public', 'users' ];
-        async.eachSeries(
-          accessChildren,
-          function (child, cb)
-          {
-            docRef.child('access').child(child).set(newDoc.access[child], cb);
+            docRef.child(key).set(newDoc[key], cb);
           },
           cb
         );

@@ -42,7 +42,7 @@ sne.steps.docedit = {};
     if(mode == "edit")
     {
       docname = doc.name;
-      url = doc.urls[0];
+      url = doc.player.options.urls[0];
       users = doc.access.users || {};
     }
 
@@ -81,7 +81,12 @@ sne.steps.docedit = {};
   {
     var newDoc = {
       name: $('#docEdit_name').val(),
-      urls: [$('#docEdit_url').val()],
+      player: {
+        name: "audiojs",
+        options: {
+          urls: [$('#docEdit_url').val()]
+        }
+      },
       access: {
         public: false,
         users: {}
@@ -92,7 +97,7 @@ sne.steps.docedit = {};
 
     for (var i = 0; i < $users.length; i++) {
       var $user = $($users[i]);
-      var id = $user.prop('data-id')
+      var id = $user.prop('data-id');
       newDoc.access.users[id] = { "canWrite": true };
     }
 
