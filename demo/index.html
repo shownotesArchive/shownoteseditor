@@ -75,14 +75,27 @@
             </div>
             <div id="docEdit" class="step">
                 <h2></h2>
-                <div id="docEdit_gen">
+                <div id="docEdit_gen" class="section">
                     <h3><i class="icon-wrench"></i> General</h3>
-                    <div class="field"><label for="docEdit_name">Name: </label><input name="docEdit_name" id="docEdit_name"></div>
-                    <div class="field"><label for="docEdit_url">Url: </label><input name="docEdit_url" id="docEdit_url"></div>
-                    <div id="docEdit_player"></div>
+                    <div><label for="docEdit_name">Name: </label><input name="docEdit_name" id="docEdit_name"></div>
                 </div>
-                <h3><i class="icon-group"></i> Collaborators</h3>
-                <div id="docEdit_collabs">
+                <div id="docEdit_player" class="section">
+                    <div>
+                        <h3><i class="icon-play-sign"></i> Player</h3>
+                        <ul id="playerList">
+                            <li data-player="audiojs"><i class="icon-music"></i> Audio</li>
+                            <li data-player="timeplayer"><i class="icon-time"></i> Timer</li>
+                        </ul>
+                    </div>
+                    <div id="docEdit_player_audiojs" class="playersettings">
+                        <div><label for="docEdit_url">URL: </label><input name="docEdit_url" id="docEdit_url"></div>
+                    </div>
+                    <div id="docEdit_player_timeplayer" class="playersettings">
+                    </div>
+                    <div id="docEdit_player_preview"></div>
+                </div>
+                <div id="docEdit_collabs" class="section">
+                    <h3><i class="icon-group"></i> Collaborators</h3>
                     <ul id="docEdit_collabs_current">
                         <li><span class=".name">luto</span> <div class="controls"><i class="icon-trash"></i></div></li>
                     </ul>

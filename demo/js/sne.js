@@ -12,6 +12,7 @@ sne.steps.sne = {};
     $('body').css('overflow', 'hidden');
 
     var player = sne.doc.player;
+    player.options = player.options || {};
     player.options.element = $("#player")[0];
 
     var options =

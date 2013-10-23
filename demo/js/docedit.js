@@ -9,6 +9,7 @@ sne.steps.docedit = {};
   var usernameMap;
   var mode;
   var doc;
+  var activePlayer;
 
   sne.steps.docedit.show = function (_mode, _doc, _usernameMap, cb)
   {
@@ -36,18 +37,22 @@ sne.steps.docedit = {};
     $('#docEdit').children("h2").text(heading);
 
     var docname = "";
-    var url = "";
+    var player = "audiojs";
     var users = {};
+
+    $('#docEdit_url').val("");
 
     if(mode == "edit")
     {
       docname = doc.name;
-      url = doc.player.options.urls[0];
+      player = doc.player.name;
       users = doc.access.users || {};
+
+      fillPlayerOptions(player, doc.player.options);
     }
 
+    setActivePlayer(player);
     $('#docEdit_name').val(docname);
-    $('#docEdit_url').val(url);
 
     $collabs.empty();
     for (var u in users)
@@ -82,10 +87,8 @@ sne.steps.docedit = {};
     var newDoc = {
       name: $('#docEdit_name').val(),
       player: {
-        name: "audiojs",
-        options: {
-          urls: [$('#docEdit_url').val()]
-        }
+        name: activePlayer,
+        options: getPlayerOptions(activePlayer)
       },
       access: {
         public: false,
@@ -194,6 +197,57 @@ sne.steps.docedit = {};
       $collabs_search_ul.show();
   }
 
+  $('#playerList > li').click(
+    function (e)
+    {
+      var $target = $(e.target);
+      if($target[0].tagName.toLowerCase() != "li")
+        $target = $target.parents("li");
+
+      var player = $target.attr('data-player');
+      setActivePlayer(player);
+    }
+  );
+
+  function fillPlayerOptions (player, options)
+  {
+    if(player == "audiojs")
+    {
+      var url = options.urls[0];
+      $('#docEdit_url').val(url);
+    }
+    else if(player == "timeplayer")
+    {
+    }
+  }
+
+  function getPlayerOptions (player)
+  {
+    var options = {};
+
+    if(player == "audiojs")
+    {
+      var url = $('#docEdit_url').val();
+      options.urls = [url];
+    }
+    else if(player == "timeplayer")
+    {
+    }
+
+    return options;
+  }
+
+  function setActivePlayer (player)
+  {
+    $('#playerList > li').removeClass("active");
+    $('#playerList > li[data-player=' + player + ']').addClass("active");
+    $('.playersettings').hide();
+    $('#docEdit_player_' + player).show();
+
+    activePlayer = player;
+    showPreviewPlayer();
+  }
+
   $('#docEdit_url').keydown(
     function (e)
     {
@@ -205,17 +259,21 @@ sne.steps.docedit = {};
   function showPreviewPlayer()
   {
     var url = $('#docEdit_url').val();
-    $('#docEdit_player').empty();
+    var $preview = $('#docEdit_player_preview');
+    $preview.empty();
 
     var options = {
-      element: $("#docEdit_player")[0],
+      element: $preview[0],
       files: [url]
     };
 
-    if(options.files.length > 0)
-    {
-      var player = new shownoteseditor.players.audiojs(options, function () {});
-    }
+    var conn = {
+      setCustom: function () {},
+      bindCustom: function () {},
+      getServerTimeOffset: function (cb) { cb(null, 0); }
+    };
+
+    var player = new shownoteseditor.players[activePlayer](options, conn, function () {});
   }
 
   $('#docEdit_save').click(saveClicked);
