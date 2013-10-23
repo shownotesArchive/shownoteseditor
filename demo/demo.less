@@ -163,6 +163,20 @@ body, html
   text-align: center;
   margin: 15px;
   clear: both;
+  position: relative;
+
+  > #betalabel
+  {
+    display: none;
+
+    font-size: 0.8em;
+    color: red;
+    position: absolute;
+    top: 15px;
+    left: calc(~"50% + 100px");
+    transform: rotateZ(-30deg);
+    -webkit-transform: rotateZ(-30deg);
+  }
 }
 
 #loginLocks
