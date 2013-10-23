@@ -282,6 +282,7 @@ var osftools = {};
     var mapping = {
       "c": "chapter",
       "q": "quote",
+      "r": "revision",
       "g": "glossary"
     };
 
