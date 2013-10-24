@@ -17,7 +17,7 @@
         var $audio = $('<audio>');
         $audio.prop("preload", "none");
 
-        var files = getFilesArrayFromUrls(options.files);
+        var files = getFilesArrayFromUrls(options.urls);
         var errors = files.errors;
         files = files.files;
 
