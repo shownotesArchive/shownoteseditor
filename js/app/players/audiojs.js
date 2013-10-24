@@ -21,8 +21,8 @@
         var errors = files.errors;
         files = files.files;
 
-        if(errors.length > 0)
-          alert("Could not find type of:\n" + errors.join("\n"));
+        //if(errors.length > 0)
+        //  alert("Could not find type of:\n" + errors.join("\n"));
 
         for (var i = 0; i < files.length; i++)
         {
