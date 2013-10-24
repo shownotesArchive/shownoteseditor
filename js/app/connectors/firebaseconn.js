@@ -16,7 +16,13 @@
 
     idRefMap["_root"] = this.docRef.child('content'); // idRefMap points to a *note*, or to things that have a .child('notes')
 
-    doLogin (options, cb);
+    doLogin (options,
+      function (err, uid, userRef)
+      {
+        this.uid = uid;
+        cb();
+      }.bind(this)
+    );
   };
 
   function doLogin (options, cb)
@@ -133,6 +139,8 @@
     }
 
     note = osftools.cloneNote(note, false);
+    note.editors = {};
+    note.editors[this.uid] = { time: Firebase.ServerValue.TIMESTAMP };
 
     var parentRef = idRefMap[parent];
 
@@ -165,6 +173,8 @@
 
   self.editNote = function (id, newNote, cb)
   {
+    var uid = this.uid;
+
     this.getNote(id,
       function (err, oldNote)
       {
@@ -175,11 +185,23 @@
         var changed = osftools.diffNotes(oldNote, newNote);
         var noteRef = idRefMap[id];
 
-        async.eachSeries(changed,
-          function (change, cb)
-          {
-            noteRef.child(change).set(newNote[change], cb);
-          },
+        async.series(
+          [
+            function (cb)
+            {
+              noteRef.child("editors").child(uid).set({ time: Firebase.ServerValue.TIMESTAMP }, cb);
+            },
+            function (cb)
+            {
+              async.eachSeries(changed,
+                function (change, cb)
+                {
+                  noteRef.child(change).set(newNote[change], cb);
+                },
+                cb
+              );
+            }
+          ],
           cb
         );
       }
@@ -255,7 +277,7 @@
   self.getServerTimeOffset = function (cb)
   {
     rootRef.child(".info/serverTimeOffset").on("value", function(snap)
-        {
+      {
         var offset = snap.val();
         cb(null, offset);
       }
