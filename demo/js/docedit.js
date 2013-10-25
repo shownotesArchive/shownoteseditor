@@ -264,7 +264,7 @@ sne.steps.docedit = {};
 
     var options = {
       element: $preview[0],
-      files: [url]
+      urls: [url]
     };
 
     var conn = {
