@@ -11,8 +11,14 @@
 
     this.docRef = new Firebase(options.docid);
     this.notesRef = this.docRef.child('content/notes');
-    this.notesRef.on('child_added', fireChildAdded, this);
-    this.notesRef.on('child_removed', fireChildRemoved, this);
+    setTimeout(
+      function ()
+      {
+        this.notesRef.on('child_added', fireChildAdded, this);
+        this.notesRef.on('child_removed', fireChildRemoved, this);
+      }.bind(this),
+      250
+    );
 
     idRefMap["_root"] = this.docRef.child('content'); // idRefMap points to a *note*, or to things that have a .child('notes')
 
