@@ -84,6 +84,11 @@
       $parent = this.element.find("li[data-id=" + parent + "] > ul.subnotes");
     }
 
+    insertHtmlNote($parent, $note);
+  };
+
+  function insertHtmlNote ($parent, $note)
+  {
     var $notes = $parent.children();
     var added = false;
 
@@ -91,7 +96,7 @@
     {
       var $eNote = $($notes[i]);
 
-      if(+$eNote.attr('data-time') > note.time)
+      if(+$eNote.attr('data-time') > +$note.attr('data-time'))
       {
         $note.insertBefore($eNote);
         added = true;
@@ -109,8 +114,7 @@
         $p.scrollTop($p[0].scrollHeight);
       }
     }
-
-  };
+  }
 
   function setHtmlNote($note, note)
   {
@@ -149,6 +153,7 @@
   {
     var $note = this.findHtmlNote(id);
     setHtmlNote($note, note);
+    insertHtmlNote($note.parent(), $note);
   };
 
   self.findHtmlNote = function (id)
