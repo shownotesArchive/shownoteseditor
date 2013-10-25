@@ -88,7 +88,8 @@ var osftools = {};
     for (var i = 0; i < notes.length; i++)
     {
       count++;
-      count += osftools.countNotes(notes[i].notes);
+      if (notes[i].notes)
+        count += osftools.countNotes(notes[i].notes);
     }
 
     return count;

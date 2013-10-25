@@ -139,7 +139,35 @@
       osftools.sortNotes(notes);
       deepEqual(notes, params.sorted);
     }
-  )
+  );
+
+  var countNotesData = [
+    {
+      title: "empty array",
+      notes: [],
+      count: 0
+    },
+    {
+      title: "0 lvl",
+      notes: [ {}, {} ],
+      count: 2
+    },
+    {
+      title: "1 lvl",
+      notes: [ { notes: [ {} ] }, {} ],
+      count: 3
+    }
+  ];
+
+  QUnit.cases(countNotesData).test("countNotes",
+    function (params)
+    {
+      var notes = params.notes;
+      var expected = params.count;
+      var actual = osftools.countNotes(notes);
+      deepEqual(actual, expected);
+    }
+  );
 
   var normalizeTagsData =
     [
