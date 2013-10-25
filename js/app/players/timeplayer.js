@@ -10,7 +10,7 @@
 
   shownoteseditor.players.timeplayer = function (options, connector, cb)
   {
-    console.log("mockplayer init", options);
+    console.log("timeplayer init", options);
 
     this.connector = connector;
     this.timeOffset = 0;
