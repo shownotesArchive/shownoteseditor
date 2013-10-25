@@ -100,6 +100,10 @@
     var noteAttrs = ["time", "text", "link", "tags"];
     var ignoreFirst = [];
 
+    // empty arrays don't trigger an .on('value') which is used below
+    if(note.tags.length == 0)
+      ignoreFirst.push("tags");
+
     for (var i = 0; i < noteAttrs.length; i++)
     {
       var attr = noteAttrs[i];
