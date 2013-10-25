@@ -3,7 +3,7 @@
   var self = {};
   var idRefMap = {};
 
-  var rootRef = new Firebase('https://lutotest.firebaseIO.com/');
+  var rootRef = new Firebase('https://sne.firebaseIO.com/');
 
   shownoteseditor.connectors.firebase = function (options, cb)
   {
