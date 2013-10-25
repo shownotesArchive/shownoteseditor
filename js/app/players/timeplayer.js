@@ -2,11 +2,13 @@
 {
   var self = {};
 
+  /* jshint laxbreak:true */
   var html = "<div class='timeplayer'>"
            +   "<span class='time'></span>"
            +   "<button class='stop' style='display: none'><i class='icon-pause'></i> Pause</button>"
            +   "<button class='start'><i class='icon-play'></i> Start</button>"
            + "</div>";
+  /* jshint laxbreak:false */
 
   shownoteseditor.players.timeplayer = function (options, connector, cb)
   {
@@ -40,7 +42,7 @@
     this.paused = true;
 
     this.firstSync = true;
-    this.connector.bindCustom("timeplayer/status", function (key, val) { this.onRemoteUpdate(val) }.bind(this));
+    this.connector.bindCustom("timeplayer/status", function (key, val) { this.onRemoteUpdate(val); }.bind(this));
 
     setInterval(updateTime.bind(this), 1000);
 

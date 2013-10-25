@@ -103,11 +103,12 @@ var osftools = {};
     var lastNote = {};
     var absoluteOffset = 0;
     var i = 0;
+    var line;
     var inHead = false;
 
     for (; i < lines.length; i++)
     {
-      var line = lines[i];
+      line = lines[i];
 
       if(!inHead && !!osftools.parseNote(line))
         break; // no HEADER
@@ -126,9 +127,9 @@ var osftools = {};
 
     for (; i < lines.length; i++)
     {
-      var line = lines[i];
+      line = lines[i];
 
-      if(absoluteOffset == 0)
+      if(absoluteOffset === 0)
       {
         var time = +line.split(' ')[0];
         if(!isNaN(time))
@@ -161,13 +162,13 @@ var osftools = {};
     }
 
     return notes;
-  }
+  };
 
   osftools.parseNote = function (osf, doHierarchy)
   {
     osf = osf.trim();
 
-    if(osf.length == 0)
+    if(osf.length === 0)
       return false;
 
     var note = { time: null, text: [], link: "", tags: [] };
@@ -181,7 +182,7 @@ var osftools = {};
     {
       var part = parts[i];
 
-      if(i == 0)
+      if(i === 0)
       {
         var time = Number(part); // timestamp
 
@@ -200,7 +201,7 @@ var osftools = {};
         continue;
       }
 
-      if(part.indexOf('#') == 0)
+      if(part.indexOf('#') === 0)
       {
         note.tags.push(part.substr(1));
         gotTag = true;
@@ -209,7 +210,7 @@ var osftools = {};
       if (gotTag)
         continue;
 
-      if(part.indexOf('<') == 0 && part.indexOf(">") == part.length - 1)
+      if(part.indexOf('<') === 0 && part.indexOf(">") == part.length - 1)
       {
         note.link = part.substr(1, part.length - 2);
         gotLink = true;
@@ -276,7 +277,7 @@ var osftools = {};
   osftools.osfTags = function (tags)
   {
     return (tags.length > 0 ? "#" : "") + tags.join(' #');
-  }
+  };
 
   osftools.normalizeTags = function (tags)
   {
@@ -402,5 +403,5 @@ var osftools = {};
   // http://stackoverflow.com/a/1830844/2486196
   function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
-  };
+  }
 })();

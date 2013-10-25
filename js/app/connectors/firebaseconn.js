@@ -101,7 +101,7 @@
     var ignoreFirst = [];
 
     // empty arrays don't trigger an .on('value') which is used below
-    if(note.tags.length == 0)
+    if(note.tags.length === 0)
       ignoreFirst.push("tags");
 
     for (var i = 0; i < noteAttrs.length; i++)
@@ -445,7 +445,7 @@
           return cb(err);
 
         var docRef = rootRef.child("/users/" + uid + "/docs/" + id);
-        console.log(JSON.stringify(doc))
+
         docRef.set(doc,
           function (err)
           {

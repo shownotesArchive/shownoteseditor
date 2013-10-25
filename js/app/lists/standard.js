@@ -3,6 +3,7 @@
   var self = {};
 
   var mainTemplate = "<ul class='list standard'></ul>";
+  /* jshint laxbreak:true */
   var noteTemplate = "<li data-id='' class='note'>"
                    +   "<div class='controls'>"
                    +   "</div>"
@@ -13,10 +14,11 @@
                    +   "<div class='editorWrapper'></div>"
                    +   "<ul class='subnotes'>"
                    +   "</ul>"
-                  +    "<div class='addSubnote'>"
-                  +      "<div class='editorWrapper'></div>"
-                  +    "</div>"
+                   +   "<div class='addSubnote'>"
+                   +     "<div class='editorWrapper'></div>"
+                   +   "</div>"
                    + "</li>";
+  /* jshint laxbreak:false */
   var tagTemplate = "<li></li>";
   var controlTemplate = "<i></i>";
 
@@ -126,7 +128,7 @@
     var classes = $note.attr('class').split(' ');
     for (var i = 0; i < classes.length; i++) {
       var cls = classes[i];
-      if(cls.indexOf("tag-") == 0)
+      if(cls.indexOf("tag-") === 0)
         $note.removeClass(cls);
     }
 
@@ -145,7 +147,6 @@
   self.removeNote = function (id)
   {
     var $note = this.findHtmlNote(id);
-    var $subnotes = $note.parents('.subnotes:first');
     $note.remove();
   };
 

@@ -22,14 +22,14 @@ shownoteseditor.utils = {};
             },
             function (id, cb)
             {
-              if(note.notes && note.notes.length != 0)
+              if(note.notes && note.notes.length !== 0)
                 shownoteseditor.utils.loadNotes(connector, note.notes, cb, id);
               else
                 cb();
             }
           ],
           cb
-        )
+        );
       },
       cb
     );

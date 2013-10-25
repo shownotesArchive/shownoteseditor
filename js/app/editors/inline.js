@@ -53,7 +53,7 @@
       var time = this.player.getCurrentTime();
       var now = this.getContent().time;
 
-      if(this.lastSetTime != now && this.lastSetTime != null)
+      if(this.lastSetTime != now && this.lastSetTime !== null)
         return;
 
       this.setContent({ time: time });
@@ -80,13 +80,13 @@
     for (var i = 0; i < parts.length; i++) {
       var part = parts[i];
 
-      if(part.indexOf("http://") == 0)
+      if(part.indexOf("http://") === 0)
       {
         link = part;
       }
       else
       {
-        text += i == 0 ? "" : " ";
+        text += (i === 0) ? "" : " ";
         text += part;
       }
     }
@@ -103,7 +103,7 @@
 
   self.setContent = function (note)
   {
-    if(note.time != undefined)
+    if(note.time !== undefined)
     {
       var start = this.editor.time[0].selectionStart,
             end = this.editor.time[0].selectionEnd;
@@ -153,7 +153,7 @@
   {
     if(e.which == 13) // enter
     {
-      if(this.editor.text.val() == "")
+      if(this.editor.text.val() === "")
       {
         this.triggerCancel();
       }
