@@ -164,18 +164,6 @@ sne.steps.docedit = {};
 
     if(val)
     {
-      for (var uid in usernameMap)
-      {
-        if(usernameMap[uid].name && usernameMap[uid].name.toLowerCase().indexOf(val) !== -1)
-        {
-          createSearchResult(uid, usernameMap[uid]);
-          i++;
-
-          if(i == 10)
-            break;
-        }
-      }
-
       function createSearchResult (uid, u)
       {
         var $li = $("<li>");
@@ -188,6 +176,18 @@ sne.steps.docedit = {};
           }
         );
         $collabs_search_ul.append($li);
+      }
+
+      for (var uid in usernameMap)
+      {
+        if(usernameMap[uid].name && usernameMap[uid].name.toLowerCase().indexOf(val) !== -1)
+        {
+          createSearchResult(uid, usernameMap[uid]);
+          i++;
+
+          if(i == 10)
+            break;
+        }
       }
     }
 
