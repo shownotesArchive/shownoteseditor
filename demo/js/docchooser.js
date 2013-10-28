@@ -24,27 +24,37 @@ sne.steps.docchooser = {};
 
   function reloadDocsTable ()
   {
-    shownoteseditor.connectors[sne.connectorName].listDocuments(sne.connectorOptions,
-      function (err, _docs)
-      {
-        docs = _docs;
-        tabletools.clear($docs);
-
-        $('#noDocs').css('display', (docs.length == 0) ? 'block' : 'none');
-
-        for (var i = 0; i < docs.length; i++)
+    async.series(
+      [
+        function (cb)
         {
-          var doc = docs[i];
-          addDocToTable(doc);
-        }
-      }
-    );
+          shownoteseditor.connectors[sne.connectorName].getUsernameMap(sne.connectorOptions,
+            function (err, _usernameMap)
+            {
+              usernameMap = _usernameMap;
+              cb();
+            }
+          );
+        },
+        function (cb)
+        {
+          shownoteseditor.connectors[sne.connectorName].listDocuments(sne.connectorOptions,
+            function (err, _docs)
+            {
+              docs = _docs;
+              tabletools.clear($docs);
 
-    shownoteseditor.connectors[sne.connectorName].getUsernameMap(sne.connectorOptions,
-      function (err, _usernameMap)
-      {
-        usernameMap = _usernameMap;
-      }
+              $('#noDocs').css('display', (docs.length == 0) ? 'block' : 'none');
+
+              for (var i = 0; i < docs.length; i++)
+              {
+                var doc = docs[i];
+                addDocToTable(doc);
+              }
+            }
+          );
+        }
+      ]
     );
   }
 

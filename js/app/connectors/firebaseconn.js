@@ -33,7 +33,7 @@
 
   function doLogin (options, cb)
   {
-    var callLogin = false;
+    var callbacks = 1;
     var authValid = true;
 
     if(!options.auth ||
@@ -44,36 +44,46 @@
       authValid = false;
     }
 
+    if(authValid)
+      callbacks++;
+
     var auth = new FirebaseSimpleLogin(rootRef,
       function(error, user)
       {
-        if (error) {
-          cb(error);
-        } else if (user) {
-          var userRef = rootRef.child('users/' + user.id);
-          var nameRef = rootRef.child('userinfo/' + user.id + '/name');
-          nameRef.once('value',
-            function (snap)
-            {
-              if(!snap.val())
+        callbacks = callbacks - 1;
+        if(callbacks == 0)
+        {
+          if (error)
+          {
+            cb(error);
+          }
+          else if (user)
+          {
+            var userRef = rootRef.child('users/' + user.id);
+            var nameRef = rootRef.child('userinfo/' + user.id + '/name');
+            nameRef.once('value',
+              function (snap)
               {
-                var name = null;
-                while (!name) name = prompt("Please enter your nickname", "");
-                nameRef.set(name);
-              }
+                if(!snap.val())
+                {
+                  var name = null;
+                  while (!name) name = prompt("Please enter your nickname", "");
+                  nameRef.set(name);
+                }
 
-              cb(null, user.id, userRef);
-            }
-          );
-        } else if(!callLogin && authValid) {
-          callLogin = true;
-        } else {
-          cb("Not logged in");
+                cb(null, user.id, userRef);
+              }
+            );
+          }
+          else
+          {
+            cb("Not logged in");
+          }
         }
       }
     );
 
-    if(callLogin)
+    if(authValid)
     {
       options.auth.rememberMe = true;
       auth.login(options.auth.provider, options.auth);
