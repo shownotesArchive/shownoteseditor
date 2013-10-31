@@ -5,8 +5,8 @@
   /* jshint laxbreak:true */
   var html = "<div class='timeplayer'>"
            +   "<span class='time'></span>"
-           +   "<button class='stop' style='display: none'><i class='icon-pause'></i> Pause</button>"
-           +   "<button class='start'><i class='icon-play'></i> Start</button>"
+           +   "<button class='stop' style='display: none'><i class='fa fa-pause'></i> Pause</button>"
+           +   "<button class='start'><i class='fa fa-play'></i> Start</button>"
            + "</div>";
   /* jshint laxbreak:false */
 

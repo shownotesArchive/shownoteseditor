@@ -64,7 +64,7 @@ sne.steps.docedit = {};
 
   function createUserLi (u)
   {
-    var $li = $('<li><span class="name"></span> <div class="controls"><i class="icon-trash delete"></i></div></li>')
+    var $li = $('<li><span class="name"></span> <div class="controls"><i class="fa fa-trash-o delete"></i></div></li>')
     var name = "Unnamed (" + u + ")";
 
     if(usernameMap[u])

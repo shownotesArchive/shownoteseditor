@@ -43,9 +43,9 @@
 
     var $controls = $note.find('.controls');
     var controls = {
-      remove: { icon: "icon-trash", tooltip: "Remove", func: userRemoveNote },
-      edit: { icon: "icon-edit", tooltip: "Edit", func: userEditNote },
-      addSubnote: { icon: "icon-plus", tooltip: "Add", func: userAddSubnote }
+      remove: { icon: "fa fa-trash-o", tooltip: "Remove", func: userRemoveNote },
+      edit: { icon: "fa fa-edit", tooltip: "Edit", func: userEditNote },
+      addSubnote: { icon: "fa fa-plus", tooltip: "Add", func: userAddSubnote }
     };
 
     for(var name in controls)

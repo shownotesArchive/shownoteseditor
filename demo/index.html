@@ -3,7 +3,7 @@
 <head>
     <title>Shownotes-Editor</title>
 
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.min.css" rel="stylesheet">
     <link href="./demo.css" rel="stylesheet">
     <link href="./mobile.css" rel="stylesheet" media="(max-width: 800px)">
     <link href="./lib/bootstrap-tables.min.css" rel="stylesheet">
@@ -16,14 +16,14 @@
 <body>
     <div id="initwrapper">
         <div>
-            <span id="logout"><i class="icon-arrow-right"></i> Logout</span>
-            <a id="about" href="https://github.com/shownotes/shownoteseditor#shownotes-editor" target="_blank"><i class="icon-beaker"></i> About / GitHub</a>
+            <span id="logout"><i class="fa fa-arrow-right"></i> Logout</span>
+            <a id="about" href="https://github.com/shownotes/shownoteseditor#shownotes-editor" target="_blank"><i class="fa fa-flask"></i> About / GitHub</a>
             <br>
-            <h1 id="mainTitle">Shownotes-Editor <i class="icon-heart"></i>
-                <span id="betalabel">Alpha! <i class="icon-smile"></i></span>
+            <h1 id="mainTitle">Shownotes-Editor <i class="fa fa-heart"></i>
+                <span id="betalabel">Alpha! <i class="fa fa-smile"></i></span>
             </h1>
             <div id="loginLocks">
-                <i class="icon-lock"></i><i class="icon-unlock" style="display: none"></i><br>
+                <i class="fa fa-lock"></i><i class="fa fa-unlock" style="display: none"></i><br>
                 <span>logging in..</span>
             </div>
             <div id="login" class="step">
@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <div id="l_twitter">
-                    <i class="icon-twitter"></i> Login with Twitter
+                    <i class="fa fa-twitter"></i> Login with Twitter
                 </div>
             </div>
             <div id="docChooser" class="step">
@@ -69,24 +69,24 @@
                 <hr>
                 <div style="display: none">
                     <div id="btnsTemplate" class="btns">
-                        <button class="edit" title="Settings"><i class="icon-gears"></i></button>
-                        <button class="download" title="Download"><i class="icon-download-alt"></i></button>
-                        <button class="delete" title="Delete"><i class="icon-trash"></i></button>
+                        <button class="edit" title="Settings"><i class="fa fa-gears"></i></button>
+                        <button class="download" title="Download"><i class="fa fa-download"></i></button>
+                        <button class="delete" title="Delete"><i class="fa fa-trash-o"></i></button>
                     </div>
                 </div>
             </div>
             <div id="docEdit" class="step">
                 <h2></h2>
                 <div id="docEdit_gen" class="section">
-                    <h3><i class="icon-wrench"></i> General</h3>
+                    <h3><i class="fa fa-wrench"></i> General</h3>
                     <div><label for="docEdit_name">Name: </label><input name="docEdit_name" id="docEdit_name"></div>
                 </div>
                 <div id="docEdit_player" class="section">
                     <div>
-                        <h3><i class="icon-play-sign"></i> Player</h3>
+                        <h3><i class="fa fa-play-circle"></i> Player</h3>
                         <ul id="playerList">
-                            <li data-player="audiojs"><i class="icon-music"></i> Audio</li>
-                            <li data-player="timeplayer"><i class="icon-time"></i> Timer</li>
+                            <li data-player="audiojs"><i class="fa fa-music"></i> Audio</li>
+                            <li data-player="timeplayer"><i class="fa fa-clock-o"></i> Timer</li>
                         </ul>
                     </div>
                     <div id="docEdit_player_audiojs" class="playersettings">
@@ -97,9 +97,9 @@
                     <div id="docEdit_player_preview"></div>
                 </div>
                 <div id="docEdit_collabs" class="section">
-                    <h3><i class="icon-group"></i> Collaborators</h3>
+                    <h3><i class="fa fa-group"></i> Collaborators</h3>
                     <ul id="docEdit_collabs_current">
-                        <li><span class=".name">luto</span> <div class="controls"><i class="icon-trash"></i></div></li>
+                        <li><span class=".name">luto</span> <div class="controls"><i class="fa fa-trash"></i></div></li>
                     </ul>
                     <div>
                         <label>Name: </label>
@@ -111,8 +111,8 @@
                     </div>
                 </div>
                 <div id="docEdit_btns">
-                    <button id="docEdit_cancel"><i class="icon-remove"></i> Cancel</button>
-                    <button id="docEdit_save"><i class="icon-ok"></i> Save</button>
+                    <button id="docEdit_cancel"><i class="fa fa-times"></i> Cancel</button>
+                    <button id="docEdit_save"><i class="fa fa-check"></i> Save</button>
                 </div>
             </div>
             <div id="footer">
@@ -135,7 +135,7 @@
         </div>
 
         <div id="bottom">
-            <h1 id="title">Shownotes-<br>Editor <i class="icon-heart"></i></h1>
+            <h1 id="title">Shownotes-<br>Editor <i class="fa fa-heart"></i></h1>
             <div id="playerEditorWrapper">
                 <div id="maineditor"></div>
                 <div id="player"></div>
