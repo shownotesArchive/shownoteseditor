@@ -335,6 +335,20 @@
     cb();
   };
 
+  shownoteseditor.connectors.firebase.changePW = function (cb)
+  {
+    var auth = new FirebaseSimpleLogin(rootRef, function(error, user) {
+      var oldpw = prompt("Enter your *old* password:");
+      var newpw = prompt("Enter your *new* password:");
+      auth.changePassword(user.email, oldpw, newpw, function(error, success) {
+        if (!error) {
+          alert("success!");
+        }
+      });
+      cb();
+    });
+  };
+
   shownoteseditor.connectors.firebase.listDocuments = function (options, cb)
   {
     doLogin (options,

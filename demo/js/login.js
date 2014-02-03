@@ -23,7 +23,7 @@ sne.steps.login = {};
   sne.steps.login.hide = function ()
   {
     $('#login').removeClass('active');
-    $('#logout').show();
+    $('#rightWrapper').show();
     stopLockAnimation();
     loginCallback();
   };
@@ -60,7 +60,7 @@ sne.steps.login = {};
           addField($registerFields, reg.registerFields[i], submitRegister);
         }
 
-        $('#logout').hide();
+        $('#rightWrapper').hide();
         $('#login').addClass('active');
         stopLockAnimation();
       }
@@ -95,6 +95,7 @@ sne.steps.login = {};
   $('#registerSubmit').click(submitRegister);
   $('#l_twitter').click(twitterLogin);
   $('#logout').click(submitLogout);
+  $('#changePW').click(submitChangePW);
 
   function submitLogin ()
   {
@@ -158,6 +159,14 @@ sne.steps.login = {};
       function (err)
       {
         location.reload();
+      }
+    );
+  }
+
+  function submitChangePW () {
+    shownoteseditor.connectors[sne.connectorName].changePW(
+      function (err)
+      {
       }
     );
   }
