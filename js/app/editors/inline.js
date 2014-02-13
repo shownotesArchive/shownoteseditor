@@ -80,7 +80,7 @@
     for (var i = 0; i < parts.length; i++) {
       var part = parts[i];
 
-      if(part.indexOf("http://") === 0)
+      if(part.indexOf("http://") === 0 || part.indexOf("https://") === 0)
       {
         link = part;
       }
