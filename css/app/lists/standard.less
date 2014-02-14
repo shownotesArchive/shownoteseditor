@@ -10,6 +10,7 @@ ul.list.standard
   li.note
   {
     line-height: 29px;
+    padding-left: 10px;
 
     &:after
     {
@@ -29,6 +30,12 @@ ul.list.standard
     &.tag-chapter
     {
       font-weight: bold;
+      background-color: #EEE;
+      > ul.tags li
+      {
+        color: #333;
+        background-color: #CECECE;
+      }
     }
     &.tag-revision
     {
@@ -98,7 +105,7 @@ ul.list.standard
         }
         &.edit
         {
-          @color: #2648F0;
+          @color: #0091FF;
           background-color: @color;
           border-color: @color;
           
@@ -107,7 +114,7 @@ ul.list.standard
         }
         &.addSubnote
         {
-          @color: #00EE00;
+          @color: #16E000;
           background-color: @color;
           border-color: @color;
         }
@@ -123,26 +130,22 @@ ul.list.standard
       {
         content: "";
       }
-      &:before
-      {
-        content: "\a0"; // space
-      }
       li
       {
         list-style: none;
         display: inline-block;
-
+        font-size: 0.9em;
+        margin-top: 0.2em;
+        margin-bottom: 0.2em;
+        margin-left: 0.4em;
+        padding: 0 0.2em;
+        color: #333;
+        background-color: #EDEDED;
+        border-radius: 0.2em;
+        
         &:before
         {
           content: "#";
-        }
-        &:after
-        {
-          content: ",\a0"; // ", "
-        }
-        &:last-child:after
-        {
-          content: "";
         }
       }
     }
