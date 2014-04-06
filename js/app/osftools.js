@@ -239,7 +239,7 @@ var osftools = {};
     for (var i = 0; i < notes.length; i++)
     {
       var note = notes[i];
-      osf += osftools.osfNote(note, hierarchy) + "\n";
+      osf += osftools.osfNote(note, hierarchy) + "\r\n";
 
       if(note.notes.length > 0)
       {
