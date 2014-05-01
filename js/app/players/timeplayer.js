@@ -6,7 +6,9 @@
   var html = "<div class='timeplayer'>"
            +   "<span class='time'></span>"
            +   "<button class='stop' style='display: none'><i class='fa fa-pause'></i> Pause</button>"
-           +   "<button class='start'><i class='fa fa-play'></i> Start</button>"
+    +   "<button class='start'><i class='fa fa-play'></i> Start</button>"
+    +   "<button class='set'>Set</button>"
+    +   "<button class='reset'>Reset</button>"
            + "</div>";
   /* jshint laxbreak:false */
 
@@ -36,6 +38,20 @@
 
     this.player.stop = this.player.main.find('.stop');
     this.player.stop.click(function () { this.pause(); }.bind(this));
+
+    this.player.set = this.player.main.find('.set');
+    this.player.set.click(
+      function ()
+      {
+        var oldTime = osftools.toHumanTime(this.getCurrentTime());
+        var newTime = prompt("", oldTime);
+        newTime = osftools.fromHumanTime(newTime);
+        this.setCurrentTime(newTime);
+      }.bind(this)
+    );
+
+    this.player.reset = this.player.main.find('.reset');
+    this.player.reset.click(function () { this.setCurrentTime(0); }.bind(this));
 
     this.setCurrentTime(0);
 
