@@ -11,6 +11,22 @@
 
     var that = this;
 
+    $(document).keydown(function (e) {
+      if(e.altKey) {
+        if(e.which === 39 || e.which === 37) {
+          var time = e.shiftKey ? 30 : 10;
+
+          if(e.which === 39) {  // right
+          } else if(e.which === 37) {  // left
+            time *= -1;
+          }
+
+          that.jumpTime(time);
+          e.preventDefault();
+        }
+      }
+    });
+
     audiojs.events.ready(
       function()
       {
