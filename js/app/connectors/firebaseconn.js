@@ -121,7 +121,7 @@
       ref.child(attr).on('value',
         function (snap)
         {
-          if(snap.val() === null)
+          if(snap.val() === null && snap.name() != "tags")
             return; // note got deleted
           if(ignoreFirst.indexOf(snap.name()) == -1)
           {
