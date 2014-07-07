@@ -110,6 +110,7 @@ sne.steps.sne = {};
             return alert(err);
 
           var osf = osftools.osfNotes(notes);
+          osf = "HEADER\n\n/HEADER\n\n" + osf;
           $txtOsf.val(osf);
         }
       );
